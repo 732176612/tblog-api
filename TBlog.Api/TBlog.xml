@@ -1,0 +1,393 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TBlog.Api</name>
+    </assembly>
+    <members>
+        <member name="T:TBlog.Api.AutofacModuleRegister">
+            <summary>
+            依赖注入
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.AutofacModuleRegister.Load(Autofac.ContainerBuilder)">
+            <summary>
+            依赖注入
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:TBlog.Api.ActicleController">
+            <summary>
+            文章
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.CheckRepeatTitle(System.String)">
+            <summary>
+            检查重复标题
+            </summary>
+            <param name="title"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.SaveActicle(TBlog.Model.ActicleDto)">
+            <summary>
+            保存文章
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.GetActicle(System.Int64)">
+            <summary>
+            获取文章
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.GetTags(System.String,TBlog.Model.EnumActicleReleaseForm)">
+            <summary>
+            获取文章标题汇总
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.GetActicleList(System.Int32,System.Int32,System.String,TBlog.Model.EnumActicleReleaseForm,TBlog.Model.EnumActicleSortTag,System.String)">
+            <summary>
+            获取文章列表
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.LikeArticle(System.Int64)">
+            <summary>
+            点赞文章
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.LookArticle(System.Int64)">
+            <summary>
+            查阅文章
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ActicleController.DeleteArticle(System.Int64)">
+            <summary>
+            删除文章
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TblogController.AddCookie(System.String,System.String)">
+            <summary>
+            添加cookie缓存不设置过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:TBlog.Api.TblogController.AddCookie(System.String,System.String,System.Int32)">
+            <summary>
+            添加cookie缓存设置过期时间
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="time"></param>
+        </member>
+        <member name="M:TBlog.Api.TblogController.DeleteCookie(System.String)">
+            <summary>
+            删除cookie缓存
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:TBlog.Api.TblogController.GetCookie(System.String)">
+            <summary>
+            根据键获取对应的cookie
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TblogController.GetToken(System.Boolean)">
+            <summary>
+            获取Token身份信息
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.TblogController.SetToken(TBlog.Model.TokenJwtInfoModel)">
+            <summary>
+            设置Token身份信息
+            </summary>
+        </member>
+        <member name="T:TBlog.Api.CommonController">
+            <summary>
+            公用API
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommonController.VerifyRegex(System.String)">
+            <summary>
+            获取正则表达式 (Phone,Mail,PassWord,BlogName)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.CommonController.GetEnums(System.String)">
+            <summary>
+            获取枚举值
+            </summary>
+            <param name="enumNames">枚举名称,多个用","分隔</param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.CompanyInfoController">
+            <summary>
+            获取工作经历
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CompanyInfoController.Get(System.String)">
+            <summary>
+            获取工作经历
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.CompanyInfoController.Save(TBlog.Model.CompanyInfoDto[])">
+            <summary>
+            保存工作经历
+            </summary>
+            <param name="dtos"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.EduInfoController">
+            <summary>
+            获取教育经历
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.EduInfoController.Get(System.String)">
+            <summary>
+            获取工作经历
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.EduInfoController.Save(TBlog.Model.EduInfoDto[])">
+            <summary>
+            保存工作经历
+            </summary>
+            <param name="dtos"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.MediaController">
+            <summary>
+            媒体文件
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.MediaController.UpLoadImgByFile(System.String)">
+            <summary>
+            上传图片
+            </summary>
+            <returns>成功返回图片链接，失败返回失败原因</returns>
+        </member>
+        <member name="M:TBlog.Api.MediaController.UpLoadImgByBase64(TBlog.Model.UpLoadImageBase64Dto)">
+            <summary>
+            上传图片(支持jpg、png)
+            </summary>
+            <returns>成功返回图片链接，失败返回失败原因</returns>
+        </member>
+        <member name="M:TBlog.Api.MediaController.UpLoadResumeByFile(System.String)">
+            <summary>
+            上传简历
+            </summary>
+            <returns>成功返回简历链接，失败返回失败原因</returns>
+        </member>
+        <member name="T:TBlog.Api.MenuController">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.MenuController.GetMenus">
+            <summary>
+            根据角色权限获取菜单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.ProjectInfoController">
+            <summary>
+            获取项目经历
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.ProjectInfoController.Get(System.String)">
+            <summary>
+            获取项目经历
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.ProjectInfoController.Save(TBlog.Model.ProjectInfoDto[])">
+            <summary>
+            保存项目经历
+            </summary>
+            <param name="dtos"></param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.SkillInfoController">
+            <summary>
+            获取教育经历
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.SkillInfoController.Get(System.String)">
+            <summary>
+            获取工作经历
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.SkillInfoController.Save(TBlog.Model.SkillInfoDto[])">
+            <summary>
+            保存工作经历
+            </summary>
+            <param name="dtos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Get(System.Int32,System.String)">
+            <summary>
+            分页获取
+            </summary>
+            <param name="page"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Post(TBlog.Model.TaskQzEntity)">
+            <summary>
+            添加计划任务
+            </summary>
+            <param name="tasksQz"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Put(TBlog.Model.TaskQzEntity)">
+            <summary>
+            修改计划任务
+            </summary>
+            <param name="tasksQz"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Delete(System.Int32)">
+            <summary>
+            删除一个任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.StartJob(System.Int32)">
+            <summary>
+            启动计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.StopJob(System.Int32)">
+            <summary>
+            停止一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.PauseJob(System.Int32)">
+            <summary>
+            暂停一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.ResumeJob(System.Int32)">
+            <summary>
+            恢复一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.ReCovery(System.Int32)">
+            <summary>
+            重启一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.GetTaskNameSpace">
+            <summary>
+            获取任务命名空间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.UserController">
+            <summary>
+            用户API
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.CheckHavePhoneOrMail(System.String)">
+            <summary>
+            检查账号是否存在
+            </summary>
+            <param name="phoneOrMail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.CheckHaveBlogName(System.String)">
+            <summary>
+            检查博客名称是否存在
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.RegisterUser(TBlog.Model.UserResigterDto)">
+            <summary>
+            普通用户注册
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.RequestVCode(System.String)">
+            <summary>
+            请求验证码
+            </summary>
+            <param name="phoneOrMail">手机号或邮箱</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.LoginUser(TBlog.Model.UserLoginDto)">
+            <summary>
+            普通用户登陆
+            </summary>
+            <param name="loginDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.GetUserInfo(System.String)">
+            <summary>
+            根据博客名称获取用户信息
+            </summary>
+            <param name="blogName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.LogOut">
+            <summary>
+            注销
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.SaveUserInfo(TBlog.Model.UserInfoDto)">
+            <summary>
+            保存用户信息
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.SerializeJwt(System.String)">
+            <summary>
+            根据token获取用户信息
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.RefreshToken">
+            <summary>
+            刷新Token
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.RequestRecoverPwd(System.String)">
+            <summary>
+            请求找回密码
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.ResponeRecoverPwd(TBlog.Model.UserRecoverDto)">
+            <summary>
+            找回密码-重设密码
+            </summary>
+        </member>
+        <member name="T:TBlog.Api.GlobalExceptionsFilter">
+            <summary>
+            全局异常错误日志
+            </summary>
+        </member>
+    </members>
+</doc>

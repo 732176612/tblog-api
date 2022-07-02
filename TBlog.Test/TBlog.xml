@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TBlog.Api</name>
+    </assembly>
+    <members>
+        <member name="T:TBlog.Api.AutofacModuleRegister">
+            <summary>
+            依赖注入
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.AutofacModuleRegister.Load(Autofac.ContainerBuilder)">
+            <summary>
+            依赖注入
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="T:TBlog.Api.CommonController">
+            <summary>
+            公用API
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommonController.VerifyRegex(System.String)">
+            <summary>
+            获取正则表达式 (Phone,Mail,PassWord)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Get(System.Int32,System.String)">
+            <summary>
+            分页获取
+            </summary>
+            <param name="page"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Post(TBlog.Model.TaskQzEntity)">
+            <summary>
+            添加计划任务
+            </summary>
+            <param name="tasksQz"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Put(TBlog.Model.TaskQzEntity)">
+            <summary>
+            修改计划任务
+            </summary>
+            <param name="tasksQz"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.Delete(System.Int32)">
+            <summary>
+            删除一个任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.StartJob(System.Int32)">
+            <summary>
+            启动计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.StopJob(System.Int32)">
+            <summary>
+            停止一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.PauseJob(System.Int32)">
+            <summary>
+            暂停一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.ResumeJob(System.Int32)">
+            <summary>
+            恢复一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.ReCovery(System.Int32)">
+            <summary>
+            重启一个计划任务
+            </summary>
+            <param name="jobId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.TasksQzController.GetTaskNameSpace">
+            <summary>
+            获取任务命名空间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.UserController">
+            <summary>
+            用户API
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.UserController.RegisterUser(TBlog.Model.UserResigterDTO)">
+            <summary>
+            普通用户注册
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Api.UserController.RequestVCode(System.String)">
+            <summary>
+            请求验证码
+            </summary>
+            <param name="phoneOrMail">手机号或邮箱</param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Api.GlobalExceptionsFilter">
+            <summary>
+            全局异常错误日志
+            </summary>
+        </member>
+        <member name="P:TBlog.Api.JsonErrorResponse.Message">
+            <summary>
+            生产环境的消息
+            </summary>
+        </member>
+        <member name="P:TBlog.Api.JsonErrorResponse.DevelopmentMessage">
+            <summary>
+            开发环境的消息
+            </summary>
+        </member>
+    </members>
+</doc>

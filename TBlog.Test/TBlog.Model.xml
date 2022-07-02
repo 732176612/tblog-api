@@ -1,0 +1,754 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TBlog.Model</name>
+    </assembly>
+    <members>
+        <member name="T:TBlog.Model.APIResult">
+            <summary>
+            通用返回信息类
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.APIResult.Status">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.APIResult.Msg">
+            <summary>
+            返回信息
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.APIResult.Success(System.String)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="msg">消息</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APIResult.Fail(System.String)">
+            <summary>
+            返回失败
+            </summary>
+            <param name="msg">消息</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APIResult.Message(System.Boolean,System.String)">
+            <summary>
+            返回消息
+            </summary>
+            <param name="success">失败/成功</param>
+            <param name="msg">消息</param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Model.APITResult`1">
+            <summary>
+            通用返回信息类
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.APITResult`1.Status">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.APITResult`1.Msg">
+            <summary>
+            返回信息
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.APITResult`1.Data">
+            <summary>
+            返回数据集合
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.APITResult`1.Success(System.String)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="msg">消息</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APITResult`1.Success(System.String,`0)">
+            <summary>
+            返回成功
+            </summary>
+            <param name="msg">消息</param>
+            <param name="response">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APITResult`1.Fail(System.String)">
+            <summary>
+            返回失败
+            </summary>
+            <param name="msg">消息</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APITResult`1.Fail(System.String,`0)">
+            <summary>
+            返回失败
+            </summary>
+            <param name="msg">消息</param>
+            <param name="response">数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:TBlog.Model.APITResult`1.Message(System.Boolean,System.String,`0)">
+            <summary>
+            返回消息
+            </summary>
+            <param name="isSuccess">失败/成功</param>
+            <param name="msg">消息</param>
+            <param name="response">数据</param>
+            <returns></returns>
+        </member>
+        <member name="T:TBlog.Model.IEntity">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.IModel">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.PageModel`1">
+            <summary>
+            通用分页信息类
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.PageModel`1.PageIndex">
+            <summary>
+            当前页标
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.PageModel`1.PageCount">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.PageModel`1.TotalCount">
+            <summary>
+            数据总数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.PageModel`1.PageSize">
+            <summary>
+            每页大小
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.PageModel`1.Data">
+            <summary>
+            返回数据
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.IDto">
+            <summary>
+            数据传输对象接口
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.UserLoginDTO">
+            <summary>
+            用户登录模型
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserLoginDTO.PhoneOrMail">
+            <summary>
+            邮箱或手机号码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserLoginDTO.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.UserResigterDTO">
+            <summary>
+            用户注册模型
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserResigterDTO.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserResigterDTO.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserResigterDTO.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserResigterDTO.VCode">
+            <summary>
+            验证码
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.HttpLogEntity">
+            <summary>
+            Http日记记录
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.UserName">
+            <summary>
+            用户姓名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.IP">
+            <summary>
+            请求IP
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.Url">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.StartDate">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.EndDate">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.RequestMethod">
+            <summary>
+            请求方法
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.RequestData">
+            <summary>
+            请求数据
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.ResponetData">
+            <summary>
+            响应数据
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.HttpLogEntity.UserAgent">
+            <summary>
+            用户代理标识
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.MenuEntity">
+            <summary>
+            菜单实体
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.PId">
+            <summary>
+            父级Id
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.Url">
+            <summary>
+            菜单链接地址
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.OrderSort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.IsEnabled">
+            <summary>
+            是否激活
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MenuEntity.RoleIds">
+            <summary>
+            拥有此菜单的角色ID
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.RoleEntity">
+            <summary>
+            角色实体
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.PId">
+            <summary>
+            上级角色ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.Name">
+            <summary>
+            角色名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.OrderSort">
+             <summary>
+            排序
+             </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.Enabled">
+            <summary>
+            是否激活
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.Description">
+             <summary>
+            描述
+             </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.CUserId">
+            <summary>
+            创建者ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.CUserName">
+            <summary>
+            创建者
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.MUserId">
+            <summary>
+            修改ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.MUserName">
+            <summary>
+            修改者
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.TaskLogEntity">
+            <summary>
+            日志记录
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.Area">
+            <summary>
+            区域名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.Controller">
+            <summary>
+            区域控制器名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.Action">
+            <summary>
+            Action名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.IPAddress">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.LogTime">
+            <summary>
+            登录时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.LoginName">
+            <summary>
+            登录名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskLogEntity.User">
+            <summary>
+            用户实体
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.TaskQzEntity">
+            <summary>
+            任务计划表
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.Name">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.Cron">
+            <summary>
+            任务运行时间表达式
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.AssemblyName">
+            <summary>
+            任务所在DLL对应的程序集名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.ClassName">
+            <summary>
+            任务所在类
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.Remark">
+            <summary>
+            任务描述
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.RunTimes">
+            <summary>
+            执行次数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.BeginTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.TriggerType">
+            <summary>
+            触发器类型（0、simple 1、cron）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.IntervalSecond">
+            <summary>
+            执行间隔时间, 秒为单位
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.CycleRunTimes">
+            <summary>
+            循环执行次数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.IsStart">
+            <summary>
+            是否启动
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.JobParams">
+            <summary>
+            执行传参
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.TaskQzEntity.Triggers">
+            <summary>
+            任务内存中的状态
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.UserEntity">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.Email">
+            <summary>
+            登录账号
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.Password">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.UserName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.Sex">
+            <summary>
+            性别 (男：1，女：2，无：0)
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.Birthday">
+            <summary>
+            生日
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.LoginDate">
+             <summary>
+            最后登录时间 
+             </summary>
+        </member>
+        <member name="P:TBlog.Model.UserEntity.RoleIds">
+            <summary>
+            角色权限
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.EnumRegex">
+            <summary>
+            验证正则表达式
+            </summary>
+        </member>
+        <member name="F:TBlog.Model.EnumRegex.PhoneRegex">
+            <summary>
+            手机号码正则表达式
+            </summary>
+        </member>
+        <member name="F:TBlog.Model.EnumRegex.MailRegex">
+            <summary>
+            邮箱正则表达式
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.EnumSex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.EnumTaskQzMode">
+            <summary>
+            定时任务的执行模式
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.QuartzReflectionModel">
+            <summary>
+            实现IJob的类
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzReflectionModel.NameSpace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzReflectionModel.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzReflectionModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.QuartzTaskModel">
+            <summary>
+            调度任务触发器信息模型
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.JobId">
+            <summary>
+            任务ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.JobGroup">
+            <summary>
+            任务分组
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.TriggerId">
+            <summary>
+            触发器ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.TriggerName">
+            <summary>
+            触发器名称
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.TriggerGroup">
+            <summary>
+            触发器分组
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.QuartzTaskModel.TriggerStatus">
+            <summary>
+            触发器状态
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.TreeNodeModel">
+            <summary>
+            树字典模型
+            </summary>
+        </member>
+    </members>
+</doc>
