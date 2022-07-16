@@ -31,4 +31,4 @@ RUN dotnet publish "TBlog.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-CMD dotnet TBlog.Api.dll --urls "http://localhost:5901"
+CMD dotnet TBlog.Api.dll --urls "http://+:5901"
