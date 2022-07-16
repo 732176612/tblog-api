@@ -26,8 +26,7 @@ jobs:
       uses: docker/build-push-action@v3.0.0
       with:
         tags: falseendless/tblogapi:latest
-        context: .
-        file: /TBlog.Api/Dockerfile # 指定Dockerfile
+        file: TBlog.Api/Dockerfile # 指定Dockerfile
         push: true
     - name: Docker Images Lst # 列出所有镜像
       run: docker images
