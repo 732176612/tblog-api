@@ -20,6 +20,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_IMAGESTORE_USERNAME }}
         password: ${{ secrets.DOCKER_IMAGESTORE_PASSWORD }}
+    - name: show dir
+      run: ls
     - name: Build Docker Image # Build Docker镜像并推送到镜像仓库
       uses: docker/build-push-action@v3.0.0
       with:
