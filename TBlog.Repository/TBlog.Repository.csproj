@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AppendTargetFrameworkToOutputPath>output</AppendTargetFrameworkToOutputPath>
+    <OutputPath>D:\Project\C#\TBlog-master\TBlog.Api\bin\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
+    <ProjectReference Include="..\TBlog.IRepository\TBlog.IRepository.csproj" />
+    <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
+  </ItemGroup>
+
+</Project>
