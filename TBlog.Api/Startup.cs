@@ -151,7 +151,7 @@ namespace TBlog.Api
                 {
                     if (context.Request.Path.StartsWithSegments("/view", StringComparison.Ordinal))
                     {
-                        var html = await File.ReadAllTextAsync(Path.GetFullPath("./view/index.html"));
+                        var html = await File.ReadAllTextAsync(Path.Combine(env.WebRootPath, "../view/index.html"));
                         context.Response.ContentType = "text/html";
                         await context.Response.WriteAsync(html, Encoding.UTF8);
                     }
@@ -166,7 +166,7 @@ namespace TBlog.Api
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.GetFullPath("./view")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath, "../view")),
                 RequestPath = "/view"
             });
 
