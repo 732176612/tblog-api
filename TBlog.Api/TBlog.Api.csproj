@@ -25,6 +25,10 @@
 
   <ItemGroup>
     <Compile Remove="TBlog.Extensions\**" />
+    <Compile Remove="wwwroot\view\css\**" />
+    <Content Remove="wwwroot\view\css\**" />
+    <EmbeddedResource Remove="wwwroot\view\css\**" />
+    <None Remove="wwwroot\view\css\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +52,46 @@
     <Folder Include="Attribute\" />
     <Folder Include="Log\" />
     <Folder Include="wwwroot\SeedData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\view\assets\ActicleEditor.157ca941.js" />
+    <None Include="wwwroot\view\assets\ActicleEditor.f02c9d55.css" />
+    <None Include="wwwroot\view\assets\ActicleList.737dec89.css" />
+    <None Include="wwwroot\view\assets\ActicleList.c8f57232.js" />
+    <None Include="wwwroot\view\assets\ActicleView.d1c44faa.css" />
+    <None Include="wwwroot\view\assets\ActicleView.e92045fc.js" />
+    <None Include="wwwroot\view\assets\bootstrap-icons.93f3cb0d.woff" />
+    <None Include="wwwroot\view\assets\bootstrap-icons.e9829fbb.woff2" />
+    <None Include="wwwroot\view\assets\defaultbg.12009707.jpg" />
+    <None Include="wwwroot\view\assets\Index-Main.538b02d3.css" />
+    <None Include="wwwroot\view\assets\Index-Main.b71b802b.js" />
+    <None Include="wwwroot\view\assets\index.49fef10e.css" />
+    <None Include="wwwroot\view\assets\Index.4b1e23f6.css" />
+    <None Include="wwwroot\view\assets\Index.e2837471.js" />
+    <None Include="wwwroot\view\assets\index.ef974605.js" />
+    <None Include="wwwroot\view\assets\interface.47cb3ee4.js" />
+    <None Include="wwwroot\view\assets\Login.53bb975a.css" />
+    <None Include="wwwroot\view\assets\Login.d1e49c9c.js" />
+    <None Include="wwwroot\view\assets\logo.f0566f2c.js" />
+    <None Include="wwwroot\view\assets\plus-circle-dotted.25865436.svg" />
+    <None Include="wwwroot\view\assets\RecoverPwd.080662e9.css" />
+    <None Include="wwwroot\view\assets\RecoverPwd.0a2eec73.js" />
+    <None Include="wwwroot\view\assets\Register.46c42445.js" />
+    <None Include="wwwroot\view\assets\Register.8fe91317.css" />
+    <None Include="wwwroot\view\assets\summernote.05ce99db.eot" />
+    <None Include="wwwroot\view\assets\summernote.17aff429.woff2" />
+    <None Include="wwwroot\view\assets\summernote.2a5c8f9c.ttf" />
+    <None Include="wwwroot\view\assets\summernote.9ea36fc9.woff" />
+    <None Include="wwwroot\view\assets\UserInfo.2513b3a7.css" />
+    <None Include="wwwroot\view\assets\UserInfo.393d4cd6.js" />
+    <None Include="wwwroot\view\assets\vendor.b0a0702d.js" />
+    <None Include="wwwroot\view\assets\vendor.fac1b1a7.css" />
+    <None Include="wwwroot\view\favicon.ico" />
+    <None Include="wwwroot\view\index.html" />
+    <None Include="wwwroot\view\js\utils.js" />
+    <None Include="wwwroot\view\mescroll\mescroll.min.css" />
+    <None Include="wwwroot\view\mescroll\mescroll.min.js" />
   </ItemGroup>
 
   <ItemGroup>
