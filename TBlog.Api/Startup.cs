@@ -44,8 +44,6 @@ namespace TBlog.Api
         {
             services.AddSingleton(new ApiConfig(Configuration, AppDomain.CurrentDomain.BaseDirectory));
             services.AddSingleton(new LogLock(AppDomain.CurrentDomain.BaseDirectory));
-            Console.WriteLine(ApiConfig.DBSetting.MongoConnection);
-            Console.WriteLine(ApiConfig.Redis.Connection);
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddMemoryCacheSetup();
