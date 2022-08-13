@@ -27,7 +27,7 @@ namespace TBlog.Extensions
         public string Convert(DateTime source, string destination, ResolutionContext context)
         {
             DateTime dateTime = source.ToLocalTime();
-            if (dateTime.Hour == 0 && dateTime.Minute == 0 && dateTime.Second == 0)
+            if (dateTime.Minute == 0 && dateTime.Second == 0)
             {
                 return dateTime.Toyyyymmdd();
             }
