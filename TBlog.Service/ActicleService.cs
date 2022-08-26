@@ -125,19 +125,13 @@
                 var searchResponse = await (_ElasticClient.SearchAsync<ActicleEntity>(s => s
                                          .Query(q => q
                                             .Bool(b => b
-                                                .Must(mu => mu
-                                                    .Match(m => m
-                                                        .Field(f => f.Content)
-                                                        .Query(searchVal)
-                                                    ), mu => mu
-                                                    .Match(m => m
-                                                        .Field(f => f.Title)
-                                                        .Query(searchVal)
+                                                .Must(c => c.
+                                                    QueryString(c => c.
+                                                        Fields(d => d.
+                                                            Fields(q => q.Content, q => q.Title))
+                                                        .Query(searchVal))
                                                     )
-                                                )
-                                                .Filter(fi => fi
-                                                     .Term(b => b.CBlogName, blogName.ToLower())
-                                                     )
+                                                .Filter(fi => fi.Term(b => b.CBlogName, blogName.ToLower()))
                                                 )
                                             )
                                      ));
