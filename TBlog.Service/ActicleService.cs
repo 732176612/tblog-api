@@ -129,10 +129,6 @@
                                                     .Match(m => m
                                                         .Field(f => f.Content)
                                                         .Query(searchVal)
-                                                    ), mu => mu
-                                                    .Match(m => m
-                                                        .Field(f => f.Title)
-                                                        .Query(searchVal)
                                                     )
                                                 )
                                                 .Filter(fi => fi
