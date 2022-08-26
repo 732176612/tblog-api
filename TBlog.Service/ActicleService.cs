@@ -1,5 +1,4 @@
-﻿using MongoDB.Driver;
-namespace TBlog.Service
+﻿namespace TBlog.Service
 {
     public class ActicleService : BaseService<ActicleEntity>, IActicleService
     {
@@ -8,14 +7,17 @@ namespace TBlog.Service
         private readonly IActicleHisLogRepository _ActicleHisLogRepository;
         private readonly IRoleRepository _RoleRepository;
         private readonly IUserRepository _UserRepository;
+        private readonly IElasticClient _ElasticClient;
         public ActicleService(IActicleRepository acticleRepository, IRoleRepository roleRepository, IUserRepository userRepository,
-            IActicleHisLogService acticleHisLogService, IActicleHisLogRepository acticleHisLogRepository) : base(acticleRepository)
+            IActicleHisLogService acticleHisLogService, IActicleHisLogRepository acticleHisLogRepository,
+            IElasticClient elasticClient) : base(acticleRepository)
         {
             _ActicleRepository = acticleRepository;
             _RoleRepository = roleRepository;
             _UserRepository = userRepository;
             _ActicleHisLogService = acticleHisLogService;
             _ActicleHisLogRepository = acticleHisLogRepository;
+            _ElasticClient = elasticClient;
         }
 
         public async Task<string> SaveActicle(ActicleDto dto, long userId, string blogName)
@@ -40,7 +42,9 @@ namespace TBlog.Service
                 var existEntity = await _ActicleRepository.GetById(entity.Id);
                 if (existEntity == null)
                 {
-                    return (await _ActicleRepository.AddEntity(entity)).ToString();
+                    var id = (await _ActicleRepository.AddEntity(entity)).ToString();
+                    var respone = await _ElasticClient.IndexDocumentAsync(entity);
+                    return id;
                 }
                 else
                 {
@@ -48,6 +52,7 @@ namespace TBlog.Service
                     {
                         entity.CDate = existEntity.CDate;
                         await _ActicleRepository.Update(entity);
+                        _ElasticClient.IndexDocument(entity);
                         return entity.Id.ToString();
                     }
                     else
@@ -56,7 +61,9 @@ namespace TBlog.Service
             }
             else
             {
-                return (await _ActicleRepository.AddEntity(entity)).ToString();
+                var id = (await _ActicleRepository.AddEntity(entity)).ToString();
+                var respone = await _ElasticClient.IndexDocumentAsync(entity);
+                return id;
             }
 
         }
@@ -91,7 +98,9 @@ namespace TBlog.Service
             return await _ActicleRepository.GetTagsByUseId(user.Id, releaseForm);
         }
 
-        public async Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm releaseForm, EnumActicleSortTag acticleSortTag, string tags = "")
+        public async Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName,
+            EnumActicleReleaseForm releaseForm, EnumActicleSortTag acticleSortTag, string tags = "",
+            string searchVal = "")
         {
             var sortDir = new Dictionary<Expression<Func<ActicleEntity, object>>, bool>();
             switch (acticleSortTag)
@@ -110,6 +119,32 @@ namespace TBlog.Service
                     filter = filter.AddExp(c => tagsSplit.Any(s => c.Tags.Contains(s)));
                 }
             }
+
+            if (!string.IsNullOrEmpty(searchVal))
+            {
+                var searchResponse = await (_ElasticClient.SearchAsync<ActicleEntity>(s => s
+                                         .Query(q => q
+                                            .Bool(b => b
+                                                .Must(mu => mu
+                                                    .Match(m => m
+                                                        .Field(f => f.Content)
+                                                        .Query(searchVal)
+                                                    ), mu => mu
+                                                    .Match(m => m
+                                                        .Field(f => f.Title)
+                                                        .Query(searchVal)
+                                                    )
+                                                )
+                                                .Filter(fi => fi
+                                                     .Term(b => b.CBlogName, blogName.ToLower())
+                                                     )
+                                                )
+                                            )
+                                     ));
+                var acticleIds = searchResponse.Documents.Select(c => c.Id).ToArray();
+                filter = filter.AddExp<ActicleEntity>(c => acticleIds.Contains(c.Id));
+            }
+
             var pages = await GetPage(pageIndex, pageSize, filter, sortDir);
             var listData = pages.Data.ToDto<ActicleDto, ActicleEntity>();
             foreach (var item in listData)
@@ -184,6 +219,8 @@ namespace TBlog.Service
 
             entity.IsDeleted = true;
             await Update(entity);
+            var path = new DocumentPath<ActicleEntity>(entity).Index(ApiConfig.Elasticsearch.DefaultIndex);
+            var respone = await _ElasticClient.DeleteAsync(path);
         }
     }
 }

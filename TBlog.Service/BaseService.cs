@@ -8,6 +8,7 @@ global using System.Threading.Tasks;
 global using System.Linq.Expressions;
 global using TBlog.Extensions;
 global using TBlog.Common;
+global using Nest;
 namespace TBlog.Service
 {
     public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, new()

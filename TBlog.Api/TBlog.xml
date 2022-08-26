@@ -46,7 +46,7 @@
             获取文章标题汇总
             </summary>
         </member>
-        <member name="M:TBlog.Api.ActicleController.GetActicleList(System.Int32,System.Int32,System.String,TBlog.Model.EnumActicleReleaseForm,TBlog.Model.EnumActicleSortTag,System.String)">
+        <member name="M:TBlog.Api.ActicleController.GetActicleList(System.Int32,System.Int32,System.String,TBlog.Model.EnumActicleReleaseForm,TBlog.Model.EnumActicleSortTag,System.String,System.String)">
             <summary>
             获取文章列表
             </summary>

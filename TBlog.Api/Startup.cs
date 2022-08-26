@@ -48,7 +48,7 @@ namespace TBlog.Api
 
             services.AddMemoryCacheSetup();
             services.AddRedisCacheSetup();
-
+            services.AddElasticsearchSetup();
             services.AddMongoDBSetup();
             services.AddSqlsugarSetup();
             services.AddCorsSetup();

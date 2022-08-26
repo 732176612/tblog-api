@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
     <PackageReference Include="MiniProfiler.Shared" Version="4.2.22" />
+    <PackageReference Include="NEST" Version="7.17.4" />
     <PackageReference Include="Quartz" Version="3.3.2" />
     <PackageReference Include="SqlSugarCore" Version="5.1.1" />
     <PackageReference Include="StackExchange.Redis" Version="2.2.62" />

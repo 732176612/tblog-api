@@ -77,20 +77,20 @@ namespace TBlog.Api
             var token = GetToken(true);
             if (token.BlogName != blogName)
             {
-                if(releaseForm == EnumActicleReleaseForm.Private|| releaseForm == EnumActicleReleaseForm.Draft)
+                if (releaseForm == EnumActicleReleaseForm.Private || releaseForm == EnumActicleReleaseForm.Draft)
                 {
                     return APITResult<IEnumerable<string>>.Success("获取成功", Enumerable.Empty<string>());
                 }
             }
 
-            return APITResult<IEnumerable<string>>.Success("获取成功", await _ActicleServer.GetTagsByUseId(blogName,releaseForm));
+            return APITResult<IEnumerable<string>>.Success("获取成功", await _ActicleServer.GetTagsByUseId(blogName, releaseForm));
         }
 
         /// <summary>
         /// 获取文章列表
         /// </summary>
         [HttpGet]
-        public async Task<APITResult<PageModel<ActicleDto>>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm releaseForm = EnumActicleReleaseForm.Public, EnumActicleSortTag acticleSortTag = EnumActicleSortTag.News, string tags = "")
+        public async Task<APITResult<PageModel<ActicleDto>>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm releaseForm = EnumActicleReleaseForm.Public, EnumActicleSortTag acticleSortTag = EnumActicleSortTag.News, string tags = "", string searchVal = "")
         {
             var token = GetToken(true);
             if (token.BlogName != blogName)
@@ -101,7 +101,7 @@ namespace TBlog.Api
                 }
             }
 
-            var page = await _ActicleServer.GetActicleList(pageIndex, pageSize, blogName, releaseForm, acticleSortTag, tags);
+            var page = await _ActicleServer.GetActicleList(pageIndex, pageSize, blogName, releaseForm, acticleSortTag, tags, searchVal);
             return APITResult<PageModel<ActicleDto>>.Success("获取成功", page);
         }
 

@@ -253,9 +253,9 @@ namespace TBlog.Repository
         public async Task<long> Count(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return (await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), filter));
+                return (await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), GetBaseFilter().AddExp(filter)));
             else
-                return (await Collection.CountDocumentsAsync<TEntity>(filter));
+                return (await Collection.CountDocumentsAsync<TEntity>(GetBaseFilter().AddExp(filter)));
         }
         #endregion
     }

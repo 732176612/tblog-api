@@ -1,4 +1,6 @@
-﻿namespace TBlog.Model
+﻿using Nest;
+
+namespace TBlog.Model
 {
     /// <summary>
     /// 文章实体

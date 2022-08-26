@@ -579,7 +579,7 @@ namespace TBlog.Common
         }
         #endregion
 
-        #region 腾讯云配置
+        #region 腾讯云配置(TencentCloud)
         public static TencentCloudConfig TencentCloud
         {
             get
@@ -632,6 +632,104 @@ namespace TBlog.Common
             /// COS存储桶访问域名
             /// </summary>
             public string DoMain { get; set; }
+        }
+        #endregion
+
+        #region Elasticsearch配置(Elasticsearch)
+        public static ElasticsearchConfig Elasticsearch
+        {
+            get
+            {
+                if (_Elasticsearch == null)
+                {
+                    _Elasticsearch = GetConfig<ElasticsearchConfig>("Elasticsearch");
+                }
+                return _Elasticsearch;
+            }
+        }
+        private static ElasticsearchConfig _Elasticsearch;
+
+        /// <summary>
+        /// Redis配置
+        /// </summary>
+        public class ElasticsearchConfig
+        {
+            /// <summary>
+            /// 链接地址
+            /// </summary>
+            public string Url
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Url))
+                    {
+                        return Configuration["Elasticsearch.Url"];
+                    }
+                    else
+                    {
+                        return _Url;
+                    }
+                }
+                set
+                {
+                    _Url = value;
+                }
+            }
+
+            private string _Url { get; set; }
+
+            /// <summary>
+            /// 用户名
+            /// </summary>
+            public string UserName
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_UserName))
+                    {
+                        return Configuration["Elasticsearch.UserName"];
+                    }
+                    else
+                    {
+                        return _UserName;
+                    }
+                }
+                set
+                {
+                    _UserName = value;
+                }
+            }
+
+            private string _UserName { get; set; }
+
+            /// <summary>
+            /// 用户名
+            /// </summary>
+            public string Password
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Password))
+                    {
+                        return Configuration["Elasticsearch.Password"];
+                    }
+                    else
+                    {
+                        return _Password;
+                    }
+                }
+                set
+                {
+                    _Password = value;
+                }
+            }
+
+            private string _Password { get; set; }
+
+            /// <summary>
+            /// 默认索引名
+            /// </summary>
+            public string DefaultIndex { get; set; }
         }
         #endregion
     }

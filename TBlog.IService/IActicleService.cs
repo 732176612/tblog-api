@@ -7,7 +7,7 @@ namespace TBlog.IService
     {
         public Task<ActicleDto> GetActicle(long id, long userid);
 
-        public Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm acticleReleaseForm, EnumActicleSortTag acticleSortTag, string tags = "");
+        public Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm acticleReleaseForm, EnumActicleSortTag acticleSortTag, string tags = "", string searchVal = "");
 
         public Task<string> SaveActicle(ActicleDto dto, long userId, string blogName);
 
