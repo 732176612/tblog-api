@@ -123,6 +123,8 @@
             if (!string.IsNullOrEmpty(searchVal))
             {
                 var searchResponse = await (_ElasticClient.SearchAsync<ActicleEntity>(s => s
+                                        .From(0)
+                                        .Size(10000)
                                          .Query(q => q
                                             .Bool(b => b
                                                 .Must(c => c.
@@ -135,8 +137,9 @@
                                                 )
                                             )
                                      ));
+
                 var acticleIds = searchResponse.Documents.Select(c => c.Id).ToArray();
-                filter = filter.AddExp<ActicleEntity>(c => acticleIds.Contains(c.Id));
+                filter = filter.AddExp(c => acticleIds.Contains(c.Id));
             }
 
             var pages = await GetPage(pageIndex, pageSize, filter, sortDir);
@@ -144,6 +147,55 @@
             foreach (var item in listData)
             {
                 item.Content = item.Content.ClearHtmlTag();
+
+                if (!string.IsNullOrEmpty(searchVal))
+                {
+                    item.Title = item.Title.Replace(searchVal, $"<b style='color:red;'>{searchVal}</b>");
+
+                    if (item.Content.Length > 100)
+                    {
+                        int contentIndex = item.Content.IndexOf(searchVal);
+                        if (contentIndex == -1)
+                        {
+                            foreach (var charItem in searchVal)
+                            {
+                                contentIndex = item.Content.IndexOf(charItem);
+                                if (contentIndex != -1) break;
+                            }
+                        }
+                        
+                        if(contentIndex != -1)
+                        {
+                            int startIndex = (contentIndex - 50) > 0 ? contentIndex - 50 : 0;
+                            int offest = item.Content.Length - startIndex - 100;
+                            if (offest < 0)
+                            {
+                                startIndex += offest;
+                                if (startIndex <= 0)
+                                {
+                                    startIndex = 0;
+                                }
+                            }
+                            item.Content = item.Content.Substring(startIndex, 100);
+                        }
+                        else
+                        {
+                            item.Content = item.Content.Substring(0, 100);
+                        }
+                    }
+                    foreach (var charItem in searchVal)
+                    {
+                        item.Content = item.Content.Replace(charItem.ToString(), $"<b style='color:red;'>{charItem}</b>");
+                    }
+                    item.Content += "...";
+                }
+                else
+                {
+                    if (item.Content.Length > 100)
+                    {
+                        item.Content = item.Content.Substring(0, 100);
+                    }
+                }
             }
             return pages.AsPageModel(listData);
         }
