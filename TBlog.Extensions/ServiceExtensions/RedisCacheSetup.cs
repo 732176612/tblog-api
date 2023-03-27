@@ -2,7 +2,8 @@
 using StackExchange.Redis;
 using System;
 using TBlog.Common;
-using TBlog.Redis;
+using TBlog.IRepository;
+using TBlog.Repository;
 
 namespace TBlog.Extensions
 {

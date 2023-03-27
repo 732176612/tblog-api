@@ -18,7 +18,10 @@ namespace TBlog.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (ApiConfig.BaseSetting.MiniProfiler)
             {
-                services.AddMiniProfiler();
+                services.AddMiniProfiler(options =>
+                {
+                    options.RouteBasePath = "/profiler";
+                });
             }
         }
     }

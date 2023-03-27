@@ -1,40 +1,38 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
-    <PackageReference Include="Consul" Version="1.6.10.3" />
-    <PackageReference Include="InitQ" Version="1.0.0.7" />
-    <PackageReference Include="log4net" Version="2.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
-    <PackageReference Include="MiniProfiler.Shared" Version="4.2.22" />
-    <PackageReference Include="NEST" Version="7.17.4" />
-    <PackageReference Include="Quartz" Version="3.3.2" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.1" />
-    <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+		<PackageReference Include="Castle.Core" Version="4.4.1" />
+		<PackageReference Include="Consul" Version="1.6.10.3" />
+		<PackageReference Include="InitQ" Version="1.0.0.7" />
+		<PackageReference Include="log4net" Version="2.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+		<PackageReference Include="MiniProfiler.Shared" Version="4.2.22" />
+		<PackageReference Include="NEST" Version="7.17.4" />
+		<PackageReference Include="Quartz" Version="3.3.2" />
+		<PackageReference Include="SqlSugarCore" Version="5.1.1" />
+		<PackageReference Include="StackExchange.Redis" Version="2.2.62" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
-    <ProjectReference Include="..\TBlog.EventBus\TBlog.EventBus.csproj" />
-    <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
-    <ProjectReference Include="..\TBlog.Redis\TBlog.Redis.csproj" />
-    <ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
-    <ProjectReference Include="..\TBlog.Tasks\TBlog.Tasks.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
+		<ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
+		<ProjectReference Include="..\Tblog.RabbitMQ\Tblog.RabbitMQ.csproj" />
+		<ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
+	</ItemGroup>
 
 </Project>

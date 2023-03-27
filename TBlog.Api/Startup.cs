@@ -1,11 +1,10 @@
-global using TBlog.Common;
 global using TBlog.Extensions;
 global using TBlog.IService;
 global using TBlog.Model;
 global using TBlog.Repository;
-global using TBlog.Tasks;
 global using System;
-global using TBlog.Redis;
+global using TBlog.Common;
+
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,12 +19,13 @@ using Newtonsoft.Json.Serialization;
 using SqlSugar;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using IdGen;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Microsoft.Extensions.Primitives;
+using Tblog.RabbitMQ;
 
 namespace TBlog.Api
 {
@@ -43,6 +43,12 @@ namespace TBlog.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(new ApiConfig(Configuration, AppDomain.CurrentDomain.BaseDirectory));
+            ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
+            {
+                services.AddSingleton(new ApiConfig(Configuration, AppDomain.CurrentDomain.BaseDirectory));
+                var test = ApiConfig.Elasticsearch;
+            }
+            );
             services.AddSingleton(new LogLock(AppDomain.CurrentDomain.BaseDirectory));
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -54,12 +60,9 @@ namespace TBlog.Api
             services.AddCorsSetup();
             services.AddMiniProfilerSetup();
             services.AddSwaggerSetup();
-            services.AddJobSetup();
             services.AddHttpContextSetup();
-            services.AddRedisInitMqSetup();
 
             services.AddRabbitMQSetup();
-            services.AddEventBusSetup();
 
             // ÊÚÈ¨+ÈÏÖ¤ (jwt or ids4)
             services.AddAuthorizationSetup();
@@ -75,7 +78,7 @@ namespace TBlog.Api
 
             services.AddControllers(o =>
             {
-                //o.Filters.Add<GlobalExceptionsFilter>();
+                o.Filters.Add<GlobalExceptionsFilter>();
                 o.InputFormatters.Add(new PlainTextInputFormatter());
                 o.InputFormatters.Add(new CustInputFormatter());
             })
@@ -173,7 +176,7 @@ namespace TBlog.Api
 
             app.UseConsulMildd(lifetime);
 
-            app.EventBusMildd();
+            app.ApplicationServices.GetService<TestQueue>().Start();
         }
     }
 }

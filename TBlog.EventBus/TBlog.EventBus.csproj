@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
     <ProjectReference Include="..\TBlog.IService\TBlog.IService.csproj" />
+    <ProjectReference Include="..\TRabbitMQ\TRabbitMQ.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,8 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TBlog.Common;
-using TBlog.IService;
+using TBlog.IRepository;
+
 namespace TBlog.Extensions
 {
     /// <summary>
@@ -19,10 +20,10 @@ namespace TBlog.Extensions
     {
         public IAuthenticationSchemeProvider Schemes { get; set; }
         private readonly IHttpContextAccessor _accessor;
-        private readonly IMenuService _menuServices;
-        private readonly IRoleService _roleServices;
+        private readonly IMenuRepository _menuServices;
+        private readonly IRoleRepository _roleServices;
 
-        public TBlogAuthorizationHandler(IAuthenticationSchemeProvider schemes, IHttpContextAccessor accessor, IMenuService menuServices, IRoleService roleServices)
+        public TBlogAuthorizationHandler(IAuthenticationSchemeProvider schemes, IHttpContextAccessor accessor, IMenuRepository menuServices, IRoleRepository roleServices)
         {
             _accessor = accessor;
             Schemes = schemes;
@@ -87,7 +88,7 @@ namespace TBlog.Extensions
                         }
 
                         var isMatchRole = false;
-                        var roleEntities = _roleServices.GetByName(currentUserRoles);
+                        var roleEntities = await _roleServices.GetByNames(currentUserRoles);
                         var menuEntities = _menuServices.GetByRoleIds(roleEntities.Select(c => c.Id));
                         foreach (var item in menuEntities)
                         {

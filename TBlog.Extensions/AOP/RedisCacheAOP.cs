@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using TBlog.Common;
+using TBlog.IRepository;
 
 namespace TBlog.Extensions
 {
@@ -12,8 +13,8 @@ namespace TBlog.Extensions
     public class RedisCacheAOP : CacheAOPbase
     {
         //通过注入的方式，把缓存操作接口通过构造函数注入
-        private readonly IRedisBasketRepository _cache;
-        public RedisCacheAOP(IRedisBasketRepository cache)
+        private readonly IRedisRepository _cache;
+        public RedisCacheAOP(IRedisRepository cache)
         {
             _cache = cache;
         }

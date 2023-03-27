@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,10 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TBlog.Extensions\TBlog.Extensions.csproj" />
-    <ProjectReference Include="..\TBlog.IRepository\TBlog.IRepository.csproj" />
-    <ProjectReference Include="..\TBlog.IService\TBlog.IService.csproj" />
     <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
-    <ProjectReference Include="..\TBlog.TencentCloud\TBlog.TencentCloud.csproj" />
+    <ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
   </ItemGroup>
 
 </Project>

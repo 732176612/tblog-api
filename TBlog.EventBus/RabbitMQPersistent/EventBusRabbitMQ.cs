@@ -12,7 +12,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TBlog.Common;
-
+using TRabbitMQ;
 namespace TBlog.EventBus
 {
     /// <summary>
@@ -22,7 +22,7 @@ namespace TBlog.EventBus
     {
         const string BROKER_NAME = "tblog_event_bus";
 
-        private readonly IRabbitMQPersistentConnection _persistentConnection;
+        private readonly IRabbitMQConnection _persistentConnection;
         private readonly ILogger<EventBusRabbitMQ> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly ILifetimeScope _autofac;
@@ -41,7 +41,7 @@ namespace TBlog.EventBus
         /// <param name="subsManager">事件总线订阅管理器</param>
         /// <param name="queueName">队列名称</param>
         /// <param name="retryCount">重试次数</param>
-        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger,
+        public EventBusRabbitMQ(IRabbitMQConnection persistentConnection, ILogger<EventBusRabbitMQ> logger,
             ILifetimeScope autofac,
             IEventBusSubscriptionsManager subsManager,
             string queueName = null,

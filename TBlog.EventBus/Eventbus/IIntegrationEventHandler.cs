@@ -19,5 +19,6 @@ namespace TBlog.EventBus
     /// </summary>
     public interface IIntegrationEventHandler
     {
+
     }
 }

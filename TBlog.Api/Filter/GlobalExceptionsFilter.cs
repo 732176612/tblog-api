@@ -9,6 +9,7 @@ using StackExchange.Profiling;
 using System;
 using TBlog.Common;
 using TBlog.Model;
+using TencentCloud.Vod.V20180717.Models;
 
 namespace TBlog.Api
 {

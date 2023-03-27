@@ -1,9 +1,10 @@
 ﻿using TBlog.Common;
-using TBlog.EventBus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System;
+using Tblog.RabbitMQ;
+using Autofac;
 
 namespace TBlog.Extensions
 {
@@ -18,28 +19,22 @@ namespace TBlog.Extensions
 
             if (ApiConfig.RabbitMQ.Enabled)
             {
-                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+                services.AddSingleton<IRabbitMQConnection>(sp =>
                 {
-                    var logger = sp.GetRequiredService<ILogger<RabbitMQPersistentConnection>>();
+                    var logger = sp.GetRequiredService<ILogger<RabbitMQConnection>>();
 
                     var factory = new ConnectionFactory()
                     {
                         HostName = ApiConfig.RabbitMQ.Connection,
+                        UserName = ApiConfig.RabbitMQ.UserName,
+                        Password = ApiConfig.RabbitMQ.Password,
                         DispatchConsumersAsync = true
                     };
 
-                    if (!string.IsNullOrEmpty(ApiConfig.RabbitMQ.UserName))
-                    {
-                        factory.UserName = ApiConfig.RabbitMQ.UserName;
-                    }
-
-                    if (!string.IsNullOrEmpty(ApiConfig.RabbitMQ.Password))
-                    {
-                        factory.Password = ApiConfig.RabbitMQ.Password;
-                    }
-
-                    return new RabbitMQPersistentConnection(factory, logger, ApiConfig.RabbitMQ.RetryCount);
+                    return new RabbitMQConnection(factory, logger, ApiConfig.RabbitMQ.RetryCount);
                 });
+
+                RabbitMQFactory.Init(services);
             }
         }
     }

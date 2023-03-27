@@ -5,7 +5,6 @@ using AutoMapper;
 using TBlog.Common;
 using TBlog.IService;
 using TBlog.Model;
-using TBlog.Repository;
 using TBlog.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -24,6 +23,7 @@ using TBlog.Extensions;
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using TBlog.Repository;
 
 namespace TBlog.Test
 {

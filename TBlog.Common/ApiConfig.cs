@@ -481,7 +481,26 @@ namespace TBlog.Common
             /// <summary>
             /// 连接地址
             /// </summary>
-            public string Connection { get; set; }
+            public string Connection
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Connection))
+                    {
+                        return Configuration["RabbitMQ.Connection"];
+                    }
+                    else
+                    {
+                        return _Connection;
+                    }
+                }
+                set
+                {
+                    _Connection = value;
+                }
+            }
+
+            private string _Connection { get; set; }
 
             /// <summary>
             /// 用户名
@@ -491,17 +510,31 @@ namespace TBlog.Common
             /// <summary>
             /// 密码
             /// </summary>
-            public string Password { get; set; }
+            public string Password
+            { 
+                get
+                {
+                    if (string.IsNullOrEmpty(_Password))
+                    {
+                        return Configuration["RabbitMQ.Password"];
+                    }
+                    else
+                    {
+                        return _Password;
+                    }
+                }
+                set
+                {
+                    _Password = value;
+                }
+            }
+
+            private string _Password { get; set; }
 
             /// <summary>
             /// 重试次数
             /// </summary>
             public int RetryCount { get; set; }
-
-            /// <summary>
-            /// 队列名称
-            /// </summary>
-            public string SubscriptionClientName { get; set; }
         }
         #endregion
 
@@ -524,11 +557,6 @@ namespace TBlog.Common
         /// </summary>
         public class RedisSettingConfig
         {
-            /// <summary>
-            /// 是否开启Redis队列
-            /// </summary>
-            public bool RedisMq { get; set; }
-
             /// <summary>
             /// 连接连接
             /// </summary>

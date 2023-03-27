@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using TBlog.IRepository;
+using Tblog.RabbitMQ;
+
 namespace TBlog.Api
 {
     /// <summary>
@@ -19,12 +21,14 @@ namespace TBlog.Api
         private readonly IMenuService _testServer;
         private static ILogger<TestController> _logger;
         private readonly ISugarRepository<RoleEntity> _role;
+        private readonly TestQueue _testQueue;
 
-        public TestController(IMenuService testServer, ILogger<TestController> logger, ISugarRepository<RoleEntity> role)
+        public TestController(IMenuService testServer, ILogger<TestController> logger, ISugarRepository<RoleEntity> role,TestQueue testQueue)
         {
             this._testServer = testServer;
             _logger = logger;
             _role = role;
+            _testQueue = testQueue;
         }
 
         /// <summary>
@@ -37,6 +41,19 @@ namespace TBlog.Api
             {
                 Id = 30000,
                 Name = "test"
+            });
+            return APIResult.Success();
+        }
+
+        /// <summary>
+        /// 测试
+        /// </summary>
+        [HttpGet]
+        public APIResult TestQueue(string msg)
+        {
+            _testQueue.Enqueue(new TestQueueModel
+            {
+                Msg= msg
             });
             return APIResult.Success();
         }

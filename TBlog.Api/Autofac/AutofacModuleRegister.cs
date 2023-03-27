@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using TBlog.IRepository;
-using TBlog.Repository;
 using TBlog.Common;
 using Autofac.Extras.DynamicProxy;
 using TBlog.Extensions;
+using TBlog.Repository;
 
 namespace TBlog.Api
 {
@@ -51,7 +51,7 @@ namespace TBlog.Api
             var servicesDllFile = Path.Combine(AppContext.BaseDirectory, "TBlog.Service.dll");
             var assemblysServices = Assembly.LoadFrom(servicesDllFile);
             var types = assemblysServices.GetTypes();
-            builder.RegisterAssemblyTypes(assemblysServices)
+            builder.RegisterTypes(assemblysServices.GetTypes())
                       .AsImplementedInterfaces()
                       .InstancePerDependency()
                       .PropertiesAutowired()
@@ -60,7 +60,7 @@ namespace TBlog.Api
 
             var repositoryDllFile = Path.Combine(AppContext.BaseDirectory, "TBlog.Repository.dll");
             var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);
-            builder.RegisterAssemblyTypes(assemblysRepository)
+            builder.RegisterTypes(assemblysRepository.GetTypes())
                    .AsImplementedInterfaces()
                    .PropertiesAutowired()
                    .InstancePerDependency().InstancePerLifetimeScope();

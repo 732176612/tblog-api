@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TBlog.Common;
-using TBlog.EventBus;
 
 namespace TBlog.Extensions
 {
@@ -137,27 +136,6 @@ namespace TBlog.Extensions
             catch (Exception e)
             {
                 LogManager.GetLogger(typeof(MiddlewareHelper)).Error($"Cors_Error:[{e.Message}]");
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// 事件订阅中间件
-        /// </summary>
-        /// <param name="app"></param>
-        public static void EventBusMildd(this IApplicationBuilder app)
-        {
-            try
-            {
-                if (ApiConfig.RabbitMQ.Enabled)
-                {
-                    var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-                    //eventBus.Subscribe<TBlogDeletedIntegrationEvent, TBlogDeletedIntegrationEventHandler>();
-                }
-            }
-            catch (Exception e)
-            {
-                LogManager.GetLogger(typeof(MiddlewareHelper)).Error($"EventBus_Error:[{e.Message}]");
                 throw;
             }
         }

@@ -36,7 +36,6 @@ namespace TBlog.EventBus
     {
         public string UserID { get; private set; }
 
-        public UserRegisterIntegrationEvent(string userID)
-            => UserID = userID;
+        public UserRegisterIntegrationEvent(string userID) => UserID = userID;
     }
 }

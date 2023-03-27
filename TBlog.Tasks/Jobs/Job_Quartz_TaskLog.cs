@@ -23,11 +23,11 @@ namespace TBlog.Tasks
             _taskLogServices = taskLogServices;
             _tasksQzServices = tasksQzServices;
         }
-        public async System.Threading.Tasks.Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             var executeLog = await ExecuteJob(context, async () => await Run(context));
         }
-        public async System.Threading.Tasks.Task Run(IJobExecutionContext context)
+        public async Task Run(IJobExecutionContext context)
         {
 
             // 可以直接获取 JobDetail 的值

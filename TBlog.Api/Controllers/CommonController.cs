@@ -90,7 +90,7 @@ namespace TBlog.Api
                 }
             }catch (Exception ex)
             {
-                APITResult<IEnumerable<EnumModel>>.Fail();
+                APITResult<IEnumerable<EnumModel>>.Fail(ex.Message);
             }
             return APITResult<IEnumerable<EnumModel>>.Success(enumModels);
         }

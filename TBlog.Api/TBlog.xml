@@ -166,6 +166,12 @@
             <param name="dtos"></param>
             <returns></returns>
         </member>
+        <member name="M:TBlog.Api.ElasticsearchController.Test">
+            <summary>
+            初始化 Elasticsearch 索引
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:TBlog.Api.MediaController">
             <summary>
             媒体文件
@@ -238,82 +244,17 @@
             <param name="dtos"></param>
             <returns></returns>
         </member>
-        <member name="M:TBlog.Api.TasksQzController.Get(System.Int32,System.String)">
-            <summary>
-            分页获取
-            </summary>
-            <param name="page"></param>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.Post(TBlog.Model.TaskQzEntity)">
-            <summary>
-            添加计划任务
-            </summary>
-            <param name="tasksQz"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.Put(TBlog.Model.TaskQzEntity)">
-            <summary>
-            修改计划任务
-            </summary>
-            <param name="tasksQz"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.Delete(System.Int32)">
-            <summary>
-            删除一个任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.StartJob(System.Int32)">
-            <summary>
-            启动计划任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.StopJob(System.Int32)">
-            <summary>
-            停止一个计划任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>        
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.PauseJob(System.Int32)">
-            <summary>
-            暂停一个计划任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>        
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.ResumeJob(System.Int32)">
-            <summary>
-            恢复一个计划任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>        
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.ReCovery(System.Int32)">
-            <summary>
-            重启一个计划任务
-            </summary>
-            <param name="jobId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:TBlog.Api.TasksQzController.GetTaskNameSpace">
-            <summary>
-            获取任务命名空间
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:TBlog.Api.TestController">
             <summary>
             菜单
             </summary>
         </member>
         <member name="M:TBlog.Api.TestController.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.TestController.TestQueue(System.String)">
             <summary>
             测试
             </summary>

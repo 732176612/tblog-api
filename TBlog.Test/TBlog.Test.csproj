@@ -42,16 +42,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TBlog.Api\TBlog.Api.csproj" />
     <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
-    <ProjectReference Include="..\TBlog.EventBus\TBlog.EventBus.csproj" />
     <ProjectReference Include="..\TBlog.Extensions\TBlog.Extensions.csproj" />
-    <ProjectReference Include="..\TBlog.IRepository\TBlog.IRepository.csproj" />
-    <ProjectReference Include="..\TBlog.IService\TBlog.IService.csproj" />
     <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
-    <ProjectReference Include="..\TBlog.Redis\TBlog.Redis.csproj" />
     <ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
     <ProjectReference Include="..\TBlog.Service\TBlog.Service.csproj" />
-    <ProjectReference Include="..\TBlog.Tasks\TBlog.Tasks.csproj" />
-    <ProjectReference Include="..\TBlog.TencentCloud\TBlog.TencentCloud.csproj" />
   </ItemGroup>
 
 </Project>
