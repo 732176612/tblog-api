@@ -12,6 +12,7 @@ using Polly;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 
 namespace Tblog.RabbitMQ
 {
@@ -45,29 +46,48 @@ namespace Tblog.RabbitMQ
 
             for (int i = 0; i < parrelTaskCount; i++)
             {
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(async () =>
                 {
                     while (_blockCollection.IsCompleted == false)
                     {
                         var isTry = _blockCollection.TryTake(out T message, 100);
                         if (isTry && message != null)
                         {
+                            bool result = false;
                             var watch = new Stopwatch();
                             watch.Start();
                             try
                             {
-                                DequeueAction(message);
+                                result = DequeueAction(message);
                             }
                             catch (Exception ex)
                             {
-
+                                logger.LogError(ex, "处理消息失败");
                             }
-                            watch.Stop();
 
+                            try
+                            {
+                                while (_channel == null) { await Task.Yield(); }
+                                if (result)
+                                {
+                                    _channel.BasicAck(message.DeliveryTag, multiple: false);
+                                }
+                                else
+                                {
+                                    _channel.BasicNack(message.DeliveryTag, multiple: false, requeue: true);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.LogError(ex, "处理消息失败");
+                            }
+
+                            watch.Stop();
                         }
                     }
                 }, TaskCreationOptions.LongRunning);
             }
+
         }
 
         /// <summary>
@@ -80,31 +100,36 @@ namespace Tblog.RabbitMQ
                 _persistentConnection.TryConnect();
             }
 
-            var channel = _persistentConnection.CreateModel();
+            _channel = _persistentConnection.CreateModel();
 
-            channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            var delayQueueName = _queueName + "Delay";
+            var delayExchageName = _queueName + "Exchange";
 
-            var consumer = new AsyncEventingBasicConsumer(channel);
+            //设置普通队列
+            Dictionary<string, object> args = new Dictionary<string, object>() { { "x-dead-letter-exchange", delayExchageName }, { "x-dead-letter-routing-key", "delay" } };
+            _channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: args);
 
-            consumer.Received += Consumer_Received;
-
-            channel.BasicConsume(
-                queue: _queueName,
+            //设置死信队列
+            _channel.ExchangeDeclare(delayExchageName, "direct", true, false, null);
+            _channel.QueueDeclare(delayQueueName, true, false, false, null);
+            _channel.QueueBind(delayQueueName, delayExchageName, "delay", null);
+            var delayConsumer = new AsyncEventingBasicConsumer(_channel);
+            delayConsumer.Received += Consumer_Received;
+            _channel.BasicConsume(
+                queue: delayQueueName,
                 autoAck: false,
-                consumer: consumer);
+                consumer: delayConsumer);
 
-            channel.CallbackException += (sender, ea) =>
+            _channel.CallbackException += (sender, ea) =>
             {
-                _logger.LogWarning(ea.Exception, "Recreating RabbitMQ consumer channel");
+                _logger.LogWarning(ea.Exception.Message, "Recreating RabbitMQ consumer channel");
                 _channel.Dispose();
                 Start();
             };
-
-            _channel = channel;
         }
 
         /// <summary>
-        /// 入队
+        /// 发布入队
         /// </summary>
         public void Enqueue(T msg)
         {
@@ -121,20 +146,27 @@ namespace Tblog.RabbitMQ
                 });
 
             using var channel = _persistentConnection.CreateModel();
-
-
             var message = JsonConvert.SerializeObject(msg);
             var body = Encoding.UTF8.GetBytes(message);
-
             policy.Execute(() =>
             {
                 var properties = channel.CreateBasicProperties();
-                properties.DeliveryMode = 2; // persistent
+                properties.DeliveryMode = 2; // 持久化
+                if (msg.DelaySecond != 0)
+                {
+                    properties.Expiration = (msg.DelaySecond * 1000).ToString();//延迟时间
+                }
+                channel.ConfirmSelect();
                 channel.BasicPublish(exchange: "", _queueName, basicProperties: properties, body: body);
+                var flag = channel.WaitForConfirms();
+                if (!flag)
+                {
+                    throw new Exception("Publish Fail");
+                }
             });
         }
 
-        public abstract void DequeueAction(T model);
+        public abstract bool DequeueAction(T model);
 
         /// <summary>
         /// 消费者消费消息
@@ -151,7 +183,7 @@ namespace Tblog.RabbitMQ
                 }
 
                 var model = JsonConvert.DeserializeObject<T>(message);
-
+                model.DeliveryTag = eventArgs.DeliveryTag;
                 while (_blockCollection.TryAdd(model) == false)
                 {
                     await Task.Yield();
@@ -161,8 +193,6 @@ namespace Tblog.RabbitMQ
             {
                 _logger.LogWarning(ex, "----- ERROR Processing message \"{Message}\"", message);
             }
-
-            _channel.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
 
         public void Dispose()

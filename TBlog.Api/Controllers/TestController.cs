@@ -23,7 +23,7 @@ namespace TBlog.Api
         private readonly ISugarRepository<RoleEntity> _role;
         private readonly TestQueue _testQueue;
 
-        public TestController(IMenuService testServer, ILogger<TestController> logger, ISugarRepository<RoleEntity> role,TestQueue testQueue)
+        public TestController(IMenuService testServer, ILogger<TestController> logger, ISugarRepository<RoleEntity> role, TestQueue testQueue)
         {
             this._testServer = testServer;
             _logger = logger;
@@ -46,14 +46,29 @@ namespace TBlog.Api
         }
 
         /// <summary>
-        /// 测试
+        /// 测试队列入队
         /// </summary>
         [HttpGet]
         public APIResult TestQueue(string msg)
         {
             _testQueue.Enqueue(new TestQueueModel
             {
-                Msg= msg
+                Msg = msg
+            });
+            return APIResult.Success();
+        }
+
+
+        /// <summary>
+        /// 测试延迟队列入队
+        /// </summary>
+        [HttpGet]
+        public APIResult TestDelayQueue(string msg)
+        {
+            _testQueue.Enqueue(new TestQueueModel
+            {
+                Msg = msg,
+                DelaySecond = 10
             });
             return APIResult.Success();
         }

@@ -256,7 +256,12 @@
         </member>
         <member name="M:TBlog.Api.TestController.TestQueue(System.String)">
             <summary>
-            测试
+            测试队列入队
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.TestController.TestDelayQueue(System.String)">
+            <summary>
+            测试延迟队列入队
             </summary>
         </member>
         <member name="T:TBlog.Api.UserController">
