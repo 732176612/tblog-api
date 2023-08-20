@@ -106,13 +106,13 @@ namespace Tblog.RabbitMQ
             var delayExchageName = _queueName + "Exchange";
 
             //设置普通队列
-            Dictionary<string, object> args = new Dictionary<string, object>() { { "x-dead-letter-exchange", delayExchageName }, { "x-dead-letter-routing-key", "delay" } };
-            _channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: args);
+            Dictionary<string, object> args = new Dictionary<string, object>() { { "x-dead-letter-exchange", delayExchageName }, { "x-dead-letter-routing-key", delayQueueName } };
+            _channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: args);
 
             //设置死信队列
             _channel.ExchangeDeclare(delayExchageName, "direct", true, false, null);
             _channel.QueueDeclare(delayQueueName, true, false, false, null);
-            _channel.QueueBind(delayQueueName, delayExchageName, "delay", null);
+            _channel.QueueBind(delayQueueName, delayExchageName, delayQueueName, null);
             var delayConsumer = new AsyncEventingBasicConsumer(_channel);
             delayConsumer.Received += Consumer_Received;
             _channel.BasicConsume(
