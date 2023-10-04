@@ -9,17 +9,12 @@ EXPOSE 5901
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["TBlog.Api/TBlog.Api.csproj", "TBlog.Api/"]
-COPY ["TBlog.TencentCloud/TBlog.TencentCloud.csproj", "TBlog.TencentCloud/"]
 COPY ["TBlog.Common/TBlog.Common.csproj", "TBlog.Common/"]
 COPY ["TBlog.Extensions/TBlog.Extensions.csproj", "TBlog.Extensions/"]
-COPY ["TBlog.Tasks/TBlog.Tasks.csproj", "TBlog.Tasks/"]
-COPY ["TBlog.IService/TBlog.IService.csproj", "TBlog.IService/"]
 COPY ["TBlog.Model/TBlog.Model.csproj", "TBlog.Model/"]
-COPY ["TBlog.Redis/TBlog.Redis.csproj", "TBlog.Redis/"]
 COPY ["TBlog.Repository/TBlog.Repository.csproj", "TBlog.Repository/"]
-COPY ["TBlog.IRepository/TBlog.IRepository.csproj", "TBlog.IRepository/"]
-COPY ["TBlog.EventBus/TBlog.EventBus.csproj", "TBlog.EventBus/"]
 COPY ["TBlog.Service/TBlog.Service.csproj", "TBlog.Service/"]
+COPY ["Tblog.RabbitMQ/Tblog.RabbitMQ.csproj", "Tblog.RabbitMQ/"]
 RUN dotnet restore "TBlog.Api/TBlog.Api.csproj"
 COPY . .
 WORKDIR "/src/TBlog.Api"

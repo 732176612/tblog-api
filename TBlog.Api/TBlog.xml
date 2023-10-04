@@ -264,6 +264,11 @@
             测试延迟队列入队
             </summary>
         </member>
+        <member name="M:TBlog.Api.TestController.TestBatchDelayQueue(System.String)">
+            <summary>
+            测试延迟队列入队
+            </summary>
+        </member>
         <member name="T:TBlog.Api.UserController">
             <summary>
             用户API
