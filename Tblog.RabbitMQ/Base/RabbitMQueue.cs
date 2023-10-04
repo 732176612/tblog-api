@@ -46,7 +46,7 @@ namespace Tblog.RabbitMQ
         /// </summary>
         public void InitTask()
         {
-            for (int i = 0; i < _blockCollection.Count; i++)
+            for (int i = 0; i < _blockCollection.BoundedCapacity; i++)
             {
                 Task.Factory.StartNew(async () =>
                 {
@@ -101,7 +101,7 @@ namespace Tblog.RabbitMQ
 
             //设置死信队列
             _channel.ExchangeDeclare(delayExchageName, "direct", true, false, null);
-            _channel.QueueDeclare(delayQueueName, true, false, false, null);
+            _channel.QueueDeclare(delayQueueName, durable: true, exclusive: false, autoDelete: false, null);
             _channel.QueueBind(delayQueueName, delayExchageName, delayQueueName, null);
             var delayConsumer = new AsyncEventingBasicConsumer(_channel);
             delayConsumer.Received += Consumer_Received;
@@ -142,10 +142,7 @@ namespace Tblog.RabbitMQ
             {
                 var properties = channel.CreateBasicProperties();
                 properties.DeliveryMode = 2; // 持久化
-                if (msg.DelaySecond != 0)
-                {
-                    properties.Expiration = (msg.DelaySecond * 1000).ToString();//延迟时间
-                }
+                properties.Expiration = msg.DelaySecond == 0 ? "100" : (msg.DelaySecond * 1000).ToString();//延迟时间
                 channel.ConfirmSelect();
                 channel.BasicPublish(exchange: "", _queueName, basicProperties: properties, body: body);
                 var flag = channel.WaitForConfirms();
