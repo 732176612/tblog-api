@@ -92,7 +92,7 @@ namespace TBlog.Repository
         {
             if (value != null)
             {
-                await _database.PublishAsync(key, SerializeHelper.Serialize(value));
+                await _database.ListLeftPushAsync(key, SerializeHelper.Serialize(value));
             }
         }
 

@@ -254,6 +254,11 @@
             测试
             </summary>
         </member>
+        <member name="M:TBlog.Api.TestController.TestRedis(System.String)">
+            <summary>
+            测试
+            </summary>
+        </member>
         <member name="M:TBlog.Api.TestController.TestQueue(System.String)">
             <summary>
             测试队列入队
