@@ -83,7 +83,7 @@ namespace TBlog.Api
             {
                 _testQueue.Enqueue(new TestQueueModel
                 {
-                    Msg = msg.ToString(),
+                    Msg = i.ToString(),
                     DelaySecond = 10
                 });
             }
