@@ -9,7 +9,7 @@ using Autofac;
 namespace TBlog.Extensions
 {
     /// <summary>
-    /// Db 启动服务
+    /// RabbitMQ启动服务
     /// </summary>
     public static class RabbitMQSetup
     {

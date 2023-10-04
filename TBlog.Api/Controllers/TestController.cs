@@ -72,5 +72,22 @@ namespace TBlog.Api
             });
             return APIResult.Success();
         }
+
+        /// <summary>
+        /// 测试延迟队列入队
+        /// </summary>
+        [HttpGet]
+        public APIResult TestBatchDelayQueue(string msg)
+        {
+            for (int i = 1; i <= 1000; i++)
+            {
+                _testQueue.Enqueue(new TestQueueModel
+                {
+                    Msg = msg.ToString(),
+                    DelaySecond = 10
+                });
+            }
+            return APIResult.Success();
+        }
     }
 }

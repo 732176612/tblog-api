@@ -16,57 +16,49 @@ using System.Diagnostics.Tracing;
 
 namespace Tblog.RabbitMQ
 {
-    public abstract class RabbitMQueue<T> : IDisposable where T : MessageModel
+    public abstract class RabbitMQueue<T> : IDisposable where T : MessageModel, new()
     {
         private readonly IRabbitMQConnection _persistentConnection;
         protected readonly ILogger<RabbitMQueue<T>> _logger;
         private readonly int _retryCount;
-        private IModel _channel;
+        private IModel? _channel;
         private string _queueName;
         private BlockingCollection<T> _blockCollection;
+        private bool IsDisposeing;
 
         /// <summary>
-        /// RabbitMQ事件总线
+        /// 初始化
         /// </summary>
+        /// <param name="parrelTaskCount">并行任务数</param>
+        /// <param name="retryCount">重试次数</param>
         public RabbitMQueue(IRabbitMQConnection persistentConnection, ILogger<RabbitMQueue<T>> logger, string queueName = "", int parrelTaskCount = 1, int retryCount = 5)
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _blockCollection = new BlockingCollection<T>(parrelTaskCount);
             _retryCount = retryCount;
+            _queueName = string.IsNullOrEmpty(queueName) ? $"{typeof(T).Name.Replace("Model", "")}" : queueName;
+            InitTask();
+        }
 
-            if (string.IsNullOrEmpty(_queueName))
-            {
-                _queueName = $"{typeof(T).Name.Replace("Model", "")}";
-            }
-            else
-            {
-                _queueName = queueName;
-            }
-
-            for (int i = 0; i < parrelTaskCount; i++)
+        /// <summary>
+        /// 初始化多线程
+        /// </summary>
+        public void InitTask()
+        {
+            for (int i = 0; i < _blockCollection.Count; i++)
             {
                 Task.Factory.StartNew(async () =>
                 {
                     while (_blockCollection.IsCompleted == false)
                     {
-                        var isTry = _blockCollection.TryTake(out T message, 100);
+                        var isTry = _blockCollection.TryTake(out T? message, 100);
                         if (isTry && message != null)
                         {
                             bool result = false;
-                            var watch = new Stopwatch();
-                            watch.Start();
                             try
                             {
                                 result = DequeueAction(message);
-                            }
-                            catch (Exception ex)
-                            {
-                                logger.LogError(ex, "处理消息失败");
-                            }
-
-                            try
-                            {
                                 while (_channel == null) { await Task.Yield(); }
                                 if (result)
                                 {
@@ -79,22 +71,20 @@ namespace Tblog.RabbitMQ
                             }
                             catch (Exception ex)
                             {
-                                logger.LogError(ex, "处理消息失败");
+                                _logger.LogError(ex, $"{_queueName} HandleMessage Exception");
                             }
-
-                            watch.Stop();
                         }
                     }
                 }, TaskCreationOptions.LongRunning);
             }
-
         }
 
         /// <summary>
-        /// 定义队列
+        /// 初始化队列信息
         /// </summary>
         public void Start()
         {
+            if (IsDisposeing) return;
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
@@ -129,7 +119,7 @@ namespace Tblog.RabbitMQ
         }
 
         /// <summary>
-        /// 发布入队
+        /// 入队
         /// </summary>
         public void Enqueue(T msg)
         {
@@ -166,10 +156,13 @@ namespace Tblog.RabbitMQ
             });
         }
 
+        /// <summary>
+        /// 出队
+        /// </summary>
         public abstract bool DequeueAction(T model);
 
         /// <summary>
-        /// 消费者消费消息
+        /// 接收信息
         /// </summary>
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs eventArgs)
         {
@@ -183,6 +176,7 @@ namespace Tblog.RabbitMQ
                 }
 
                 var model = JsonConvert.DeserializeObject<T>(message);
+                if (model == null) model = new T();
                 model.DeliveryTag = eventArgs.DeliveryTag;
                 while (_blockCollection.TryAdd(model) == false)
                 {
@@ -195,27 +189,14 @@ namespace Tblog.RabbitMQ
             }
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public async void Dispose()
         {
-            if (_channel != null)
-            {
-                _channel.Dispose();
-            }
-
-            while (_blockCollection.Count != 0)
-            {
-                Thread.Sleep(100);
-            }
-        Retry:
-            try
-            {
-                _blockCollection.CompleteAdding();
-            }
-            catch
-            {
-                Thread.Sleep(100);
-                goto Retry;
-            }
+            IsDisposeing = true;
+            if (_channel != null) _channel.Dispose();
+            while (_blockCollection.Count != 0) await Task.Yield();
         }
     }
 }

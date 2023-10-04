@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
+    <ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
   </ItemGroup>
 
 </Project>
