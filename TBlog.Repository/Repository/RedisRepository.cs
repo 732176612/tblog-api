@@ -86,6 +86,17 @@ namespace TBlog.Repository
         }
 
         /// <summary>
+        /// 设置
+        /// </summary>
+        public async Task Publish(string key, object value)
+        {
+            if (value != null)
+            {
+                await _database.PublishAsync(key, SerializeHelper.Serialize(value));
+            }
+        }
+
+        /// <summary>
         /// 增加/修改
         /// </summary>
         /// <param name="key"></param>
