@@ -59,7 +59,7 @@ namespace Tblog.RabbitMQ
                             try
                             {
                                 result = DequeueAction(message);
-                                while (_channel == null) { await Task.Yield(); }
+                                while (_channel == null) { await Task.Delay(10); }
                                 if (result)
                                 {
                                     _channel.BasicAck(message.DeliveryTag, multiple: false);
@@ -142,7 +142,7 @@ namespace Tblog.RabbitMQ
             {
                 var properties = channel.CreateBasicProperties();
                 properties.DeliveryMode = 2; // 持久化
-                properties.Expiration = msg.DelaySecond == 0 ? "100" : (msg.DelaySecond * 1000).ToString();//延迟时间
+                properties.Expiration = msg.DelaySecond == 0 ? "0" : (msg.DelaySecond * 1000).ToString();//延迟时间
                 channel.ConfirmSelect();
                 channel.BasicPublish(exchange: "", _queueName, basicProperties: properties, body: body);
                 var flag = channel.WaitForConfirms();
@@ -177,7 +177,7 @@ namespace Tblog.RabbitMQ
                 model.DeliveryTag = eventArgs.DeliveryTag;
                 while (_blockCollection.TryAdd(model) == false)
                 {
-                    await Task.Yield();
+                    await Task.Delay(10);
                 }
             }
             catch (Exception ex)

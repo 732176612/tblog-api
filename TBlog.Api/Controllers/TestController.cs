@@ -96,7 +96,7 @@ namespace TBlog.Api
                 _testQueue.Enqueue(new TestQueueModel
                 {
                     Msg = (i + 1).ToString(),
-                    DelaySecond = 10
+                    DelaySecond = 0
                 });
             });
             return APIResult.Success();
