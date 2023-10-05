@@ -52,7 +52,7 @@ namespace Tblog.RabbitMQ
                 {
                     while (_blockCollection.IsCompleted == false)
                     {
-                        var isTry = _blockCollection.TryTake(out T? message, 100);
+                        var isTry = _blockCollection.TryTake(out T? message, 10);
                         if (isTry && message != null)
                         {
                             bool result = false;

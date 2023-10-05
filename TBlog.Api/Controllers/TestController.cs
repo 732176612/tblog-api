@@ -53,7 +53,7 @@ namespace TBlog.Api
         [HttpGet]
         public APIResult TestRedis(string msg)
         {
-            _redis.Publish("TestQueue", msg);
+            _redis.ListLeftPush("TestQueue", msg);
             return APIResult.Success();
         }
 
@@ -89,13 +89,13 @@ namespace TBlog.Api
         /// 测试延迟队列入队
         /// </summary>
         [HttpGet]
-        public APIResult TestBatchDelayQueue(string msg)
+        public APIResult TestBatchDelayQueue(int count)
         {
-            Parallel.For(1, 10000, (i) =>
+            Parallel.For(0, count, (i) =>
             {
                 _testQueue.Enqueue(new TestQueueModel
                 {
-                    Msg = msg,
+                    Msg = (i + 1).ToString(),
                     DelaySecond = 10
                 });
             });

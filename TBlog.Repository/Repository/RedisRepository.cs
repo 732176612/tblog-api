@@ -88,12 +88,13 @@ namespace TBlog.Repository
         /// <summary>
         /// 设置
         /// </summary>
-        public async Task Publish(string key, object value)
+        public async Task<long> ListLeftPush(string key, object value)
         {
             if (value != null)
             {
-                await _database.ListLeftPushAsync(key, SerializeHelper.Serialize(value));
+                return await _database.ListLeftPushAsync(key, SerializeHelper.Serialize(value));
             }
+            return 0;
         }
 
         /// <summary>

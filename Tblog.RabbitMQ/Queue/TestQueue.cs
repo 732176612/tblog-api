@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TBlog.Common;
 using TBlog.IRepository;
 
 namespace Tblog.RabbitMQ
@@ -21,9 +22,8 @@ namespace Tblog.RabbitMQ
 
         public override bool DequeueAction(TestQueueModel model)
         {
-            _redis.Publish("TestQueue", model.Msg);
             _logger.LogInformation("收到了消息:" + model.Msg);
-            return true;
+            return _redis.ListLeftPush("TestQueue", model.Msg).Result > 0;
         }
     }
 }
