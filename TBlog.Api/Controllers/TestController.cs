@@ -91,14 +91,14 @@ namespace TBlog.Api
         [HttpGet]
         public APIResult TestBatchDelayQueue(string msg)
         {
-            for (int i = 1; i <= 1000; i++)
+            Parallel.For(1, 10000, (i) =>
             {
                 _testQueue.Enqueue(new TestQueueModel
                 {
-                    Msg = i.ToString(),
+                    Msg = msg,
                     DelaySecond = 10
                 });
-            }
+            });
             return APIResult.Success();
         }
     }
