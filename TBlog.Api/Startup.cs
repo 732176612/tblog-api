@@ -59,7 +59,7 @@ namespace TBlog.Api
             services.AddSwaggerSetup();
             services.AddHttpContextSetup();
 
-            services.AddRabbitMQSetup();
+            //services.AddRabbitMQSetup();
 
             //  ⁄»®+»œ÷§ (jwt or ids4)
             services.AddAuthorizationSetup();
@@ -173,10 +173,10 @@ namespace TBlog.Api
 
             app.UseConsulMildd(lifetime);
 
-            if (env.IsDevelopment() == false)
-            {
-                app.ApplicationServices.GetService<TestQueue>().Start();
-            }
+            //if (env.IsDevelopment() == false)
+            //{
+            //    app.ApplicationServices.GetService<TestQueue>().Start();
+            //}
         }
     }
 }
