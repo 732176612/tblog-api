@@ -20,7 +20,6 @@ namespace TBlog.Common
         /// <summary>
         /// 获取配置信息
         /// </summary>
-        /// <returns></returns>
         public static T GetConfig<T>(string name) where T : new()
         {
             T result = new T();

@@ -23,26 +23,26 @@ namespace TBlog.Api
         /// <param name="builder"></param>
         protected override void Load(ContainerBuilder builder)
         {
-            var cacheType = new List<Type>();
+            var cacheTypes = new List<Type>();
             if (ApiConfig.AOPSetting.RedisCacheAOP)
             {
                 builder.RegisterType<RedisCacheAOP>();
-                cacheType.Add(typeof(RedisCacheAOP));
+                cacheTypes.Add(typeof(RedisCacheAOP));
             }
             if (ApiConfig.AOPSetting.MemoryCachingAOP)
             {
                 builder.RegisterType<MemoryCachingAOP>();
-                cacheType.Add(typeof(MemoryCachingAOP));
+                cacheTypes.Add(typeof(MemoryCachingAOP));
             }
             if (ApiConfig.AOPSetting.TransactionProcessAOP)
             {
                 builder.RegisterType<TransactionAOP>();
-                cacheType.Add(typeof(TransactionAOP));
+                cacheTypes.Add(typeof(TransactionAOP));
             }
             if (ApiConfig.AOPSetting.ServerLogAOP)
             {
                 builder.RegisterType<ServerLogAOP>();
-                cacheType.Add(typeof(ServerLogAOP));
+                cacheTypes.Add(typeof(ServerLogAOP));
             }
 
             builder.RegisterGeneric(typeof(MongoRepository<>)).As(typeof(IMongoRepository<>)).InstancePerDependency();
@@ -56,7 +56,7 @@ namespace TBlog.Api
                       .InstancePerDependency()
                       .PropertiesAutowired()
                       .EnableInterfaceInterceptors()
-                      .InterceptedBy(cacheType.ToArray());
+                      .InterceptedBy(cacheTypes.ToArray());
 
             var repositoryDllFile = Path.Combine(AppContext.BaseDirectory, "TBlog.Repository.dll");
             var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);

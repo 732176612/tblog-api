@@ -46,9 +46,7 @@ namespace TBlog.Api
             ChangeToken.OnChange(() => Configuration.GetReloadToken(), () =>
             {
                 services.AddSingleton(new ApiConfig(Configuration, AppDomain.CurrentDomain.BaseDirectory));
-                var test = ApiConfig.Elasticsearch;
-            }
-            );
+            });
             services.AddSingleton(new LogLock(AppDomain.CurrentDomain.BaseDirectory));
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -176,7 +174,10 @@ namespace TBlog.Api
 
             app.UseConsulMildd(lifetime);
 
-            app.ApplicationServices.GetService<TestQueue>().Start();
+            if (env.IsDevelopment() == false)
+            {
+                app.ApplicationServices.GetService<TestQueue>().Start();
+            }
         }
     }
 }

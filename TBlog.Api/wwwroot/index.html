@@ -1,0 +1,62 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-10-16 15:31:30
+ * @LastEditTime: 2022-06-04 16:15:37
+ * @LastEditors: FalseEndLess 732176612@qq.com
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \tblog\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/view/favicon.ico" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no,maximum-scale=1.0,user-scalable=0">
+  <link href="/view/mescroll/mescroll.min.css" rel="stylesheet" type="text/css">
+  <title>TBlog</title>
+  <script type="module" crossorigin src="/view/assets/index.ce7f6181.js"></script>
+  <link rel="modulepreload" href="/view/assets/vendor.5dbb932c.js">
+  <link rel="stylesheet" href="/view/assets/vendor.fac1b1a7.css">
+  <link rel="stylesheet" href="/view/assets/index.49fef10e.css">
+</head>
+
+<body class="bg-light">
+  <div class="w-100 h-100" id="app"></div>
+  
+  <script src="/view/js/utils.js"></script>
+  <script src="/view/mescroll/mescroll.min.js"></script>
+  <script>
+     // 禁止双击放大
+    document.documentElement.addEventListener(
+      "touchstart",
+      function (event) {
+        if (event.touches.length > 1) {
+          event.preventDefault();
+        }
+      }, {
+        passive: false
+      }
+    );
+    let lastTouchEnd = 0;
+    document.documentElement.addEventListener(
+      "touchend",
+      function (event) {
+        var now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, {
+        passive: false
+      }
+    );
+  </script>
+</body>
+
+</html>
+
+<style>
+
+</style>
