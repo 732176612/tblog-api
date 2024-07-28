@@ -60,7 +60,7 @@ namespace TBlog.Api
             services.AddSwaggerSetup();
             services.AddHttpContextSetup();
 
-            services.AddRabbitMQSetup();
+            //services.AddRabbitMQSetup();
 
             //  ⁄»®+»œ÷§ (jwt or ids4)
             services.AddAuthorizationSetup();
