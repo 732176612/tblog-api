@@ -10,11 +10,12 @@ jobs:
     - name: Login To Docker #登录到镜像仓库
       uses: docker/login-action@v1
       with:
+        registry: registry.cn-hangzhou.aliyuncs.com
         username: ${{ secrets.DOCKER_IMAGESTORE_USERNAME }}
         password: ${{ secrets.DOCKER_IMAGESTORE_PASSWORD }}
     - name: Build Docker Image
       uses: docker/build-push-action@v3.0.0
       with:
-        tags: falseendless/tblogapi:latest
+        tags: registry.cn-hangzhou.aliyuncs.com/tblog/tblog:latest
         file: TBlog.Api/Dockerfile
         push: true
