@@ -4,7 +4,6 @@ global using TBlog.Model;
 global using TBlog.Repository;
 global using System;
 global using TBlog.Common;
-
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,7 +59,7 @@ namespace TBlog.Api
             services.AddSwaggerSetup();
             services.AddHttpContextSetup();
 
-            //services.AddRabbitMQSetup();
+            services.AddRabbitMQSetup();
 
             //  ⁄»®+»œ÷§ (jwt or ids4)
             services.AddAuthorizationSetup();
