@@ -3,14 +3,18 @@ namespace TBlog.Service
 {
     public class MediaInfoService : BaseService<MediaInfoEntity>, IMediaInfoService
     {
-        public MediaInfoService(IMongoRepository<MediaInfoEntity> baseRepository) : base(baseRepository) { }
+        private readonly IMongoRepository<MediaInfoEntity> Repository;
+        public MediaInfoService(IMongoRepository<MediaInfoEntity> baseRepository) 
+        {
+            Repository = baseRepository;
+        }
 
         public async Task<string> UpLoadFile(long userId, string path, IFormFile formFile, string fileName = "")
         {
             var url = await TencentCloudCos.UpLoadFile(formFile, $"resource/{userId}/{path}", fileName);
             if (string.IsNullOrEmpty(url) == false)
             {
-                await baseRepository.AddEntity(new MediaInfoEntity
+                await Repository.AddEntity(new MediaInfoEntity
                 {
                     Id = IdBuilder.CreateId(),
                     Size = formFile.Length,
@@ -28,7 +32,7 @@ namespace TBlog.Service
             var url = TencentCloudCos.UpLoadFile(fileByte, $"resource/{userId}/{path}", fileName);
             if (string.IsNullOrEmpty(url) == false)
             {
-                await baseRepository.AddEntity(new MediaInfoEntity
+                await Repository.AddEntity(new MediaInfoEntity
                 {
                     Id = IdBuilder.CreateId(),
                     Size = fileByte.Length,

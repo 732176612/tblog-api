@@ -35,11 +35,10 @@ namespace TBlog.Test
             IServiceCollection services = new ServiceCollection().AddLogging();
             services.AddSingleton(new ApiConfig(new ConfigurationBuilder()
                .SetBasePath(basePath)
-               .Add(new JsonConfigurationSource { Path = "appsettings.Development.json", Optional = false, ReloadOnChange = true })
+               .Add(new JsonConfigurationSource { Path = "appsettings.json", Optional = false, ReloadOnChange = true })
                .Build(), basePath));
             services.AddAutoMapper(typeof(Startup));
             services.AddMongoDBSetup();
-            services.AddSqlsugarSetup();
 
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(MongoRepository<>)).As(typeof(IMongoRepository<>)).InstancePerDependency();

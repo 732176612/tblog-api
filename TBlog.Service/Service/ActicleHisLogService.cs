@@ -3,7 +3,7 @@
     public class ActicleHisLogService : BaseService<ActicleHisLogEntity>, IActicleHisLogService
     {
         private readonly IActicleHisLogRepository _ActicleHisLogRepository;
-        public ActicleHisLogService(IActicleHisLogRepository acticleHisLogRepository) : base(acticleHisLogRepository)
+        public ActicleHisLogService(IActicleHisLogRepository acticleHisLogRepository)
         {
             _ActicleHisLogRepository = acticleHisLogRepository;
         }

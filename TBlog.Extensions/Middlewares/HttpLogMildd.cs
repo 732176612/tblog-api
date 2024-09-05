@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TBlog.Common;
 using System.Linq;
-using TBlog.IRepository;
 using TBlog.Model;
-using System.Diagnostics;
+using TBlog.Repository;
 
 namespace TBlog.Extensions
 {
@@ -21,14 +18,12 @@ namespace TBlog.Extensions
         private readonly RequestDelegate _next;
         private readonly ILogger<HttpLogMildd> _logger;
         private readonly IClaimUser _user;
-        private readonly ISugarRepository<HttpLogEntity> _httpLogRepository;
 
-        public HttpLogMildd(RequestDelegate next, IClaimUser user, ISugarRepository<HttpLogEntity> httpLogRepository, ILogger<HttpLogMildd> logger)
+        public HttpLogMildd(RequestDelegate next, IClaimUser user, ILogger<HttpLogMildd> logger)
         {
             _next = next;
             _logger = logger;
             _user = user;
-            _httpLogRepository = httpLogRepository;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -56,7 +51,7 @@ namespace TBlog.Extensions
                         StartDate = startDate,
                         EndDate = endDate
                     };
-                    await _httpLogRepository.AddEntity(httpLogEntity);
+                    await SqlSugarHelper.DB.Insertable(httpLogEntity).ExecuteCommandAsync();
                 }
                 catch (Exception ex)
                 {

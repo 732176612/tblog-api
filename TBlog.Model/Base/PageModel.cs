@@ -9,18 +9,22 @@
         /// 当前页标
         /// </summary>
         public long PageIndex { get; set; }
+
         /// <summary>
         /// 总页数
         /// </summary>
-        public long PageCount { get; set; }
+        public long PageCount => Math.Ceiling(TotalCount / (decimal)PageSize).ToInt();
+
         /// <summary>
         /// 数据总数
         /// </summary>
         public long TotalCount { get; set; }
+
         /// <summary>
         /// 每页大小
         /// </summary>
         public long PageSize { set; get; }
+
         /// <summary>
         /// 返回数据
         /// </summary>
@@ -35,7 +39,6 @@
             {
                 PageSize = pageModel.PageSize,
                 Data = data,
-                PageCount = pageModel.PageCount,
                 PageIndex = pageModel.PageIndex,
                 TotalCount = pageModel.TotalCount,
             };

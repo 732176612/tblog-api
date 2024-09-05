@@ -3,14 +3,14 @@
     public class EduInfoService : BaseService<EduInfoEntity>, IEduInfoService
     {
         readonly IMongoRepository<EduInfoEntity> _EduInfoRepository;
-        public EduInfoService(IMongoRepository<EduInfoEntity> eduInfoRepository) : base(eduInfoRepository)
+        public EduInfoService(IMongoRepository<EduInfoEntity> eduInfoRepository) 
         {
             _EduInfoRepository = eduInfoRepository;
         }
 
         public async Task<IEnumerable<EduInfoDto>> Get(long cuserid)
         {
-            return (await Get(c => c.CUserId == cuserid)).ToDto<EduInfoDto, EduInfoEntity>();
+            return (await _EduInfoRepository.Get(c => c.CUserId == cuserid)).ToDto<EduInfoDto, EduInfoEntity>();
         }
 
         [Transaction]

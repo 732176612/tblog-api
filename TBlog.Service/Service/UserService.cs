@@ -2,28 +2,27 @@
 {
     public class UserService : BaseService<UserEntity>, IUserService
     {
-        private readonly IUserRepository _IUserRepository;
+        private readonly IUserRepository Repository;
         private readonly IRoleRepository _IRoleRepository;
-        public UserService(IUserRepository userRepository, IRoleRepository roleRepository) : base(userRepository)
+        public UserService(IUserRepository userRepository, IRoleRepository roleRepository) 
         {
-            baseRepository = userRepository;
-            _IUserRepository = userRepository;
+            Repository = userRepository;
             _IRoleRepository = roleRepository;
         }
 
         public async Task<bool> CheckHavePhoneOrMail(string phoneOrMail)
         {
-            return await _IUserRepository.GetByPhoneOrMail(phoneOrMail) != null;
+            return await Repository.GetByPhoneOrMail(phoneOrMail) != null;
         }
 
         public async Task<bool> CheckHaveBlogName(string blogName)
         {
-            return await _IUserRepository.GetByBlogName(blogName) != null;
+            return await Repository.GetByBlogName(blogName) != null;
         }
 
         public async Task<UserEntity> SaveUserInfo(long userId, UserInfoDto dto)
         {
-            var userEntity = await _IUserRepository.GetById(userId);
+            var userEntity = await Repository.GetById(userId);
             if (userEntity == null)
             {
                 throw new TBlogApiException("错误的授权信息，请退出重新登陆");
@@ -62,13 +61,13 @@
             userEntity.ResumeName = dto.ResumeName;
             userEntity.BackgroundUrl = dto.BackgroundUrl;
             userEntity.StyleColor = dto.StyleColor;
-            await Update(userEntity);
+            await Repository.Update(userEntity);
             return userEntity;
         }
 
         public async Task<UserInfoDto> GetUserInfo(string blogName)
         {
-            var userEntity = await _IUserRepository.GetByBlogName(blogName);
+            var userEntity = await Repository.GetByBlogName(blogName);
             if (userEntity == null) return null;
             var dto = userEntity.ToDto<UserInfoDto, UserEntity>();
             return dto;
@@ -87,18 +86,18 @@
             {
                 entity.RoleIds = new long[] { userRole.Id };
             }
-            await _IUserRepository.AddEntity(entity);
+            await Repository.AddEntity(entity);
         }
 
         public async Task<UserEntity> LoginUser(UserLoginDto dto)
         {
-            var entity = await _IUserRepository.GetByPhoneOrMail(dto.PhoneOrMail);
+            var entity = await Repository.GetByPhoneOrMail(dto.PhoneOrMail);
             if (entity == null || !entity.Password.Equals(MD5Helper.MD5Encrypt32(dto.Password)))
             {
                 return null;
             }
             entity.LoginDate = DateTime.Today.ToUniversalTime();
-            await Update(entity);
+            await Repository.Update(entity);
             return entity;
         }
     }

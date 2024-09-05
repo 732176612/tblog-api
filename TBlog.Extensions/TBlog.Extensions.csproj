@@ -21,7 +21,6 @@
 		<PackageReference Include="MiniProfiler.Shared" Version="4.2.22" />
 		<PackageReference Include="NEST" Version="7.17.4" />
 		<PackageReference Include="Quartz" Version="3.3.2" />
-		<PackageReference Include="SqlSugarCore" Version="5.1.1" />
 		<PackageReference Include="StackExchange.Redis" Version="2.2.62" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.4" />

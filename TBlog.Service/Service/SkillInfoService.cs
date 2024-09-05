@@ -2,15 +2,15 @@
 {
     public class SkillInfoService : BaseService<SkillInfoEntity>, ISkillInfoService
     {
-        readonly IMongoRepository<SkillInfoEntity> _SkillInfoRepository;
-        public SkillInfoService(IMongoRepository<SkillInfoEntity> skillInfoRepository) : base(skillInfoRepository)
+        readonly IMongoRepository<SkillInfoEntity> Repository;
+        public SkillInfoService(IMongoRepository<SkillInfoEntity> skillInfoRepository)
         {
-            _SkillInfoRepository = skillInfoRepository;
+            Repository = skillInfoRepository;
         }
 
         public async Task<IEnumerable<SkillInfoDto>> Get(long cuserid)
         {
-            return (await Get(c => c.CUserId == cuserid)).ToDto<SkillInfoDto, SkillInfoEntity>();
+            return (await Repository.Get(c => c.CUserId == cuserid)).ToDto<SkillInfoDto, SkillInfoEntity>();
         }
 
         [Transaction]
@@ -24,8 +24,8 @@
                     item.CUserId = cuserid;
                     item.Id = IdBuilder.CreateId();
                 }
-                await _SkillInfoRepository.Delete(c => c.CUserId == cuserid);
-                await _SkillInfoRepository.AddEntities(entities.ToList());
+                await Repository.Delete(c => c.CUserId == cuserid);
+                await Repository.AddEntities(entities.ToList());
             }
             catch (Exception ex)
             {

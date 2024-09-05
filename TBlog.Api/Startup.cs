@@ -53,7 +53,6 @@ namespace TBlog.Api
             services.AddRedisCacheSetup();
             services.AddElasticsearchSetup();
             services.AddMongoDBSetup();
-            services.AddSqlsugarSetup();
             services.AddCorsSetup();
             services.AddMiniProfilerSetup();
             services.AddSwaggerSetup();

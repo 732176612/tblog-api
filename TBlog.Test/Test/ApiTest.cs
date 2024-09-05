@@ -30,6 +30,12 @@ namespace TBlog.Test
         Init_Test Init = new Init_Test();
 
         [Fact]
+        public void CodeFirst()
+        {
+            SqlSugarHelper.DB.CodeFirst.SplitTables().InitTables(typeof(HttpLogEntity));
+        }
+
+        [Fact]
         public async void InitRole()
         {
             var roleRepository = ContainerHelper.Resolve<IRoleRepository>();
@@ -63,7 +69,7 @@ namespace TBlog.Test
         {
             var menuRepository = ContainerHelper.Resolve<IMenuRepository>();
 
-             await menuRepository.Delete(c=>true);
+            await menuRepository.Delete(c => true);
 
             var indexEntity = new MenuEntity()
             {

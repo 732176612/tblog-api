@@ -2,14 +2,15 @@
 {
     public class ProjectInfoService : BaseService<ProjectInfoEntity>, IProjectInfoService
     {
-        public ProjectInfoService(IMongoRepository<ProjectInfoEntity> projectInfoRepository) : base(projectInfoRepository)
+        readonly IMongoRepository<ProjectInfoEntity> Repository;
+        public ProjectInfoService(IMongoRepository<ProjectInfoEntity> projectInfoRepository)
         {
-            baseRepository = projectInfoRepository;
+            Repository = projectInfoRepository;
         }
 
         public async Task<IEnumerable<ProjectInfoDto>> Get(long cuserid)
         {
-            var entities = await Get(c => c.CUserId == cuserid);
+            var entities = await Repository.Get(c => c.CUserId == cuserid);
             if (entities == null || entities.Any() == false) return Enumerable.Empty<ProjectInfoDto>();
             return entities.ToDto<ProjectInfoDto, ProjectInfoEntity>();
         }
@@ -25,8 +26,8 @@
                     item.CUserId = cuserid;
                     item.Id = IdBuilder.CreateId();
                 }
-                await Delete(c => c.CUserId == cuserid);
-                await AddEntities(entities.ToList());
+                await Repository.Delete(c => c.CUserId == cuserid);
+                await Repository.AddEntities(entities.ToList());
             }
             catch (Exception ex)
             {

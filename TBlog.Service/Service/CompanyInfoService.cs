@@ -2,14 +2,15 @@
 {
     public class CompanyInfoService : BaseService<CompanyInfoEntity>, ICompanyInfoService
     {
-        public CompanyInfoService(IMongoRepository<CompanyInfoEntity> companyInfoRepository) : base(companyInfoRepository)
+        private readonly IMongoRepository<CompanyInfoEntity> Repository;
+        public CompanyInfoService(IMongoRepository<CompanyInfoEntity> companyInfoRepository)
         {
-            baseRepository = companyInfoRepository;
+            Repository = companyInfoRepository;
         }
 
         public async Task<IEnumerable<CompanyInfoDto>> Get(long cuserid)
         {
-            return (await Get(c => c.CUserId == cuserid)).ToDto<CompanyInfoDto, CompanyInfoEntity>();
+            return (await Repository.Get(c => c.CUserId == cuserid)).ToDto<CompanyInfoDto, CompanyInfoEntity>();
         }
 
         [Transaction]
@@ -23,8 +24,8 @@
                     item.CUserId = cuserid;
                     item.Id = IdBuilder.CreateId();
                 }
-                await baseRepository.Delete(c => c.CUserId == cuserid);
-                await baseRepository.AddEntities(entities.ToList());
+                await Repository.Delete(c => c.CUserId == cuserid);
+                await Repository.AddEntities(entities.ToList());
             }
             catch (Exception ex)
             {

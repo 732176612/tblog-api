@@ -10,7 +10,7 @@
         private readonly IElasticClient _ElasticClient;
         public ActicleService(IActicleRepository acticleRepository, IRoleRepository roleRepository, IUserRepository userRepository,
             IActicleHisLogService acticleHisLogService, IActicleHisLogRepository acticleHisLogRepository,
-            IElasticClient elasticClient) : base(acticleRepository)
+            IElasticClient elasticClient)
         {
             _ActicleRepository = acticleRepository;
             _RoleRepository = roleRepository;
@@ -75,7 +75,7 @@
 
         public async Task<ActicleDto> GetActicle(long id, long userid)
         {
-            var entity = await GetById(id);
+            var entity = await _ActicleRepository.GetById(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -142,7 +142,7 @@
                 filter = filter.AddExp(c => acticleIds.Contains(c.Id));
             }
 
-            var pages = await GetPage(pageIndex, pageSize, filter, sortDir);
+            var pages = await _ActicleRepository.GetPage(pageIndex, pageSize, filter, sortDir);
             var listData = pages.Data.ToDto<ActicleDto, ActicleEntity>();
             foreach (var item in listData)
             {
@@ -202,7 +202,7 @@
 
         public async Task LikeArticle(long id, long cuserid, string ipAddress)
         {
-            var entity = await GetById(id);
+            var entity = await _ActicleRepository.GetById(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -221,7 +221,7 @@
             }))
             {
                 entity.LikeNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Like);
-                await Update(entity);
+                await _ActicleRepository.Update(entity);
             }
             else
             {
@@ -231,7 +231,7 @@
 
         public async Task LookArticle(long id, long cuserid, string ipAddress)
         {
-            var entity = await GetById(id);
+            var entity = await _ActicleRepository.GetById(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -246,13 +246,13 @@
             {
 
                 entity.LookNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Look);
-                await Update(entity);
+                await _ActicleRepository.Update(entity);
             }
         }
 
         public async Task DeleteArticle(long id, long cuserid)
         {
-            var entity = await GetById(id);
+            var entity = await _ActicleRepository.GetById(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -264,7 +264,7 @@
             }
 
             entity.IsDeleted = true;
-            await Update(entity);
+            await _ActicleRepository.Update(entity);
             var path = new DocumentPath<ActicleEntity>(entity).Index(ApiConfig.Elasticsearch.DefaultIndex);
             var respone = await _ElasticClient.DeleteAsync(path);
         }

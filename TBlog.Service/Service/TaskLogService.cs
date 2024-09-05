@@ -2,9 +2,11 @@
 {
     public class TaskLogService : BaseService<TaskLogEntity>, ITaskLogService
     {
-        public TaskLogService(ISugarRepository<TaskLogEntity> baseRepository) : base(baseRepository)
+        readonly ISugarRepository<TaskLogEntity> Repository;
+
+        public TaskLogService(ISugarRepository<TaskLogEntity> baseRepository) 
         {
-            base.baseRepository = baseRepository;
+            Repository = baseRepository;
         }
     }
 }

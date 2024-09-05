@@ -3,8 +3,8 @@ using System;
 
 namespace TBlog.IRepository
 {
-    public interface ISqlSugarTransaction:ITransaction, IDisposable
+    public interface ISqlSugarTransaction : ITransaction, IDisposable
     {
-        SqlSugarClient GetDbClient();
+
     }
 }

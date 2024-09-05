@@ -138,8 +138,7 @@ namespace TBlog.Repository
                 list = await Collection.Aggregate().Match(filter).Facet(countFacet, dataFacet).ToListAsync();
             long totalCount = list.FirstOrDefault()?.Facets[0].Output<AggregateCountResult>().FirstOrDefault()?.Count ?? 0;
             var result = list.FirstOrDefault()?.Facets[1].Output<TEntity>();
-            int pageCount = Math.Ceiling(totalCount / (decimal)pageSize).ToInt();
-            return new PageModel<TEntity>() { TotalCount = totalCount, PageCount = pageCount, PageIndex = pageIndex, PageSize = pageSize, Data = result };
+            return new PageModel<TEntity>() { TotalCount = totalCount, PageIndex = pageIndex, PageSize = pageSize, Data = result };
         }
         #endregion
 
@@ -178,14 +177,7 @@ namespace TBlog.Repository
             else
             {
                 ReplaceOneResult respone = null;
-                try
-                {
-                    respone = await Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                respone = await Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity);
                 return respone.ModifiedCount == 1;
             }
         }

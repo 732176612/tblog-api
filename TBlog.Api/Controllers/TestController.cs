@@ -37,20 +37,6 @@ namespace TBlog.Api
         /// 测试
         /// </summary>
         [HttpGet]
-        public APIResult Test()
-        {
-            var test = _role.AddEntity(new RoleEntity
-            {
-                Id = 30000,
-                Name = "test"
-            });
-            return APIResult.Success();
-        }
-
-        /// <summary>
-        /// 测试
-        /// </summary>
-        [HttpGet]
         public APIResult TestRedis(string msg)
         {
             _redis.ListLeftPush("TestQueue", msg);

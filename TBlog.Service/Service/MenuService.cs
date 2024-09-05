@@ -2,16 +2,16 @@
 {
     public class MenuService : BaseService<MenuEntity>, IMenuService
     {
-        readonly IMenuRepository _menuRepository;
+        readonly IMenuRepository Repository;
 
-        public MenuService(IMenuRepository menuRepository) : base(menuRepository)
+        public MenuService(IMenuRepository menuRepository)
         {
-            _menuRepository = menuRepository;
+            Repository = menuRepository;
         }
 
         public IEnumerable<MenuDto> GetByRoleIds(IEnumerable<long> roleIds)
         {
-            var menuEntitys = _menuRepository.GetByRoleIds(roleIds).Where(c => c.Enabled).OrderBy(c => c.OrderSort).AsEnumerable();
+            var menuEntitys = Repository.GetByRoleIds(roleIds).Where(c => c.Enabled).OrderBy(c => c.OrderSort).AsEnumerable();
             return menuEntitys.ToDto<MenuDto, MenuEntity>();
         }
     }

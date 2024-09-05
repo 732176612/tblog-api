@@ -20,27 +20,24 @@ namespace TBlog.Api
     public class ElasticsearchController : ControllerBase
     {
         private readonly IElasticClient _ElasticClient;
-        private readonly IActicleService _ActicleServer;
         private readonly ILogger<ElasticsearchController> _logger;
 
-        public ElasticsearchController(ILogger<ElasticsearchController> logger, IActicleService ActicleServer, IElasticClient elasticClient)
+        public ElasticsearchController(ILogger<ElasticsearchController> logger, IElasticClient elasticClient)
         {
             _logger = logger;
-            _ActicleServer = ActicleServer;
             _ElasticClient = elasticClient;
         }
 
         /// <summary>
         /// 初始化 Elasticsearch 索引
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> Test()
         {
-            var allActicle= await _ActicleServer.GetAll();
+            var allActicle = await SqlSugarHelper.DB.Queryable<ActicleEntity>().ToListAsync();
             foreach (var acticle in allActicle)
             {
-               var test= await _ElasticClient.IndexDocumentAsync(acticle);
+                var test = await _ElasticClient.IndexDocumentAsync(acticle);
             }
             return APIResult.Success();
         }

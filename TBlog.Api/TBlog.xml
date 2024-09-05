@@ -170,7 +170,6 @@
             <summary>
             初始化 Elasticsearch 索引
             </summary>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.MediaController">
             <summary>
@@ -247,11 +246,6 @@
         <member name="T:TBlog.Api.TestController">
             <summary>
             菜单
-            </summary>
-        </member>
-        <member name="M:TBlog.Api.TestController.Test">
-            <summary>
-            测试
             </summary>
         </member>
         <member name="M:TBlog.Api.TestController.TestRedis(System.String)">
