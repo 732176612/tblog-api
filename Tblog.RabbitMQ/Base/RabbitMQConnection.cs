@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     /// <summary>
     /// RabbitMQ持久连接

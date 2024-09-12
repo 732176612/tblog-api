@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System;
-using Tblog.RabbitMQ;
+using TBlog.RabbitMQ;
 using Autofac;
 
 namespace TBlog.Extensions

@@ -1,9 +1,12 @@
-﻿namespace TBlog.Model
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TBlog.Model
 {
-    /// <summary>
-    /// 文章历史记录
-    /// </summary>
-    public class ActicleHisLogEntity : IEntity
+    public class IpAddressInfo : IEntity
     {
         #region 基础属性
         /// <summary>
@@ -35,26 +38,17 @@
         #endregion
 
         #region 实体属性
+        /// <summary>
+        /// IP
+        /// </summary>
+        [SugarColumn(ColumnDataType = "varchar", Length = 20)]
+        public string Ip { get; set; }
 
         /// <summary>
-        /// 文章Id
+        /// IP地址
         /// </summary>
-        public long ActicleId { get; set; }
-
-        /// <summary>
-        /// Ip地址
-        /// </summary>
-        public string IpAddress { get; set; }
-
-        /// <summary>
-        /// 操作类型
-        /// </summary>
-        public EnumActicleHisType HisType { get; set; }
-
-        /// <summary>
-        /// 创建者ID
-        /// </summary>
-        public long CUserId { get; set; }
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 255, IsNullable = true)]
+        public string Address { get; set; }
         #endregion
     }
 }

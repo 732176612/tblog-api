@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:8081",
-      "sslPort": 44353
-    }
-  },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
@@ -26,7 +18,7 @@
       },
       "sqlDebugging": false,
       "applicationUrl": "http://localhost:8081",
-      "nativeDebugging": true
+      "nativeDebugging": false
     },
     "Docker": {
       "commandName": "Docker",
@@ -34,6 +26,14 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
       "useSSL": true
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8081",
+      "sslPort": 44353
     }
   }
 }

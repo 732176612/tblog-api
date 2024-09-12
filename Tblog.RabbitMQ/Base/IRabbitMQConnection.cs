@@ -1,5 +1,5 @@
 ﻿using RabbitMQ.Client;
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     /// <summary>
     /// RabbitMQ持久连接

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TBlog.Common;
 using TBlog.IRepository;
 
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     public class TestQueue : RabbitMQueue<TestQueueModel>
     {

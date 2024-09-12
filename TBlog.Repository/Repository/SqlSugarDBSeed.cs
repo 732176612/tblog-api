@@ -18,7 +18,7 @@ namespace TBlog.Repository
         /// 异步添加种子数据
         /// </summary>
         /// <returns></returns>
-        public static async void SeedAsync(ISqlSugarClient _db)
+        public static async void SeedAsync()
         {
             if (ApiConfig.DBSetting.SeedDBEnabled)
                 try
@@ -42,7 +42,7 @@ namespace TBlog.Repository
                     Console.WriteLine("Create Database...");
                     if (ApiConfig.DBSetting.MainDB.DBType != DbType.Oracle.ToString())
                     {
-                        _db.DbMaintenance.CreateDatabase();
+                        DBHelper.DB.DbMaintenance.CreateDatabase();
                         $"Database created successfully!".WriteSuccessLine();
                     }
                     else
@@ -56,11 +56,11 @@ namespace TBlog.Repository
                                       select t).ToList();
                     modelTypes.ForEach(t =>
                     {
-                        if (!_db.DbMaintenance.IsAnyTable(t.Name))
+                        if (!DBHelper.DB.DbMaintenance.IsAnyTable(t.Name))
                         {
                             Console.WriteLine(t.Name);
                             var test = typeof(ActicleEntity).GetProperties().Select(c => c.GetCustomAttribute<SugarColumn>()).ToArray();
-                            _db.CodeFirst.InitTables(t);
+                            DBHelper.DB.CodeFirst.InitTables(t);
                         }
                     });
                     $"Tables created successfully!".WriteSuccessLine();
@@ -81,13 +81,13 @@ namespace TBlog.Repository
 
                         #region UserEntity
                         var typeName = "UserEntity";
-                        if (!await _db.Queryable<UserEntity>().AnyAsync())
+                        if (!await DBHelper.DB.Queryable<UserEntity>().AnyAsync())
                         {
                             string consoleVal = $"Table:{typeName} already exists...";
                             var fileStr = FileHelper.ReadFile(string.Format(ApiConfig.DBSetting.SeedDataFolderPath, typeName), Encoding.UTF8);
                             if (string.IsNullOrEmpty(fileStr))
                             {
-                                new SimpleClient<UserEntity>(_db).InsertRange(JsonHelper.ParseFormByJson<List<UserEntity>>(fileStr));
+                                new SimpleClient<UserEntity>(DBHelper.DB).InsertRange(JsonHelper.ParseFormByJson<List<UserEntity>>(fileStr));
                                 consoleVal = $"Table:{typeName} created success!";
                             }
                             Console.WriteLine(consoleVal);

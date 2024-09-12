@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using TBlog.IRepository;
-using Tblog.RabbitMQ;
+using TBlog.RabbitMQ;
 
 namespace TBlog.Api
 {

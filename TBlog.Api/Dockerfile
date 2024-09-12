@@ -14,7 +14,7 @@ COPY ["TBlog.Extensions/TBlog.Extensions.csproj", "TBlog.Extensions/"]
 COPY ["TBlog.Model/TBlog.Model.csproj", "TBlog.Model/"]
 COPY ["TBlog.Repository/TBlog.Repository.csproj", "TBlog.Repository/"]
 COPY ["TBlog.Service/TBlog.Service.csproj", "TBlog.Service/"]
-COPY ["Tblog.RabbitMQ/Tblog.RabbitMQ.csproj", "Tblog.RabbitMQ/"]
+COPY ["TBlog.RabbitMQ/TBlog.RabbitMQ.csproj", "TBlog.RabbitMQ/"]
 RUN dotnet restore "TBlog.Api/TBlog.Api.csproj"
 COPY . .
 WORKDIR "/src/TBlog.Api"

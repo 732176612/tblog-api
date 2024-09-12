@@ -34,7 +34,7 @@ namespace TBlog.Api
         [HttpGet]
         public async Task<APIResult> Test()
         {
-            var allActicle = await SqlSugarHelper.DB.Queryable<ActicleEntity>().ToListAsync();
+            var allActicle = await DBHelper.DB.Queryable<ActicleEntity>().ToListAsync();
             foreach (var acticle in allActicle)
             {
                 var test = await _ElasticClient.IndexDocumentAsync(acticle);

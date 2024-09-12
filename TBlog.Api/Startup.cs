@@ -24,7 +24,8 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.Extensions.Primitives;
-using Tblog.RabbitMQ;
+using TBlog.RabbitMQ;
+using AspNetCoreRateLimit;
 
 namespace TBlog.Api
 {
@@ -88,7 +89,7 @@ namespace TBlog.Api
                  options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
              });
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
-
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             _services = services;
             //支持编码大全 例如:支持 System.Text.Encoding.GetEncoding("GB2312")  System.Text.Encoding.GetEncoding("GB18030") 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -104,7 +105,7 @@ namespace TBlog.Api
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISqlSugarClient sugarClient, IHostApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
             app.UseIpLimitMildd();
 
@@ -168,7 +169,7 @@ namespace TBlog.Api
                 RequestPath = "/view"
             });
 
-            SqlSugarDBSeed.SeedAsync(sugarClient);
+            SqlSugarDBSeed.SeedAsync();
 
             app.UseConsulMildd(lifetime);
 

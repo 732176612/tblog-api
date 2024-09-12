@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using TBlog.Common;
 using TBlog.IRepository;
 
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     public class RabbitMQFactory
     {

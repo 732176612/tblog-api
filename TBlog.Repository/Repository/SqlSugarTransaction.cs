@@ -17,7 +17,7 @@
         /// </summary>
         public void BeginTran()
         {
-            SqlSugarHelper.DB.BeginTran();
+            DBHelper.DB.BeginTran();
         }
 
         /// <summary>
@@ -27,11 +27,11 @@
         {
             try
             {
-                SqlSugarHelper.DB.CommitTran();
+                DBHelper.DB.CommitTran();
             }
             catch (Exception ex)
             {
-                SqlSugarHelper.DB.RollbackTran();
+                DBHelper.DB.RollbackTran();
                 _logger.LogError($"SQLSugar事务异常:[{ex.Message}\r\n{ex.InnerException}]");
             }
         }
@@ -41,12 +41,12 @@
         /// </summary>
         public void RollbackTran()
         {
-            SqlSugarHelper.DB.RollbackTran();
+            DBHelper.DB.RollbackTran();
         }
 
         public void Dispose()
         {
-            SqlSugarHelper.DB.Dispose();
+            DBHelper.DB.Dispose();
         }
     }
 }

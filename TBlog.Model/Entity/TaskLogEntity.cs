@@ -10,7 +10,7 @@
         /// 实体ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
-        public long Id { get; set; }
+        public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
 
         /// <summary>
         /// 获取或设置是否禁用，逻辑上的删除，非物理删除
@@ -20,12 +20,12 @@
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CDate { get; set; }
+        public DateTime CDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 修改时间
         /// </summary>
-        public DateTime MDate { get; set; }
+        public DateTime MDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// 实体ID

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
 
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     public abstract class RabbitMQueue<T> : IDisposable where T : MessageModel, new()
     {

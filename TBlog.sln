@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBlog.Service", "TBlog.Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TBlog.Test", "TBlog.Test\TBlog.Test.csproj", "{CA98C39C-A278-43D2-80A4-5DAA18EE2AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tblog.RabbitMQ", "Tblog.RabbitMQ\Tblog.RabbitMQ.csproj", "{2526B463-0E4F-49D6-B31E-BC4BD93090E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tblog.RabbitMQ", "Tblog.RabbitMQ\Tblog.RabbitMQ.csproj", "{2526B463-0E4F-49D6-B31E-BC4BD93090E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

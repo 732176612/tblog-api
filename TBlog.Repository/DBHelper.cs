@@ -1,6 +1,6 @@
 ﻿namespace TBlog.Repository
 {
-    public class SqlSugarHelper
+    public class DBHelper
     {
         public static ConnectionConfig GetConfig()
         {
@@ -38,7 +38,7 @@
                 {
                     EntityService = (property, column) =>
                     {
-                        if (column.IsPrimarykey && property.PropertyType == typeof(int) || property.PropertyType == typeof(long))
+                        if (column.IsPrimarykey && property.PropertyType == typeof(int))
                         {
                             column.IsIdentity = true;
                         }

@@ -1,4 +1,4 @@
-﻿namespace Tblog.RabbitMQ
+﻿namespace TBlog.RabbitMQ
 {
     public class MessageModel
     {

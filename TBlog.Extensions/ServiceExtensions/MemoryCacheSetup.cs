@@ -12,7 +12,7 @@ namespace TBlog.Extensions
         public static void AddMemoryCacheSetup(this IServiceCollection services)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
-
+            services.AddMemoryCache();
             services.AddScoped<ICaching, MemoryCaching>();
             services.AddSingleton<IMemoryCache>(factory =>
             {

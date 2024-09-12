@@ -51,7 +51,7 @@ namespace TBlog.Extensions
                         StartDate = startDate,
                         EndDate = endDate
                     };
-                    await SqlSugarHelper.DB.Insertable(httpLogEntity).ExecuteCommandAsync();
+                    await DBHelper.DB.Insertable(httpLogEntity).ExecuteCommandAsync();
                 }
                 catch (Exception ex)
                 {

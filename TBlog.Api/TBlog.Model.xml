@@ -987,6 +987,11 @@
             请求IP
             </summary>
         </member>
+        <member name="P:TBlog.Model.HttpLogEntity.IpAddress">
+            <summary>
+            IP地址
+            </summary>
+        </member>
         <member name="P:TBlog.Model.HttpLogEntity.Url">
             <summary>
             路径
@@ -1020,6 +1025,41 @@
         <member name="P:TBlog.Model.HttpLogEntity.UserAgent">
             <summary>
             用户代理标识
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.Ip">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IpAddressInfo.Address">
+            <summary>
+            IP地址
             </summary>
         </member>
         <member name="T:TBlog.Model.MediaInfoEntity">

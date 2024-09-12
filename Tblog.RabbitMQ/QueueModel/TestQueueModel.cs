@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tblog.RabbitMQ
+namespace TBlog.RabbitMQ
 {
     public class TestQueueModel : MessageModel
     {
