@@ -24,7 +24,7 @@
                 foreach (var item in entities)
                 {
                     item.CUserId = cuserid;
-                    item.Id = IdBuilder.CreateId();
+                    item.Id = SnowFlakeSingle.instance.NextId();
                 }
                 await Repository.Delete(c => c.CUserId == cuserid);
                 await Repository.AddEntities(entities.ToList());

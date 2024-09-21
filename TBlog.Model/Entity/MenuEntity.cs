@@ -65,6 +65,7 @@
         /// <summary>
         /// 拥有此菜单的角色ID
         /// </summary>
+        [SugarColumn(ColumnDataType = "varchar", Length = 2000, IsNullable = true, IsJson = true)]
         public long[] RoleIds { get; set; }
         #endregion
     }

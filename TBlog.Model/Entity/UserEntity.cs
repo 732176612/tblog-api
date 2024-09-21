@@ -63,15 +63,15 @@
         /// 博客名称
         /// </summary>
         [Description("博客名称")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 8, IsNullable = true)]
-        [StringLength(8, MinimumLength = 1)]
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = true)]
+        [StringLength(20, MinimumLength = 1)]
         public string BlogName { get; set; }
 
         /// <summary>
         /// 头像链接
         /// </summary>
         [Description("头像链接")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "nvarchar(max)", IsNullable = true)]
         public string HeadImgUrl { get; set; }
 
         /// <summary>
@@ -115,7 +115,7 @@
         /// 简历链接
         /// </summary>
         [Description("简历链接")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 255, IsNullable = true)]
         public string ResumeUrl { get; set; }
 
         /// <summary>
@@ -128,13 +128,13 @@
         /// <summary>
         /// 微博主题颜色
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 6, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 7, IsNullable = true)]
         public string StyleColor { get; set; }
 
         /// <summary>
         /// 背景海报链接
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 255, IsNullable = true)]
         public string BackgroundUrl { get; set; }
 
         /// <summary>
@@ -146,8 +146,8 @@
         /// <summary>
         /// 角色权限
         /// </summary>
-        [SugarColumn(IsIgnore = true)]
-        public long[] RoleIds { get; set; } = new long[] { };
+        [SugarColumn(IsJson = true, Length = 1000, IsNullable = true)]
+        public long[] RoleIds { get; set; }
         #endregion
     }
 }

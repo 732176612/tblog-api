@@ -26,15 +26,12 @@ namespace TBlog.Extensions
                     options.AddPolicy("System_User", policy => policy.RequireRole("User", "System"));
                 });
 
-                //读取配置文件
-                var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ApiConfig.JwtBearer.Secret));
-                var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
                 // 角色与接口的权限要求参数
                 var permissionRequirement = new AuthorizationRequirement(
                     ClaimTypes.Role,//基于角色的授权
                     ApiConfig.JwtBearer.Issuer,//发行人
                     ApiConfig.JwtBearer.Audience,//听众
-                    signingCredentials,//签名凭据
+                    AuthorizationHelper.SigningCredentials,//签名凭据
                     TimeSpan.FromSeconds(60 * 60)//接口的过期时间
                     );
 
@@ -43,6 +40,7 @@ namespace TBlog.Extensions
                 {
                     options.AddPolicy(ConstHelper.SystemRole, policy => policy.Requirements.Add(permissionRequirement));
                 });
+
                 // 注入权限处理器
                 services.AddScoped<IAuthorizationHandler, TBlogAuthorizationHandler>();
                 services.AddSingleton(permissionRequirement);

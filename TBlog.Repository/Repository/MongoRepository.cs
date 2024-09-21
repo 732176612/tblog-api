@@ -7,7 +7,6 @@ global using TBlog.Common;
 global using System.Threading.Tasks;
 using System.Linq.Expressions;
 using MongoDB.Driver;
-
 namespace TBlog.Repository
 {
     public class MongoRepository<TEntity> : IMongoRepository<TEntity> where TEntity : class, IEntity, new()
@@ -143,28 +142,41 @@ namespace TBlog.Repository
         #endregion
 
         #region 插入
-
-        public Task AddEntity(TEntity entity)
+        public async Task<int> AddEntity(TEntity entity)
         {
             entity.CDate = DateTime.UtcNow;
             entity.MDate = DateTime.UtcNow;
+
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return Collection.InsertOneAsync(Transaction.GetSessionHandle(), entity);
+            {
+                await Collection.InsertOneAsync(Transaction.GetSessionHandle(), entity);
+            }
             else
-                return Collection.InsertOneAsync(entity);
+            {
+                await Collection.InsertOneAsync(entity);
+            }
+
+            return 1;
         }
 
-        public Task AddEntities(List<TEntity> entities)
+        public async Task<int> AddEntities(List<TEntity> entities)
         {
             entities.ForEach(entity =>
             {
                 entity.CDate = DateTime.UtcNow;
                 entity.MDate = DateTime.UtcNow;
             });
+
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return Collection.InsertManyAsync(Transaction.GetSessionHandle(), entities);
+            {
+                await Collection.InsertManyAsync(Transaction.GetSessionHandle(), entities);
+            }
             else
-                return Collection.InsertManyAsync(entities);
+            {
+                await Collection.InsertManyAsync(entities);
+            }
+
+            return entities.Count;
         }
         #endregion
 
@@ -172,8 +184,11 @@ namespace TBlog.Repository
         public async Task<bool> Update(TEntity entity)
         {
             entity.MDate = DateTime.UtcNow;
+
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return (await Collection.ReplaceOneAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity)).ModifiedCount == 1;
+            }
             else
             {
                 ReplaceOneResult respone = null;
@@ -182,16 +197,23 @@ namespace TBlog.Repository
             }
         }
 
-        public async Task Update(List<TEntity> entities)
+        public async Task<bool> Update(List<TEntity> entities)
         {
             entities.ForEach(entity =>
             {
                 entity.MDate = DateTime.UtcNow;
             });
+
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                await Task.WhenAll(entities.Select(e => Collection.ReplaceOneAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", e.EntityId), e)));
+            {
+                var result = await Task.WhenAll(entities.Select(e => Collection.ReplaceOneAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", e.EntityId), e)));
+                return result.All(result => result.ModifiedCount != 0);
+            }
             else
-                await Task.WhenAll(entities.Select(e => Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", e.EntityId), e)));
+            {
+                var result = await Task.WhenAll(entities.Select(e => Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", e.EntityId), e)));
+                return result.All(result => result.ModifiedCount != 0);
+            }
         }
         #endregion
 

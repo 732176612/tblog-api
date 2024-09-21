@@ -24,7 +24,7 @@ namespace TBlog.Test
         [Fact]
         public async Task CodeFirst()
         {
-
+            DBHelper.DB.CodeFirst.InitTables(typeof(UserEntity));
         }
 
         #region 分库分表测试
@@ -352,7 +352,7 @@ namespace TBlog.Test
         #endregion
 
         [Fact]
-        public async void InitRole()
+        public async Task InitRole()
         {
             var roleRepository = ContainerHelper.Resolve<IRoleRepository>();
 
@@ -365,7 +365,7 @@ namespace TBlog.Test
                 OrderSort = 0
             };
 
-            await roleRepository.AddEntity(systemRole);
+            await DBHelper.DB.Insertable(systemRole).ExecuteCommandAsync();
 
             var userRole = new RoleEntity()
             {
@@ -377,7 +377,7 @@ namespace TBlog.Test
                 Desc = "普通用户"
             };
 
-            await roleRepository.AddEntity(userRole);
+            await DBHelper.DB.Insertable(userRole).ExecuteCommandAsync();
         }
 
         [Fact]
@@ -385,7 +385,7 @@ namespace TBlog.Test
         {
             var menuRepository = ContainerHelper.Resolve<IMenuRepository>();
 
-            await menuRepository.Delete(c => true);
+            await menuRepository.DBDelete.Where(c => true).ExecuteCommandAsync();
 
             var indexEntity = new MenuEntity()
             {
@@ -396,7 +396,7 @@ namespace TBlog.Test
                 RoleIds = new long[] { 10000, 20000 },
                 OrderSort = 1
             };
-            await menuRepository.AddEntity(indexEntity);
+            await DBHelper.DB.Insertable(indexEntity).ExecuteCommandAsync();
 
             var articleEntity = new MenuEntity()
             {
@@ -407,7 +407,7 @@ namespace TBlog.Test
                 RoleIds = new long[] { 10000, 20000 },
                 Url = "/view/index/article"
             };
-            await menuRepository.AddEntity(articleEntity);
+            await DBHelper.DB.Insertable(articleEntity).ExecuteCommandAsync();
 
             var userInfoEntity = new MenuEntity()
             {
@@ -419,7 +419,7 @@ namespace TBlog.Test
                 Url = "/view/index/userinfo"
             };
 
-            await menuRepository.AddEntity(userInfoEntity);
+            await DBHelper.DB.Insertable(userInfoEntity).ExecuteCommandAsync();
         }
     }
 }

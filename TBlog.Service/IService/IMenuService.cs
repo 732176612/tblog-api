@@ -12,8 +12,6 @@ namespace TBlog.IService
         /// <summary>
         /// 根据角色Id获取菜单
         /// </summary>
-        /// <param name="roleIds"></param>
-        /// <returns></returns>
         public IEnumerable<MenuDto> GetByRoleIds(IEnumerable<long> roleIds);
     }
 }

@@ -16,7 +16,6 @@ namespace TBlog.Service
             {
                 await Repository.AddEntity(new MediaInfoEntity
                 {
-                    Id = IdBuilder.CreateId(),
                     Size = formFile.Length,
                     CUserId = userId,
                     FileName = formFile.FileName,
@@ -34,7 +33,6 @@ namespace TBlog.Service
             {
                 await Repository.AddEntity(new MediaInfoEntity
                 {
-                    Id = IdBuilder.CreateId(),
                     Size = fileByte.Length,
                     CUserId = userId,
                     FileName = fileName,

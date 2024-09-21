@@ -26,8 +26,6 @@
         /// <summary>
         /// 返回成功
         /// </summary>
-        /// <param name="msg">消息</param>
-        /// <returns></returns>
         public static APIResult Success(string msg)
         {
             return Message(true, msg);
@@ -36,8 +34,6 @@
         /// <summary>
         /// 返回失败
         /// </summary>
-        /// <param name="msg">消息</param>
-        /// <returns></returns>
         public static APIResult Fail(string msg="")
         {
             return Message(false, msg);
@@ -46,9 +42,6 @@
         /// <summary>
         /// 返回消息
         /// </summary>
-        /// <param name="success">失败/成功</param>
-        /// <param name="msg">消息</param>
-        /// <returns></returns>
         public static APIResult Message(bool success, string msg="")
         {
             return new APIResult() { Msg = msg, Status = success ? 200 : 400 };

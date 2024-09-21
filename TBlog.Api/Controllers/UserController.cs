@@ -12,7 +12,6 @@ using TBlog.Common;
 using System.Linq;
 using TBlog.Extensions;
 using Microsoft.AspNetCore.Http;
-
 namespace TBlog.Api
 {
     /// <summary>
@@ -40,8 +39,6 @@ namespace TBlog.Api
         /// <summary>
         /// 检查账号是否存在
         /// </summary>
-        /// <param name="phoneOrMail"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> CheckHavePhoneOrMail(string phoneOrMail)
         {
@@ -55,8 +52,6 @@ namespace TBlog.Api
         /// <summary>
         /// 检查博客名称是否存在
         /// </summary>
-        /// <param name="blogName"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> CheckHaveBlogName(string blogName)
         {
@@ -70,7 +65,6 @@ namespace TBlog.Api
         /// <summary>
         /// 普通用户注册
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public async Task<APIResult> RegisterUser([FromBody] UserResigterDto dto)
         {
@@ -102,8 +96,6 @@ namespace TBlog.Api
         /// <summary>
         /// 请求验证码
         /// </summary>
-        /// <param name="phoneOrMail">手机号或邮箱</param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> RequestVCode(string phoneOrMail)
         {
@@ -145,8 +137,6 @@ namespace TBlog.Api
         /// <summary>
         /// 普通用户登陆
         /// </summary>
-        /// <param name="loginDTO"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<APITResult<string>> LoginUser([FromBody] UserLoginDto loginDTO)
         {
@@ -156,9 +146,9 @@ namespace TBlog.Api
                 return APITResult<string>.Fail("账号或密码不正确");
             }
             userEntity.LoginDate = DateTime.Now;
-            var roleEntity = await _roleRepository.GetByIds(userEntity.RoleIds.Select(c => (object)c));
-            var roleNames = string.Join(",", roleEntity.Select(c => c.Name));
-            var roleIds = roleEntity.Select(c => c.Id);
+            var roleEntities = await _roleRepository.DBQuery.In(userEntity.RoleIds).ToListAsync();
+            var roleNames = string.Join(",", roleEntities.Select(c => c.Name));
+            var roleIds = roleEntities.Select(c => c.Id);
             TokenJwtInfoModel tokenModel = new TokenJwtInfoModel { UserId = userEntity.Id, UserName = userEntity.UserName, RoleIds = roleIds, RoleName = roleNames, BlogName = userEntity.BlogName };
             SetToken(tokenModel);
             return APITResult<string>.Success("登陆成功", userEntity.BlogName ?? string.Empty);
@@ -167,8 +157,6 @@ namespace TBlog.Api
         /// <summary>
         /// 根据博客名称获取用户信息
         /// </summary>
-        /// <param name="blogName"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APITResult<UserInfoDto>> GetUserInfo(string blogName = "")
         {
@@ -227,10 +215,10 @@ namespace TBlog.Api
                 return APITResult<string>.Fail("请先登陆");
             }
             var userid = oldToken.UserId;
-            var userEntity = await _userRepository.GetById(userid);
-            var roleEntity = await _roleRepository.GetByIds(userEntity.RoleIds.Select(c => (object)c));
-            var roleNames = string.Join(",", roleEntity.Select(c => c.Name));
-            var roleIds = roleEntity.Select(c => c.Id);
+            var userEntity = await _userRepository.DBQuery.InSingleAsync(userid);
+            var roleEntities = await _roleRepository.DBQuery.In(userEntity.RoleIds).ToListAsync();
+            var roleNames = string.Join(",", roleEntities.Select(c => c.Name));
+            var roleIds = roleEntities.Select(c => c.Id);
             TokenJwtInfoModel tokenModel = new TokenJwtInfoModel { UserId = userEntity.Id, UserName = userEntity.UserName, RoleIds = roleIds, RoleName = roleNames, BlogName = userEntity.BlogName };
             var tokenStr = AuthorizationHelper.GenerateJwtStr(tokenModel);
             SetToken(tokenModel);
@@ -312,7 +300,7 @@ namespace TBlog.Api
                     return APIResult.Fail("旧密码不能与新密码一致");
                 }
                 userEntity.Password = MD5Helper.MD5Encrypt32(dto.Password);
-                await _userRepository.Update(userEntity);
+                await DBHelper.DB.Updateable(userEntity).ExecuteCommandAsync();
                 await _redis.Remove(cacheKey);
                 return APIResult.Success("密码修改成功!");
             }

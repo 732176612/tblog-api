@@ -20,9 +20,6 @@ namespace TBlog.Extensions
         /// <summary>
         ///  类型映射,默认字段名字一一对应
         /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDto">数据传输对象</typeparam>
-        /// <returns>转化之后的实体</returns>
         public static TEntity ToEntity<TEntity, TDto>(this TDto source, bool isVerify = true) where TEntity : IEntity where TDto : IDto
         {
             if (source == null) return default(TEntity);
@@ -50,9 +47,6 @@ namespace TBlog.Extensions
         /// <summary>
         ///  类型映射,默认字段名字一一对应
         /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDto">数据传输对象</typeparam>
-        /// <returns>转化之后的实体</returns>
         public static TDto ToDto<TDto, TEntity>(this TEntity source) where TEntity : IEntity where TDto : IDto
         {
             if (source == null) return default(TDto);
@@ -72,9 +66,6 @@ namespace TBlog.Extensions
         /// <summary>
         ///  类型映射,默认字段名字一一对应
         /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDto">数据传输对象</typeparam>
-        /// <returns>转化之后的实体</returns>
         public static IEnumerable<TEntity> ToEntity<TEntity, TDto>(this IEnumerable<TDto> source, bool isVerify = true) where TEntity : IEntity where TDto : IDto
         {
             if (source == null || source.Any() == false) return Enumerable.Empty<TEntity>();
@@ -102,9 +93,6 @@ namespace TBlog.Extensions
         /// <summary>
         ///  类型映射,默认字段名字一一对应
         /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDto">数据传输对象</typeparam>
-        /// <returns>转化之后的实体</returns>
         public static IEnumerable<TDto> ToDto<TDto, TEntity>(this IEnumerable<TEntity> source) where TEntity : IEntity where TDto : IDto
         {
             if (source == null || source.Any() == false) return Enumerable.Empty<TDto>();
@@ -123,10 +111,6 @@ namespace TBlog.Extensions
         /// <summary>
         /// 反射校验实体
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="verifyFields">需校验的字段</param>
-        /// <returns></returns>
         public static TEntity VerifyEntity<TEntity>(TEntity entity, string[] verifyFields) where TEntity : IEntity
         {
             if (verifyFields == null || !verifyFields.Any()) return entity;

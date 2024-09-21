@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace TBlog.Api
 {
@@ -9,8 +10,6 @@ namespace TBlog.Api
         /// <summary>
         /// 添加cookie缓存不设置过期时间
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         [NonAction]
         public void AddCookie(string key, string value)
         {
@@ -20,9 +19,6 @@ namespace TBlog.Api
         /// <summary>
         /// 添加cookie缓存设置过期时间
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="time"></param>
         [NonAction]
         public void AddCookie(string key, string value, int time)
         {
@@ -35,7 +31,6 @@ namespace TBlog.Api
         /// <summary>
         /// 删除cookie缓存
         /// </summary>
-        /// <param name="key"></param>
         [NonAction]
         public void DeleteCookie(string key)
         {
@@ -45,8 +40,6 @@ namespace TBlog.Api
         /// <summary>
         /// 根据键获取对应的cookie
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         [NonAction]
         public string GetCookie(string key)
         {

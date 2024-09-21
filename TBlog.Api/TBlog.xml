@@ -24,22 +24,16 @@
             <summary>
             检查重复标题
             </summary>
-            <param name="title"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ActicleController.SaveActicle(TBlog.Model.ActicleDto)">
             <summary>
             保存文章
             </summary>
-            <param name="dto"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ActicleController.GetActicle(System.Int64)">
             <summary>
             获取文章
             </summary>
-            <param name="id"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ActicleController.GetTags(System.String,TBlog.Model.EnumActicleReleaseForm)">
             <summary>
@@ -55,50 +49,36 @@
             <summary>
             点赞文章
             </summary>
-            <param name="id"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ActicleController.LookArticle(System.Int64)">
             <summary>
             查阅文章
             </summary>
-            <param name="id"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ActicleController.DeleteArticle(System.Int64)">
             <summary>
             删除文章
             </summary>
-            <param name="id"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.TblogController.AddCookie(System.String,System.String)">
             <summary>
             添加cookie缓存不设置过期时间
             </summary>
-            <param name="key"></param>
-            <param name="value"></param>
         </member>
         <member name="M:TBlog.Api.TblogController.AddCookie(System.String,System.String,System.Int32)">
             <summary>
             添加cookie缓存设置过期时间
             </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-            <param name="time"></param>
         </member>
         <member name="M:TBlog.Api.TblogController.DeleteCookie(System.String)">
             <summary>
             删除cookie缓存
             </summary>
-            <param name="key"></param>
         </member>
         <member name="M:TBlog.Api.TblogController.GetCookie(System.String)">
             <summary>
             根据键获取对应的cookie
             </summary>
-            <param name="key"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.TblogController.GetToken(System.Boolean)">
             <summary>
@@ -119,14 +99,12 @@
             <summary>
             获取正则表达式 (Phone,Mail,PassWord,BlogName)
             </summary>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.CommonController.GetEnums(System.String)">
             <summary>
             获取枚举值
             </summary>
             <param name="enumNames">枚举名称,多个用","分隔</param>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.CompanyInfoController">
             <summary>
@@ -203,7 +181,6 @@
             <summary>
             根据角色权限获取菜单
             </summary>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.ProjectInfoController">
             <summary>
@@ -277,42 +254,31 @@
             <summary>
             检查账号是否存在
             </summary>
-            <param name="phoneOrMail"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.CheckHaveBlogName(System.String)">
             <summary>
             检查博客名称是否存在
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.RegisterUser(TBlog.Model.UserResigterDto)">
             <summary>
             普通用户注册
             </summary>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.RequestVCode(System.String)">
             <summary>
             请求验证码
             </summary>
-            <param name="phoneOrMail">手机号或邮箱</param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.LoginUser(TBlog.Model.UserLoginDto)">
             <summary>
             普通用户登陆
             </summary>
-            <param name="loginDTO"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.GetUserInfo(System.String)">
             <summary>
             根据博客名称获取用户信息
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.UserController.LogOut">
             <summary>

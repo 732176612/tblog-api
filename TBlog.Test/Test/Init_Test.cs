@@ -8,13 +8,9 @@ using TBlog.Model;
 using TBlog.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
 using Xunit;
 using TBlog.Api;
 using Microsoft.DotNet.PlatformAbstractions;
@@ -37,7 +33,7 @@ namespace TBlog.Test
                .SetBasePath(basePath)
                .Add(new JsonConfigurationSource { Path = "appsettings.json", Optional = false, ReloadOnChange = true })
                .Build(), basePath));
-            services.AddAutoMapper(typeof(Startup));
+            //services.AddAutoMapper(typeof(Startup));
             services.AddMongoDBSetup();
 
             var builder = new ContainerBuilder();

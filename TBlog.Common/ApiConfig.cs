@@ -210,9 +210,28 @@ namespace TBlog.Common
             public bool Enabled { get; set; }
 
             /// <summary>
-            /// 密钥
+            /// 秘钥
             /// </summary>
-            public string Secret { get; set; }
+            public string Secret
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Secret))
+                    {
+                        return Configuration["JwtBearer.Secret"];
+                    }
+                    else
+                    {
+                        return _Secret;
+                    }
+                }
+                set
+                {
+                    _Secret = value;
+                }
+            }
+
+            private string _Secret { get; set; }
 
             /// <summary>
             /// 订阅人
@@ -618,6 +637,7 @@ namespace TBlog.Common
                 return _TencentCloud;
             }
         }
+
         private static TencentCloudConfig _TencentCloud;
 
         /// <summary>

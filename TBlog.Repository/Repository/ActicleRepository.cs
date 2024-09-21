@@ -14,21 +14,6 @@ namespace TBlog.Repository
 
         }
 
-        /// <summary>
-        /// 添加文章
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public new async Task<long> AddEntity(ActicleEntity entity)
-        {
-            if (entity.Id == 0)
-            {
-                entity.Id = IdBuilder.CreateId();
-            }
-            await base.AddEntity(entity);
-            return entity.Id;
-        }
-
         public Task<long> CountByUIdAndTitle(long userid, string title)
         {
             return Count(c => c.CUserId == userid && c.Title == title);

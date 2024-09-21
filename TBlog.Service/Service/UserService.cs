@@ -1,4 +1,5 @@
-﻿namespace TBlog.Service
+﻿using TBlog.Repository;
+namespace TBlog.Service
 {
     public class UserService : BaseService<UserEntity>, IUserService
     {
@@ -22,7 +23,7 @@
 
         public async Task<UserEntity> SaveUserInfo(long userId, UserInfoDto dto)
         {
-            var userEntity = await Repository.GetById(userId);
+            var userEntity = await Repository.DBQuery.InSingleAsync(userId);
             if (userEntity == null)
             {
                 throw new TBlogApiException("错误的授权信息，请退出重新登陆");
@@ -86,7 +87,7 @@
             {
                 entity.RoleIds = new long[] { userRole.Id };
             }
-            await Repository.AddEntity(entity);
+            await DBHelper.DB.Insertable(entity).ExecuteCommandAsync();
         }
 
         public async Task<UserEntity> LoginUser(UserLoginDto dto)

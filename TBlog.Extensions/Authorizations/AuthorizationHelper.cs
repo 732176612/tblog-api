@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TBlog.Common;
 using TBlog.Model;
 using Newtonsoft.Json;
@@ -14,11 +12,13 @@ namespace TBlog.Extensions
 {
     public class AuthorizationHelper
     {
+        public static SymmetricSecurityKey SignKey => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiConfig.JwtBearer.Secret));
+
+        public static SigningCredentials SigningCredentials = new SigningCredentials(SignKey, SecurityAlgorithms.HmacSha256);
+
         /// <summary>
         /// 颁发JWT字符串
         /// </summary>
-        /// <param name="tokenModel"></param>
-        /// <returns></returns>
         public static string GenerateJwtStr(TokenJwtInfoModel tokenModel)
         {
             var claims = new List<Claim>
@@ -43,17 +43,20 @@ namespace TBlog.Extensions
             }
 
             if (!string.IsNullOrEmpty(tokenModel.RoleName))
+            {
                 claims.AddRange(tokenModel.RoleName.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
-            if (tokenModel.RoleIds.Any())
-                claims.AddRange(tokenModel.RoleIds.Select(s => new Claim("RoleIds", s.ToString())));
+            }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiConfig.JwtBearer.Secret));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            if (tokenModel.RoleIds.Any())
+            {
+                claims.AddRange(tokenModel.RoleIds.Select(s => new Claim("RoleIds", s.ToString())));
+            }
 
             var jwt = new JwtSecurityToken(
                 issuer: ApiConfig.JwtBearer.Issuer,
+                audience: ApiConfig.JwtBearer.Audience,
                 claims: claims,
-                signingCredentials: creds);
+                signingCredentials: SigningCredentials);
 
             var jwtHandler = new JwtSecurityTokenHandler();
             var encodedJwt = jwtHandler.WriteToken(jwt);
@@ -64,15 +67,34 @@ namespace TBlog.Extensions
         /// <summary>
         /// 解析Jwt
         /// </summary>
-        /// <param name="jwtStr"></param>
-        /// <returns></returns>
         public static TokenJwtInfoModel SerializeJwt(string jwtStr)
         {
             var jwtHandler = new JwtSecurityTokenHandler();
             TokenJwtInfoModel tokenModelJwt = new TokenJwtInfoModel();
             if (jwtStr.IsNotEmptyOrNull() && jwtHandler.CanReadToken(jwtStr))
             {
-                JwtSecurityToken jwtToken = jwtHandler.ReadJwtToken(jwtStr);
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = ApiConfig.JwtBearer.Issuer,
+                    ValidAudience = ApiConfig.JwtBearer.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApiConfig.JwtBearer.Secret)),
+                    ClockSkew = TimeSpan.FromSeconds(30), //过期时间容错值，解决服务器端时间不同步问题（秒）
+                    RequireExpirationTime = true,
+                };
+                SecurityToken validatedToken;
+                try
+                {
+                    jwtHandler.ValidateToken(jwtStr, validationParameters, out validatedToken);
+                }
+                catch
+                {
+                    return null;
+                }
+                JwtSecurityToken jwtToken = validatedToken as JwtSecurityToken;
                 jwtToken.Payload.TryGetValue(ClaimTypes.Role, out object roleName);
                 jwtToken.Payload.TryGetValue("RoleIds", out object roleIds);
                 jwtToken.Payload.TryGetValue("BlogName", out object blogName);
@@ -93,7 +115,7 @@ namespace TBlog.Extensions
                     }
                     else
                     {
-                        tokenModelJwt.RoleIds = new long[] { long.Parse(roleIds.ToString()) };
+                        tokenModelJwt.RoleIds = [long.Parse(roleIds.ToString())];
                     }
                 }
             }
@@ -103,9 +125,6 @@ namespace TBlog.Extensions
         /// <summary>
         /// 获取基于JWT的Token
         /// </summary>
-        /// <param name="claims">需要在登陆的时候配置</param>
-        /// <param name="requirement">在startup中定义的参数</param>
-        /// <returns></returns>
         public static TBlogTokenModel GenerateToken(Claim[] claims, AuthorizationRequirement requirement)
         {
             var jwt = new JwtSecurityToken(

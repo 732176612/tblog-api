@@ -131,9 +131,7 @@ namespace TBlog.Extensions
                         else
                         {
                             context.Fail();
-                            return;
                         }
-                        return;
                     }
                 }
             }

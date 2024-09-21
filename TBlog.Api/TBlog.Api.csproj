@@ -16,12 +16,12 @@
     <OutputPath></OutputPath>
     <Optimize>False</Optimize>
     <DocumentationFile>..\TBlog.Api\TBlog.xml</DocumentationFile>
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>False</Optimize>
-    <DebugType>embedded</DebugType>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

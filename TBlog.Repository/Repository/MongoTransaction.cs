@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using TBlog.IRepository;
-using MongoDB.Driver;
-
+﻿using MongoDB.Driver;
 namespace TBlog.Repository
 {
     /// <summary>

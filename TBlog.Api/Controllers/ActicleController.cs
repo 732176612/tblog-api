@@ -28,8 +28,6 @@ namespace TBlog.Api
         /// <summary>
         /// 检查重复标题
         /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> CheckRepeatTitle(string title)
         {
@@ -47,8 +45,6 @@ namespace TBlog.Api
         /// <summary>
         /// 保存文章
         /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<APITResult<string>> SaveActicle(ActicleDto dto)
         {
@@ -59,8 +55,6 @@ namespace TBlog.Api
         /// <summary>
         /// 获取文章
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APITResult<ActicleDto>> GetActicle(long id)
         {
@@ -108,8 +102,6 @@ namespace TBlog.Api
         /// <summary>
         /// 点赞文章
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> LikeArticle(long id)
         {
@@ -120,8 +112,6 @@ namespace TBlog.Api
         /// <summary>
         /// 查阅文章
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> LookArticle(long id)
         {
@@ -132,8 +122,6 @@ namespace TBlog.Api
         /// <summary>
         /// 删除文章
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APIResult> DeleteArticle(long id)
         {

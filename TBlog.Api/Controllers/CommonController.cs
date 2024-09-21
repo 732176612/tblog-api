@@ -28,7 +28,6 @@ namespace TBlog.Api
         /// <summary>
         /// 获取正则表达式 (Phone,Mail,PassWord,BlogName)
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public APITResult<List<TreeNodeModel>> VerifyRegex(string regexName)
         {
@@ -59,7 +58,6 @@ namespace TBlog.Api
         /// 获取枚举值
         /// </summary>
         /// <param name="enumNames">枚举名称,多个用","分隔</param>
-        /// <returns></returns>
         [HttpGet]
         public APITResult<IEnumerable<EnumModel>> GetEnums(string enumNames)
         {
