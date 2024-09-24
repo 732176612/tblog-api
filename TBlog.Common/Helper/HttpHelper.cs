@@ -36,12 +36,12 @@ namespace TBlog.Common
         /// <summary>
         /// 获取请求Ip
         /// </summary>
-        public static string GetClientIP(this HttpContext context)
+        public static string GetIpAddress(this HttpContext context)
         {
             var ip = context.Request.Headers["X-Forwarded-For"].ObjToString();
             if (string.IsNullOrEmpty(ip))
             {
-                ip = context.Connection.RemoteIpAddress.ObjToString();
+                ip = context.Connection.RemoteIpAddress.MapToIPv4().ObjToString();
             }
             return ip;
         }

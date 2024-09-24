@@ -15,11 +15,6 @@ namespace TBlog.Model
         public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
 
         /// <summary>
-        /// 获取或设置是否禁用，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CDate { get; set; } = DateTime.Now;
@@ -59,8 +54,14 @@ namespace TBlog.Model
         /// <summary>
         /// 文章标签
         /// </summary>
-        [SugarColumn(IsArray = true, IsNullable = true)]
-        public string[] Tags { get; set; } = new string[0];
+        [Navigate(NavigateType.OneToMany, nameof(ActicleTagEntity.ActicleId))]
+        public List<ActicleTagEntity> Tags { get; set; }
+
+        /// <summary>
+        /// 文章统计信息
+        /// </summary>
+        [Navigate(NavigateType.OneToOne, nameof(ActicleStatsEntity.ActicleId))]
+        public ActicleStatsEntity Stats { get; set; }
 
         /// <summary>
         /// 文章类型
@@ -75,35 +76,14 @@ namespace TBlog.Model
         public EnumActicleReleaseForm ReleaseForm { get; set; }
 
         /// <summary>
-        /// 点赞数
+        /// 是否删除
         /// </summary>
-        public long LikeNum { get; set; }
-
-        /// <summary>
-        /// 分享数
-        /// </summary>
-        public long ShareNum { get; set; }
-
-        /// <summary>
-        /// 收藏数
-        /// </summary>
-        public long CollectNum { get; set; }
-
-        /// <summary>
-        /// 浏览次数
-        /// </summary>
-        public long LookNum { get; set; }
+        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// 创建者ID
         /// </summary>
         public long CUserId { get; set; }
-
-        /// <summary>
-        /// 创建者
-        /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 30, IsNullable = true)]
-        public string CBlogName { get; set; }
         #endregion
     }
 }

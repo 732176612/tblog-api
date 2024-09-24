@@ -130,11 +130,6 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.IEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.IEntity.CDate">
             <summary>
             创建时间
@@ -605,11 +600,6 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.ActicleEntity.CDate">
             <summary>
             创建时间
@@ -645,6 +635,11 @@
             文章标签
             </summary>
         </member>
+        <member name="P:TBlog.Model.ActicleEntity.Stats">
+            <summary>
+            文章统计信息
+            </summary>
+        </member>
         <member name="P:TBlog.Model.ActicleEntity.ActicleType">
             <summary>
             文章类型
@@ -655,34 +650,14 @@
             发布形式
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleEntity.LikeNum">
+        <member name="P:TBlog.Model.ActicleEntity.IsDeleted">
             <summary>
-            点赞数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleEntity.ShareNum">
-            <summary>
-            分享数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleEntity.CollectNum">
-            <summary>
-            收藏数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleEntity.LookNum">
-            <summary>
-            浏览次数
+            是否删除
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleEntity.CUserId">
             <summary>
             创建者ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleEntity.CBlogName">
-            <summary>
-            创建者
             </summary>
         </member>
         <member name="T:TBlog.Model.ActicleHisLogEntity">
@@ -733,6 +708,91 @@
         <member name="P:TBlog.Model.ActicleHisLogEntity.CUserId">
             <summary>
             创建者ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.LikeNum">
+            <summary>
+            点赞数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.ShareNum">
+            <summary>
+            分享数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.CollectNum">
+            <summary>
+            收藏数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleStatsEntity.LookNum">
+            <summary>
+            浏览次数
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.ActicleTagEntity">
+            <summary>
+            文章实体
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleTagEntity.ActicleId">
+            <summary>
+            文章ID
             </summary>
         </member>
         <member name="T:TBlog.Model.ApiEntity">

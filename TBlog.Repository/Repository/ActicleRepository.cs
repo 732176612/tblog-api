@@ -1,28 +1,19 @@
-﻿using TBlog.Model;
-using TBlog.IRepository;
-using TBlog.Common;
-using System.Threading.Tasks;
-using MongoDB.Driver;
-using MongoDB.Bson;
-
-namespace TBlog.Repository
+﻿namespace TBlog.Repository
 {
-    public class ActicleRepository : MongoRepository<ActicleEntity>, IActicleRepository
+    public class ActicleRepository : SugarRepository<ActicleEntity>, IActicleRepository
     {
-        public ActicleRepository(IMongoTransaction transaction) : base(transaction)
+        public async Task<long> CountByUIdAndTitle(long userid, string title)
         {
-
-        }
-
-        public Task<long> CountByUIdAndTitle(long userid, string title)
-        {
-            return Count(c => c.CUserId == userid && c.Title == title);
+            return await DBQuery.CountAsync(c => c.CUserId == userid && c.Title == title);
         }
 
         public async Task<IEnumerable<string>> GetTagsByUseId(long userid, EnumActicleReleaseForm releaseForm)
         {
-            var result = await Collection.Aggregate().Match(c => c.CUserId == userid && c.ReleaseForm == releaseForm).Unwind((FieldDefinition<ActicleEntity, string[]>)"Tags").Group(new BsonDocument { { "_id", "$Tags" } }).ToListAsync();
-            return result.Select(c => c.GetElement("_id").Value.ToString()).OrderBy(c => c);
+            return await DBHelper.DB.Queryable<ActicleEntity>().Where(c => c.CUserId == userid && c.ReleaseForm == releaseForm)
+                                .InnerJoin<ActicleTagEntity>((c, y) => c.Id == y.ActicleId)
+                                .GroupBy((c, y) => y.Name)
+                                .Select((c, y) => y.Name)
+                                .ToListAsync();
         }
     }
 }

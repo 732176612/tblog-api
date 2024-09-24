@@ -68,7 +68,7 @@ namespace TBlog.Api
         [HttpPost]
         public async Task<APIResult> RegisterUser([FromBody] UserResigterDto dto)
         {
-            var ip = HttpHelper.GetClientIP(HttpContext);
+            var ip = HttpHelper.GetIpAddress(HttpContext);
             var cacheKey = $"{ApiConfig.BaseSetting.ApiName}_RequestVCode_{ip}";
             var vcode = await _redis.Get<string>(cacheKey);
             if (string.IsNullOrEmpty(vcode) || dto.VCode != vcode)
@@ -101,7 +101,7 @@ namespace TBlog.Api
         {
             if (string.IsNullOrEmpty(phoneOrMail))
                 return APIResult.Fail("手机号或邮箱不能为空!");
-            var ip = HttpHelper.GetClientIP(HttpContext);
+            var ip = HttpHelper.GetIpAddress(HttpContext);
             var cacheKey = $"{ApiConfig.BaseSetting.ApiName}_RequestVCode_{ip}";
             var timeKey = $"{ApiConfig.BaseSetting.ApiName}_RequestTime_{ip}";
             var timeValue = DateTime.Parse((await _redis.Get<string>(timeKey)) ?? DateTime.Now.ToString());

@@ -49,7 +49,7 @@ namespace TBlog.Api
         public async Task<APITResult<string>> SaveActicle(ActicleDto dto)
         {
             var token = GetToken();
-            return APITResult<string>.Success("发布成功", await _ActicleServer.SaveActicle(dto, token.UserId, token.BlogName));
+            return APITResult<string>.Success("发布成功", await _ActicleServer.SaveActicle(dto, token.UserId));
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace TBlog.Api
         [HttpGet]
         public async Task<APIResult> LikeArticle(long id)
         {
-            await _ActicleServer.LikeArticle(id, GetToken(true)?.UserId ?? 0, HttpContext.GetClientIP());
+            await _ActicleServer.LikeArticle(id, GetToken(true)?.UserId ?? 0, HttpContext.GetIpAddress());
             return APIResult.Success();
         }
 
@@ -115,7 +115,7 @@ namespace TBlog.Api
         [HttpGet]
         public async Task<APIResult> LookArticle(long id)
         {
-            await _ActicleServer.LookArticle(id, GetToken(true)?.UserId ?? 0, HttpContext.GetClientIP());
+            await _ActicleServer.LookArticle(id, GetToken(true)?.UserId ?? 0, HttpContext.GetIpAddress());
             return APIResult.Success();
         }
 

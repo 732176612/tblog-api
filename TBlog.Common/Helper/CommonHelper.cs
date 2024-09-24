@@ -13,7 +13,7 @@ namespace TBlog.Common
         /// 异常将重新执行
         /// </summary>
         /// <param name="retryTime">重试次数</param>
-        public static async Task ExceptionRetry(this Func<bool> action, int retryTime = 5)
+        public static async Task<bool> ExceptionRetry(this Func<bool> action, int retryTime = 5)
         {
             bool isSuccess = false;
             while (!isSuccess)
@@ -27,7 +27,7 @@ namespace TBlog.Common
                     retryTime--;
                     if (retryTime <= 0)
                     {
-                        isSuccess = true;
+                        return false;
                     }
                     if (!isSuccess)
                     {
@@ -35,6 +35,7 @@ namespace TBlog.Common
                     }
                 }
             }
+            return true;
         }
     }
 }

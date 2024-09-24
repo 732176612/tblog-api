@@ -4,7 +4,7 @@ using TBlog.Model;
 
 namespace TBlog.IRepository
 {
-    public interface IActicleRepository : IMongoRepository<ActicleEntity>
+    public interface IActicleRepository : ISugarRepository<ActicleEntity>
     {
         Task<long> CountByUIdAndTitle(long userid, string title);
 

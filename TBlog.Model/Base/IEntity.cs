@@ -11,11 +11,6 @@
         object EntityId { get; }
 
         /// <summary>
-        /// 获取或设置是否禁用，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CDate { get; set; }

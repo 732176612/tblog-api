@@ -9,7 +9,7 @@ namespace TBlog.IService
 
         public Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName, EnumActicleReleaseForm acticleReleaseForm, EnumActicleSortTag acticleSortTag, string tags = "", string searchVal = "");
 
-        public Task<string> SaveActicle(ActicleDto dto, long userId, string blogName);
+        public Task<string> SaveActicle(ActicleDto dto, long userId);
 
         public Task<bool> CheckRepeatTitle(long userId, string title);
 

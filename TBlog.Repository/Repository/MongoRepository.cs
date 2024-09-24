@@ -32,14 +32,8 @@ namespace TBlog.Repository
 
         #region 查询
 
-        public Expression<Func<TEntity, bool>> GetBaseFilter()
-        {
-            return FilterHelper.CreateExp<TEntity>(c => c.IsDeleted == false);
-        }
-
         public async Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> filter)
         {
-            filter = GetBaseFilter().AddExp(filter);
             if (Transaction != null && Transaction.GetSessionHandle() != null)
                 return await Collection.Find(Transaction.GetSessionHandle(), filter).ToListAsync();
             else
@@ -48,7 +42,6 @@ namespace TBlog.Repository
 
         public async Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> filter)
         {
-            filter = GetBaseFilter().AddExp(filter);
             if (Transaction != null && Transaction.GetSessionHandle() != null)
                 return await Collection.Find(Transaction.GetSessionHandle(), filter).SingleOrDefaultAsync();
             else
@@ -62,25 +55,37 @@ namespace TBlog.Repository
         public async Task<List<TEntity>> GetAll()
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return await Collection.Find(Transaction.GetSessionHandle(), GetBaseFilter()).ToListAsync();
+            {
+                return await Collection.Find(Transaction.GetSessionHandle(), c => true).ToListAsync();
+            }
             else
+            {
                 return await Collection.Find(c => true).ToListAsync();
+            }
         }
 
         public async Task<TEntity> GetById(object id)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return await Collection.Find(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", id)).SingleAsync();
+            }
             else
+            {
                 return await Collection.Find(Builders<TEntity>.Filter.Eq("_id", id)).SingleOrDefaultAsync();
+            }
         }
 
         public async Task<List<TEntity>> GetByIds(IEnumerable<object> ids)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return await Collection.Find(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids)).ToListAsync();
+            }
             else
+            {
                 return await Collection.Find(Builders<TEntity>.Filter.In("_id", ids)).ToListAsync();
+            }
         }
 
         public async Task<PageModel<TEntity>> GetPage(int pageIndex = 1, int pageSize = 20, Expression<Func<TEntity, bool>> filter = null, Dictionary<Expression<Func<TEntity, object>>, bool> sorts = null)
@@ -130,7 +135,6 @@ namespace TBlog.Repository
 
             var dataFacet = AggregateFacet.Create("data", PipelineDefinition<TEntity, TEntity>.Create(pipelineDefinitions));
             List<AggregateFacetResults> list = null;
-            filter = GetBaseFilter().AddExp(filter);
             if (Transaction != null && Transaction.GetSessionHandle() != null)
                 list = await Collection.Aggregate(Transaction.GetSessionHandle()).Match(filter).Facet(countFacet, dataFacet).ToListAsync();
             else
@@ -226,9 +230,13 @@ namespace TBlog.Repository
         public async Task<long> Delete(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return (await Collection.DeleteManyAsync<TEntity>(Transaction.GetSessionHandle(), filter)).DeletedCount;
+            }
             else
+            {
                 return (await Collection.DeleteManyAsync<TEntity>(filter)).DeletedCount;
+            }
         }
 
         public async Task<bool> DeleteById(object id)
@@ -242,9 +250,13 @@ namespace TBlog.Repository
         public async Task<bool> DeleteByIds(object[] ids)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return (await Collection.DeleteManyAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
+            }
             else
+            {
                 return (await Collection.DeleteManyAsync(Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
+            }
         }
         #endregion
 
@@ -252,17 +264,25 @@ namespace TBlog.Repository
         public async Task<long> Count()
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), GetBaseFilter());
+            {
+                return await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), c => true);
+            }
             else
-                return await Collection.CountDocumentsAsync<TEntity>(GetBaseFilter());
+            {
+                return await Collection.CountDocumentsAsync<TEntity>(c => true);
+            }
         }
 
         public async Task<long> Count(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), GetBaseFilter().AddExp(filter));
+            {
+                return await Collection.CountDocumentsAsync<TEntity>(Transaction.GetSessionHandle(), filter);
+            }
             else
-                return await Collection.CountDocumentsAsync<TEntity>(GetBaseFilter().AddExp(filter));
+            {
+                return await Collection.CountDocumentsAsync<TEntity>(filter);
+            }
         }
         #endregion
     }

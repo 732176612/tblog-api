@@ -37,7 +37,7 @@ namespace TBlog.Extensions
                     await _next(context);
                     var endDate = DateTime.UtcNow;
                     var responeData = await context.GetResponeData();
-                    var ip = context.GetClientIP();
+                    var ip = context.GetIpAddress();
                     var httpLogEntity = new HttpLogEntity()
                     {
                         RequestData = requestData,
