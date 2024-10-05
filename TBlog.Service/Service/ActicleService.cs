@@ -91,10 +91,7 @@ namespace TBlog.Service
         public async Task<IEnumerable<string>> GetTagsByUseId(string blogName, EnumActicleReleaseForm releaseForm)
         {
             var user = await _UserRepository.GetByBlogName(blogName);
-            if (user == null)
-            {
-                throw new TBlogApiException("该博客不存在");
-            }
+            if (user == null) throw new TBlogApiException("该博客不存在");
             return await _ActicleRepository.GetTagsByUseId(user.Id, releaseForm);
         }
 
@@ -121,7 +118,7 @@ namespace TBlog.Service
                                                    .Filter(fi => fi.Term(b => b.CUserId, cuserId))
                                                 )
                                             )
-                                     );
+                                         );
 
                 filterActicleIds = searchResponse.Documents.Select(c => c.Id).ToList();
             }
@@ -137,6 +134,7 @@ namespace TBlog.Service
                             .ToPageModel(pageIndex, pageSize);
 
             var listData = queryPage.Data.ToDto<ActicleDto, ActicleEntity>();
+
             foreach (var item in listData)
             {
                 item.Content = item.Content.ClearHtmlTag();
@@ -194,6 +192,7 @@ namespace TBlog.Service
             return queryPage.AsPageModel(listData);
         }
 
+        [Transaction]
         public async Task LikeArticle(long id, long cuserid, string ipAddress)
         {
             var entity = await _ActicleRepository.DBQuery.InSingleAsync(id);
@@ -214,8 +213,8 @@ namespace TBlog.Service
                 IpAddress = ipAddress
             }))
             {
-                entity.Stats.LikeNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Like);
-                await _ActicleRepository.Update(entity);
+                var likeNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Like);
+                await DBHelper.DB.Updateable<ActicleStatsEntity>().SetColumns(c => c.LikeNum == likeNum + 1).ExecuteCommandAsync();
             }
             else
             {
@@ -236,7 +235,7 @@ namespace TBlog.Service
                 IpAddress = ipAddress
             });
             var LookNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Look);
-            await DBHelper.DB.Updateable<ActicleStatsEntity>().SetColumns(c => c.LookNum == LookNum).ExecuteCommandAsync();
+            await DBHelper.DB.Updateable<ActicleStatsEntity>().SetColumns(c => c.LookNum == LookNum + 1).ExecuteCommandAsync();
         }
 
         public async Task DeleteArticle(long id, long cuserid)

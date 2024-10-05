@@ -121,31 +121,5 @@ namespace TBlog.Extensions
             }
             return tokenModelJwt;
         }
-
-        /// <summary>
-        /// 获取基于JWT的Token
-        /// </summary>
-        public static TBlogTokenModel GenerateToken(Claim[] claims, AuthorizationRequirement requirement)
-        {
-            var jwt = new JwtSecurityToken(
-                issuer: requirement.Issuer,
-                audience: requirement.Audience,
-                claims: claims,
-                notBefore: DateTime.Now,
-                expires: DateTime.Now.Add(requirement.Expiration),
-                signingCredentials: requirement.SigningCredentials
-            );
-
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            var responseJson = new TBlogTokenModel
-            {
-                success = true,
-                token = encodedJwt,
-                expires_in = requirement.Expiration.TotalSeconds,
-                token_type = "Bearer"
-            };
-            return responseJson;
-        }
     }
 }

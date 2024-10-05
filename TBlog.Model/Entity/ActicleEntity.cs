@@ -36,20 +36,20 @@ namespace TBlog.Model
         /// <summary>
         /// 文章标题
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 30, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 30)]
         public string Title { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
-        public string Content { get; set; }
+        [SugarColumn(ColumnDataType = "nvarchar(max)")]
+        public string Content { get; set; } = "";
 
         /// <summary>
         /// 封面海报
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
-        public string PosterUrl { get; set; }
+        [SugarColumn(ColumnDataType = "nvarchar", Length = 200)]
+        public string PosterUrl { get; set; } = "";
 
         /// <summary>
         /// 文章标签

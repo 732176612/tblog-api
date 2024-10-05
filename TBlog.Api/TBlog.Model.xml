@@ -715,11 +715,6 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleStatsEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.ActicleStatsEntity.CDate">
             <summary>
             创建时间
