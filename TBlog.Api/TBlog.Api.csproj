@@ -5,7 +5,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <UserSecretsId>c0ec31b5-ab58-4e06-b69c-b3212d112ced</UserSecretsId>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-    <StartupObject>TBlog.Api.Program</StartupObject>
+    <StartupObject></StartupObject>
     <DebugType>portable</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
