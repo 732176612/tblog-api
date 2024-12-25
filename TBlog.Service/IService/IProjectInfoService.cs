@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TBlog.Model;
-namespace TBlog.IService
+﻿namespace TBlog.IService
 {
     /// <summary>
     /// 项目经历

@@ -2,9 +2,8 @@
 
 namespace TBlog.Service
 {
-    public class ActicleService : BaseService<ActicleEntity>, IActicleService
+    public class ActicleService : SugarService<IActicleRepository, ActicleEntity>, IActicleService
     {
-        private readonly IActicleRepository _ActicleRepository;
         private readonly IActicleHisLogService _ActicleHisLogService;
         private readonly IActicleHisLogRepository _ActicleHisLogRepository;
         private readonly IRoleRepository _RoleRepository;
@@ -14,7 +13,6 @@ namespace TBlog.Service
             IActicleHisLogService acticleHisLogService, IActicleHisLogRepository acticleHisLogRepository,
             IElasticClient elasticClient)
         {
-            _ActicleRepository = acticleRepository;
             _RoleRepository = roleRepository;
             _UserRepository = userRepository;
             _ActicleHisLogService = acticleHisLogService;
@@ -45,12 +43,12 @@ namespace TBlog.Service
 
                 if (entity.Id != 0)
                 {
-                    var existEntity = await _ActicleRepository.DBQuery.InSingleAsync(entity.Id);
+                    var existEntity = await Repository.DBQuery.InSingleAsync(entity.Id);
                     if (existEntity != null)
                     {
                         if (existEntity.CUserId != entity.CUserId) throw new TBlogApiException("您无权修改当前文章");
                         entity.CDate = existEntity.CDate;
-                        await _ActicleRepository.Update(entity);
+                        await Repository.Update(entity);
                         return;
                     }
                 }
@@ -70,12 +68,12 @@ namespace TBlog.Service
 
         public async Task<bool> CheckRepeatTitle(long userId, string title)
         {
-            return await _ActicleRepository.CountByUIdAndTitle(userId, title) > 0;
+            return await Repository.CountByUIdAndTitle(userId, title) > 0;
         }
 
         public async Task<ActicleDto> GetActicle(long id, long userid)
         {
-            var entity = await _ActicleRepository.DBQuery.InSingleAsync(id);
+            var entity = await Repository.DBQuery.InSingleAsync(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -92,7 +90,7 @@ namespace TBlog.Service
         {
             var user = await _UserRepository.GetByBlogName(blogName);
             if (user == null) throw new TBlogApiException("该博客不存在");
-            return await _ActicleRepository.GetTagsByUseId(user.Id, releaseForm);
+            return await Repository.GetTagsByUseId(user.Id, releaseForm);
         }
 
         public async Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName,
@@ -125,7 +123,7 @@ namespace TBlog.Service
 
             string[] tagsSplit = tags?.Split(',') ?? [];
 
-            var queryPage = await _ActicleRepository.DBQuery.Where(c => c.CUserId == cuserId && c.ReleaseForm == releaseForm)
+            var queryPage = await Repository.DBQuery.Where(c => c.CUserId == cuserId && c.ReleaseForm == releaseForm)
                             .WhereIF(filterActicleIds.Count > 0, c => filterActicleIds.Contains(c.Id))
                             .Includes(c => c.Tags)
                             .Where(c => tagsSplit.Any(s => c.Tags.Select(q => q.Name).Contains(s)))
@@ -195,7 +193,7 @@ namespace TBlog.Service
         [Transaction]
         public async Task LikeArticle(long id, long cuserid, string ipAddress)
         {
-            var entity = await _ActicleRepository.DBQuery.InSingleAsync(id);
+            var entity = await Repository.DBQuery.InSingleAsync(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -225,7 +223,7 @@ namespace TBlog.Service
         [Transaction]
         public async Task LookArticle(long id, long cuserid, string ipAddress)
         {
-            var entity = await _ActicleRepository.DBQuery.InSingleAsync(id);
+            var entity = await Repository.DBQuery.InSingleAsync(id);
             if (entity == null) throw new TBlogApiException("不存在该文章");
             if (entity.CUserId == cuserid) return;
             await _ActicleHisLogService.AddLog(new ActicleHisLogEntity
@@ -240,7 +238,7 @@ namespace TBlog.Service
 
         public async Task DeleteArticle(long id, long cuserid)
         {
-            var entity = await _ActicleRepository.DBQuery.InSingleAsync(id);
+            var entity = await Repository.DBQuery.InSingleAsync(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -252,7 +250,7 @@ namespace TBlog.Service
             }
 
             entity.IsDeleted = true;
-            await _ActicleRepository.Update(entity);
+            await Repository.Update(entity);
             var path = new DocumentPath<ActicleEntity>(entity).Index(ApiConfig.Elasticsearch.DefaultIndex);
             var respone = await _ElasticClient.DeleteAsync(path);
         }
