@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TBlog.Model;
-namespace TBlog.IService
+﻿namespace TBlog.IService
 {
-    public interface IActicleService : IBaseService<ActicleEntity>
+    public interface IActicleService : ISugarService<IActicleRepository,ActicleEntity>
     {
         public Task<ActicleDto> GetActicle(long id, long userid);
 

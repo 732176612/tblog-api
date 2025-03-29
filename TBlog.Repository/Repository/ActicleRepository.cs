@@ -10,10 +10,10 @@
         public async Task<IEnumerable<string>> GetTagsByUseId(long userid, EnumActicleReleaseForm releaseForm)
         {
             return await DBHelper.DB.Queryable<ActicleEntity>().Where(c => c.CUserId == userid && c.ReleaseForm == releaseForm)
-                                .InnerJoin<ActicleTagEntity>((c, y) => c.Id == y.ActicleId)
-                                .GroupBy((c, y) => y.Name)
-                                .Select((c, y) => y.Name)
-                                .ToListAsync();
+                        .InnerJoin<ActicleTagEntity>((c, y) => c.Id == y.ActicleId)
+                        .GroupBy((c, y) => y.Name)
+                        .Select((c, y) => y.Name)
+                        .ToListAsync();
         }
     }
 }

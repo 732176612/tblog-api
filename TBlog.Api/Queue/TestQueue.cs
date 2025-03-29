@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using TBlog.IRepository;
-
 namespace TBlog.RabbitMQ
 {
     public class TestQueue : RabbitMQueue<TestQueueModel>
     {
         private readonly IRedisRepository _redis;
-        public TestQueue(IRabbitMQConnection persistentConnection, ILogger<RabbitMQueue<TestQueueModel>> logger,
-        IRedisRepository redis, string queueName = "", int parrelTaskCount = 10, int retryCount = 5)
-        : base(redis, persistentConnection, logger, queueName, parrelTaskCount, retryCount)
+        public TestQueue(IRabbitMQConnection persistentConnection, ILogger<RabbitMQueue<TestQueueModel>> logger, IRedisRepository redis)
+        : base(redis, persistentConnection, logger, "", 10, 5)
         {
             _redis = redis;
         }

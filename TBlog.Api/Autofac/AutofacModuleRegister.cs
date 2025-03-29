@@ -9,6 +9,7 @@ using TBlog.Common;
 using Autofac.Extras.DynamicProxy;
 using TBlog.Extensions;
 using TBlog.Repository;
+using System.Linq;
 
 namespace TBlog.Api
 {
@@ -18,9 +19,17 @@ namespace TBlog.Api
     public class AutofacModuleRegister : Autofac.Module
     {
         /// <summary>
+        /// APIDLL路径
+        /// </summary>
+        public string APIDLLPath { get; set; }
+        public AutofacModuleRegister(string aPIDLLPath)
+        {
+            APIDLLPath = aPIDLLPath;
+        }
+
+        /// <summary>
         /// 依赖注入
         /// </summary>
-        /// <param name="builder"></param>
         protected override void Load(ContainerBuilder builder)
         {
             var cacheTypes = new List<Type>();
@@ -64,6 +73,12 @@ namespace TBlog.Api
                    .AsImplementedInterfaces()
                    .PropertiesAutowired()
                    .InstancePerDependency().InstancePerLifetimeScope();
+
+            var apiDllFile = Path.Combine(AppContext.BaseDirectory, APIDLLPath);
+            var queueTypes = Assembly.LoadFrom(apiDllFile).GetTypes().Where(c => c.BaseType.Name.Contains("RabbitMQueue")).ToArray();
+            builder.RegisterTypes(queueTypes)
+                   .PropertiesAutowired()
+                   .SingleInstance();
         }
     }
 }

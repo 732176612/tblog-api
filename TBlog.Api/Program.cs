@@ -29,13 +29,14 @@ using AspNetCoreRateLimit;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TBlog.Api;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host
 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
 .ConfigureContainer<ContainerBuilder>(builder =>
 {
-    builder.RegisterModule(new AutofacModuleRegister());
+    builder.RegisterModule(new AutofacModuleRegister("TBlog.Api.dll"));
     builder.RegisterModule<AutofacPropertityModuleReg>();
     builder.RegisterBuildCallback(c =>
     {
@@ -66,7 +67,18 @@ builder.Services.AddMiniProfilerSetup();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddHttpContextSetup();
 
-//builder.Services.AddRabbitMQSetup();
+builder.Services.AddRabbitMQSetup();
+
+builder.Services.AddCap(x =>
+{
+    x.UseSqlServer(ApiConfig.DBSetting.MainDB.Connection);
+    x.UseRabbitMQ(x =>
+    {
+        x.HostName = ApiConfig.RabbitMQ.Connection;
+        x.UserName = ApiConfig.RabbitMQ.UserName;
+        x.Password = ApiConfig.RabbitMQ.Password;
+    });
+});
 
 //  ⁄»®+»œ÷§ (jwt or ids4)
 builder.Services.AddAuthorizationSetup();
@@ -167,9 +179,6 @@ SqlSugarDBSeed.SeedAsync();
 
 app.UseConsulMildd(app.Lifetime);
 
-//if (env.IsDevelopment() == false)
-//{
-//    app.Applicationbuilder.Services.GetService<TestQueue>().Start();
-//}
+app.UseRabbitMQQueue("TBlog.Api.dll");
 
 app.Run();

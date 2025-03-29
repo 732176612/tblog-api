@@ -1,10 +1,13 @@
-﻿namespace TBlog.IRepository
+﻿using StackExchange.Redis;
+
+namespace TBlog.IRepository
 {
     /// <summary>
     /// Redis缓存接口
     /// </summary>
     public interface IRedisRepository
     {
+        IDatabase _db { get; }
         Task<string> GetValue(string key);
         Task<TEntity> Get<TEntity>(string key);
         Task Set(string key, object value, TimeSpan cacheTime);

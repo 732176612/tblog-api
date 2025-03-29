@@ -9,11 +9,15 @@
             依赖注入
             </summary>
         </member>
+        <member name="P:TBlog.Api.AutofacModuleRegister.APIDLLPath">
+            <summary>
+            APIDLL路径
+            </summary>
+        </member>
         <member name="M:TBlog.Api.AutofacModuleRegister.Load(Autofac.ContainerBuilder)">
             <summary>
             依赖注入
             </summary>
-            <param name="builder"></param>
         </member>
         <member name="T:TBlog.Api.ActicleController">
             <summary>
@@ -243,6 +247,16 @@
         <member name="M:TBlog.Api.TestController.TestBatchDelayQueue(System.Int32)">
             <summary>
             测试延迟队列入队
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.TestController.TestCAPPulish">
+            <summary>
+            测试CAP发送分布式事务
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.TestController.TestCAPSubscribe">
+            <summary>
+            测试CAP分布式事务
             </summary>
         </member>
         <member name="T:TBlog.Api.UserController">

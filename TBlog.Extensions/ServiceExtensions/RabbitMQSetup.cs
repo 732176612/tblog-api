@@ -1,11 +1,7 @@
-﻿using TBlog.Common;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
-using System;
-using TBlog.RabbitMQ;
-using Autofac;
-
+using TBlog.Common;
 namespace TBlog.Extensions
 {
     /// <summary>
@@ -27,14 +23,11 @@ namespace TBlog.Extensions
                     {
                         HostName = ApiConfig.RabbitMQ.Connection,
                         UserName = ApiConfig.RabbitMQ.UserName,
-                        Password = ApiConfig.RabbitMQ.Password,
-                        DispatchConsumersAsync = true
+                        Password = ApiConfig.RabbitMQ.Password
                     };
 
                     return new RabbitMQConnection(factory, logger, ApiConfig.RabbitMQ.RetryCount);
                 });
-
-                RabbitMQFactory.Init(services);
             }
         }
     }

@@ -35,21 +35,19 @@ namespace TBlog.Repository
         public async Task<List<TEntity>> Get(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
+            {
                 return await Collection.Find(Transaction.GetSessionHandle(), filter).ToListAsync();
-            else
-                return await Collection.Find(filter).ToListAsync();
+            }
+            return await Collection.Find(filter).ToListAsync();
         }
 
         public async Task<TEntity> GetSingle(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return await Collection.Find(Transaction.GetSessionHandle(), filter).SingleOrDefaultAsync();
-            else
             {
-                TEntity respone;
-                respone = await Collection.Find(filter).SingleOrDefaultAsync();
-                return respone;
+                return await Collection.Find(Transaction.GetSessionHandle(), filter).SingleOrDefaultAsync();
             }
+            return await Collection.Find(filter).SingleOrDefaultAsync();
         }
 
         public async Task<List<TEntity>> GetAll()
@@ -58,10 +56,7 @@ namespace TBlog.Repository
             {
                 return await Collection.Find(Transaction.GetSessionHandle(), c => true).ToListAsync();
             }
-            else
-            {
-                return await Collection.Find(c => true).ToListAsync();
-            }
+            return await Collection.Find(c => true).ToListAsync();
         }
 
         public async Task<TEntity> GetById(object id)
@@ -70,10 +65,7 @@ namespace TBlog.Repository
             {
                 return await Collection.Find(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", id)).SingleAsync();
             }
-            else
-            {
-                return await Collection.Find(Builders<TEntity>.Filter.Eq("_id", id)).SingleOrDefaultAsync();
-            }
+            return await Collection.Find(Builders<TEntity>.Filter.Eq("_id", id)).SingleOrDefaultAsync();
         }
 
         public async Task<List<TEntity>> GetByIds(IEnumerable<object> ids)
@@ -82,10 +74,7 @@ namespace TBlog.Repository
             {
                 return await Collection.Find(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids)).ToListAsync();
             }
-            else
-            {
-                return await Collection.Find(Builders<TEntity>.Filter.In("_id", ids)).ToListAsync();
-            }
+            return await Collection.Find(Builders<TEntity>.Filter.In("_id", ids)).ToListAsync();
         }
 
         public async Task<PageModel<TEntity>> GetPage(int pageIndex = 1, int pageSize = 20, Expression<Func<TEntity, bool>> filter = null, Dictionary<Expression<Func<TEntity, object>>, bool> sorts = null)
@@ -155,11 +144,7 @@ namespace TBlog.Repository
             {
                 await Collection.InsertOneAsync(Transaction.GetSessionHandle(), entity);
             }
-            else
-            {
-                await Collection.InsertOneAsync(entity);
-            }
-
+            await Collection.InsertOneAsync(entity);
             return 1;
         }
 
@@ -175,11 +160,7 @@ namespace TBlog.Repository
             {
                 await Collection.InsertManyAsync(Transaction.GetSessionHandle(), entities);
             }
-            else
-            {
-                await Collection.InsertManyAsync(entities);
-            }
-
+            await Collection.InsertManyAsync(entities);
             return entities.Count;
         }
         #endregion
@@ -193,12 +174,9 @@ namespace TBlog.Repository
             {
                 return (await Collection.ReplaceOneAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity)).ModifiedCount == 1;
             }
-            else
-            {
-                ReplaceOneResult respone = null;
-                respone = await Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity);
-                return respone.ModifiedCount == 1;
-            }
+
+            ReplaceOneResult respone = await Collection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", entity.EntityId), entity);
+            return respone.ModifiedCount == 1;
         }
 
         public async Task<bool> Update(List<TEntity> entities)
@@ -233,10 +211,8 @@ namespace TBlog.Repository
             {
                 return (await Collection.DeleteManyAsync<TEntity>(Transaction.GetSessionHandle(), filter)).DeletedCount;
             }
-            else
-            {
-                return (await Collection.DeleteManyAsync<TEntity>(filter)).DeletedCount;
-            }
+
+            return (await Collection.DeleteManyAsync<TEntity>(filter)).DeletedCount;
         }
 
         public async Task<bool> DeleteById(object id)
@@ -253,10 +229,8 @@ namespace TBlog.Repository
             {
                 return (await Collection.DeleteManyAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
             }
-            else
-            {
-                return (await Collection.DeleteManyAsync(Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
-            }
+
+            return (await Collection.DeleteManyAsync(Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
         }
         #endregion
 

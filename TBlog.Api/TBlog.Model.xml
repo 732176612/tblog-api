@@ -1870,5 +1870,30 @@
             角色名称
             </summary>
         </member>
+        <member name="T:TBlog.Model.MessageModel">
+            <summary>
+            队列消息模型
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MessageModel.DeliveryTag">
+            <summary>
+            消息标识
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MessageModel.GUID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MessageModel.DelaySecond">
+            <summary>
+            延迟时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.MessageModel.RetryCount">
+            <summary>
+            重试次数
+            </summary>
+        </member>
     </members>
 </doc>
