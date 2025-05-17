@@ -3,7 +3,8 @@
     /// <summary>
     /// 教育经历
     /// </summary>
-    public class EduInfoEntity : IEntity
+    [BsonIgnoreExtraElements]
+    public class EduInfoEntity : IDeleteEntity
     {
         #region 基础属性
         /// <summary>
@@ -44,35 +45,35 @@
         /// 学校
         /// </summary>
         [Description("学校")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string School { get; set; }
+        public string School { get; set; } = string.Empty;
 
         [Description("专业")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string Major { get; set; }
+        public string Major { get; set; } = string.Empty;
 
         /// <summary>
         /// 开始时间
         /// </summary>
         [Description("开始时间")]
-        [SugarColumn(ColumnDataType = "Date", IsNullable = false)]
-        public DateTime StartDate { get; set; }
+        [SugarColumn(IsNullable =false, Length = 15)]
+        public string StartDate { get; set; } = string.Empty;
 
         /// <summary>
         /// 结束时间
         /// </summary>
         [Description("结束时间")]
-        [SugarColumn(ColumnDataType = "Date", IsNullable = false)]
-        public DateTime EndDate { get; set; }
+        [SugarColumn(IsNullable = false,Length =15)]
+        public string EndDate { get; set; } = string.Empty;
 
         /// <summary>
         /// 经历描述
         /// </summary>
         [Description("经历描述")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 140, IsNullable = true)]
-        public string Introduction { get; set; }
+        [SugarColumn(ColumnDataType = "TEXT")]
+        public string Introduction { get; set; } = string.Empty;
         #endregion
     }
 }

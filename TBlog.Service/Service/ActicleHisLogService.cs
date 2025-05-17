@@ -1,23 +1,14 @@
 ﻿namespace TBlog.Service
 {
-    public class ActicleHisLogService : BaseService<ActicleHisLogEntity>, IActicleHisLogService
+    public class ActicleHisLogService : SugarService<ActicleHisLogEntity>, IActicleHisLogService
     {
-        private readonly IActicleHisLogRepository _ActicleHisLogRepository;
-        public ActicleHisLogService(IActicleHisLogRepository acticleHisLogRepository)
-        {
-            _ActicleHisLogRepository = acticleHisLogRepository;
-        }
         public async Task<bool> AddLog(ActicleHisLogEntity entity)
         {
-            if (await _ActicleHisLogRepository.Count(c => c.ActicleId == entity.ActicleId && c.HisType == entity.HisType && (c.CUserId == entity.CUserId || c.IpAddress == entity.IpAddress)) != 0)
-            {
-                return false;
-            }
-            else
-            {
-                await _ActicleHisLogRepository.AddEntity(entity);
-                return true;
-            }
+            var isExist = await DbScoped.SugarScope.Queryable<ActicleHisLogEntity>()
+                .AnyAsync(c => c.ActicleId == entity.ActicleId && c.HisType == entity.HisType && c.CUserId == entity.CUserId);
+            if (isExist) return false;
+            await Repository.AddEntity(entity);
+            return true;
         }
     }
 }

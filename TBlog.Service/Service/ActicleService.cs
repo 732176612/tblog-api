@@ -2,42 +2,28 @@
 
 namespace TBlog.Service
 {
-    public class ActicleService : SugarService<IActicleRepository, ActicleEntity>, IActicleService
+    public class ActicleService : SugarService<ActicleEntity>, IActicleService
     {
         private readonly IActicleHisLogService _ActicleHisLogService;
-        private readonly IActicleHisLogRepository _ActicleHisLogRepository;
-        private readonly IRoleRepository _RoleRepository;
         private readonly IUserRepository _UserRepository;
         private readonly IElasticClient _ElasticClient;
-        public ActicleService(IActicleRepository acticleRepository, IRoleRepository roleRepository, IUserRepository userRepository,
-            IActicleHisLogService acticleHisLogService, IActicleHisLogRepository acticleHisLogRepository,
-            IElasticClient elasticClient)
+        public ActicleService(IUserRepository userRepository, IActicleHisLogService acticleHisLogService, IElasticClient elasticClient)
         {
-            _RoleRepository = roleRepository;
             _UserRepository = userRepository;
             _ActicleHisLogService = acticleHisLogService;
-            _ActicleHisLogRepository = acticleHisLogRepository;
             _ElasticClient = elasticClient;
         }
 
         public async Task<string> SaveActicle(ActicleDto dto, long userId)
         {
-            ActicleEntity entity;
-            try
-            {
-                entity = dto.ToEntity<ActicleEntity, ActicleDto>(dto.ReleaseForm != EnumActicleReleaseForm.Draft);//草稿不校验字段
-            }
-            catch (Exception ex)
-            {
-                throw new TBlogApiException(ex.Message);
-            }
-
-            if (dto.ReleaseForm != EnumActicleReleaseForm.Draft && entity.Id == 0 && await CheckRepeatTitle(userId, entity.Title))
+            var entity = dto.ToEntity<ActicleEntity, ActicleDto>();
+            var titleIsExist = await CheckRepeatTitle(userId, entity.Title);
+            if (dto.ReleaseForm != EnumActicleReleaseForm.Draft && entity.Id == 0 && titleIsExist)
             {
                 throw new TBlogApiException("文章标题重复");
             }
 
-            var tran = await DBHelper.DB.UseTranAsync(async () =>
+            var tran = await DbScoped.SugarScope.UseTranAsync(async () =>
             {
                 entity.CUserId = userId;
 
@@ -48,32 +34,36 @@ namespace TBlog.Service
                     {
                         if (existEntity.CUserId != entity.CUserId) throw new TBlogApiException("您无权修改当前文章");
                         entity.CDate = existEntity.CDate;
-                        await Repository.Update(entity);
+                        entity.MDate = DateTime.Now;
+                        await DbScoped.SugarScope.UpdateNav(entity).Include(s => s.Tags).ExecuteCommandAsync();
                         return;
                     }
-                }
+                }   
 
-                entity.Id = await DBHelper.DB.Insertable(entity).ExecuteReturnBigIdentityAsync();
-                await DBHelper.DB.Insertable(new ActicleStatsEntity { ActicleId = entity.Id }).ExecuteCommandAsync();
+                entity.CDate = DateTime.Now;
+                entity.MDate = DateTime.Now;
+                entity.Id = SnowFlakeSingle.instance.NextId();
+                entity.Stats.LookNum = 0;
+                entity.Stats.LikeNum = 0;
+                await DbScoped.SugarScope.InsertNav(entity).Include(c => c.Tags).Include(c => c.Stats).ExecuteCommandAsync();
             });
 
-            if (tran.IsSuccess)
-            {
-                await CommonHelper.ExceptionRetry((() => _ElasticClient.IndexDocumentAsync(entity).Result.IsValid), 3);
-                //插入失败的写入日志处理
-            }
+            //if (tran.IsSuccess)
+            //{
+            //    await CommonHelper.ExceptionRetry((() => _ElasticClient.IndexDocumentAsync(entity).Result.IsValid), 3);
+            //}
 
             return entity.Id.ToString();
         }
 
         public async Task<bool> CheckRepeatTitle(long userId, string title)
         {
-            return await Repository.CountByUIdAndTitle(userId, title) > 0;
+            return await Repository.DBQuery.AnyAsync(c => c.CUserId == userId && c.Title == title);
         }
 
         public async Task<ActicleDto> GetActicle(long id, long userid)
         {
-            var entity = await Repository.DBQuery.InSingleAsync(id);
+            var entity = await Repository.DBQuery.Includes(c=>c.Tags).Includes(c=>c.Stats).InSingleAsync(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -90,7 +80,11 @@ namespace TBlog.Service
         {
             var user = await _UserRepository.GetByBlogName(blogName);
             if (user == null) throw new TBlogApiException("该博客不存在");
-            return await Repository.GetTagsByUseId(user.Id, releaseForm);
+            return await Repository.DBQuery.Where(c => c.CUserId == user.Id && c.ReleaseForm == releaseForm)
+                        .InnerJoin<ActicleTagEntity>((c, y) => c.Id == y.ActicleId)
+                        .GroupBy((c, y) => y.Name)
+                        .Select((c, y) => y.Name)
+                        .ToListAsync();
         }
 
         public async Task<PageModel<ActicleDto>> GetActicleList(int pageIndex, int pageSize, string blogName,
@@ -121,14 +115,15 @@ namespace TBlog.Service
                 filterActicleIds = searchResponse.Documents.Select(c => c.Id).ToList();
             }
 
-            string[] tagsSplit = tags?.Split(',') ?? [];
+            string[] tagsSplit = tags?.Split(',').Where(c=>c.IsNotEmptyOrNull()).ToArray() ?? [];
 
             var queryPage = await Repository.DBQuery.Where(c => c.CUserId == cuserId && c.ReleaseForm == releaseForm)
-                            .WhereIF(filterActicleIds.Count > 0, c => filterActicleIds.Contains(c.Id))
+                            .Includes(c => c.Stats)
                             .Includes(c => c.Tags)
-                            .Where(c => tagsSplit.Any(s => c.Tags.Select(q => q.Name).Contains(s)))
+                            .WhereIF(tagsSplit.Any(), c => c.Tags.Any(s=> tagsSplit.Contains(s.Name)))
+                            .WhereIF(filterActicleIds.Count > 0, c => filterActicleIds.Contains(c.Id))
                             .OrderByIF(acticleSortTag == EnumActicleSortTag.Likes, c => c.Stats.LikeNum, OrderByType.Desc)
-                            .OrderBy(c => c.CDate)
+                            .OrderByDescending(c => c.CDate)
                             .ToPageModel(pageIndex, pageSize);
 
             var listData = queryPage.Data.ToDto<ActicleDto, ActicleEntity>();
@@ -136,7 +131,7 @@ namespace TBlog.Service
             foreach (var item in listData)
             {
                 item.Content = item.Content.ClearHtmlTag();
-
+                item.CBlogName = blogName;
                 if (!string.IsNullOrEmpty(searchVal))
                 {
                     item.Title = item.Title.Replace(searchVal, $"<b style='color:red;'>{searchVal}</b>");
@@ -190,67 +185,56 @@ namespace TBlog.Service
             return queryPage.AsPageModel(listData);
         }
 
-        [Transaction]
         public async Task LikeArticle(long id, long cuserid, string ipAddress)
         {
             var entity = await Repository.DBQuery.InSingleAsync(id);
-            if (entity == null)
-            {
-                throw new TBlogApiException("不存在该文章");
-            }
-
-            if (entity.CUserId == cuserid)
-            {
-                throw new TBlogApiException("不能给自己点赞");
-            }
-
-            if (await _ActicleHisLogService.AddLog(new ActicleHisLogEntity
+            if (entity == null) throw new TBlogApiException("不存在该文章");
+            if (entity.CUserId == cuserid) throw new TBlogApiException("不能给自己点赞");
+            var isAdd = await _ActicleHisLogService.AddLog(new ActicleHisLogEntity
             {
                 ActicleId = id,
                 HisType = EnumActicleHisType.Like,
-                IpAddress = ipAddress
-            }))
-            {
-                var likeNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Like);
-                await DBHelper.DB.Updateable<ActicleStatsEntity>().SetColumns(c => c.LikeNum == likeNum + 1).ExecuteCommandAsync();
-            }
-            else
-            {
-                throw new TBlogApiException("您已经点赞过了!");
-            }
+                CUserId = cuserid == 0 ? ipAddress.Replace(".", "").ToLong() : cuserid
+            });
+            if (isAdd) throw new TBlogApiException("您已经点赞过了!");
+            await DbScoped.SugarScope.Updateable<ActicleStatsEntity>()
+            .SetColumns(c => c.LikeNum ==
+                SqlFunc.Subqueryable<ActicleHisLogEntity>()
+                .Where(s => s.ActicleId == id && s.HisType == EnumActicleHisType.Like)
+                .Count())
+            .Where(c => c.ActicleId == id)
+            .ExecuteCommandAsync();
         }
 
-        [Transaction]
         public async Task LookArticle(long id, long cuserid, string ipAddress)
         {
             var entity = await Repository.DBQuery.InSingleAsync(id);
             if (entity == null) throw new TBlogApiException("不存在该文章");
             if (entity.CUserId == cuserid) return;
-            await _ActicleHisLogService.AddLog(new ActicleHisLogEntity
+            var isAdd = await _ActicleHisLogService.AddLog(new ActicleHisLogEntity
             {
                 ActicleId = id,
                 HisType = EnumActicleHisType.Look,
-                IpAddress = ipAddress
+                CUserId = cuserid == 0 ? ipAddress.Replace(".", "").ToLong() : cuserid
             });
-            var LookNum = await _ActicleHisLogRepository.CountByActicleIdAndHisType(id, EnumActicleHisType.Look);
-            await DBHelper.DB.Updateable<ActicleStatsEntity>().SetColumns(c => c.LookNum == LookNum + 1).ExecuteCommandAsync();
+            if (isAdd)
+            {
+                await DbScoped.SugarScope.Updateable<ActicleStatsEntity>()
+                .SetColumns(c => c.LookNum ==
+                    SqlFunc.Subqueryable<ActicleHisLogEntity>()
+                    .Where(s => s.ActicleId == id && s.HisType == EnumActicleHisType.Look)
+                    .Count())
+                .Where(c => c.ActicleId == id)
+                .ExecuteCommandAsync();
+            }
         }
 
         public async Task DeleteArticle(long id, long cuserid)
         {
             var entity = await Repository.DBQuery.InSingleAsync(id);
-            if (entity == null)
-            {
-                throw new TBlogApiException("不存在该文章");
-            }
-
-            if (entity.CUserId != cuserid)
-            {
-                throw new TBlogApiException("您无权删除当前文章");
-            }
-
-            entity.IsDeleted = true;
-            await Repository.Update(entity);
+            if (entity == null) throw new TBlogApiException("不存在该文章");
+            if (entity.CUserId != cuserid) throw new TBlogApiException("您无权删除当前文章");
+            await Repository.DeleteByIds(id);
             var path = new DocumentPath<ActicleEntity>(entity).Index(ApiConfig.Elasticsearch.DefaultIndex);
             var respone = await _ElasticClient.DeleteAsync(path);
         }

@@ -55,12 +55,12 @@ namespace TBlog.Common
 
         public static string Toyyyymmdd(this DateTime dateTime)
         {
-            return dateTime.ToLocalTime().ToString("yyyy-MM-dd");
+            return dateTime.ToString("yyyy-MM-dd");
         }
 
         public static string ToyMdHms(this DateTime dateTime)
         {
-            return dateTime.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+            return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public static DateTime StampToDateTime(string time)
@@ -68,7 +68,7 @@ namespace TBlog.Common
             time = time.Substring(0, 10);
             double timestamp = Convert.ToInt64(time);
             System.DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-            dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
+            dateTime = dateTime.AddSeconds(timestamp);
             return dateTime;
         }
 
@@ -83,7 +83,7 @@ namespace TBlog.Common
         public static DateTime ToLocalTimeDateBySeconds(this long unix)
         {
             var dto = DateTimeOffset.FromUnixTimeSeconds(unix);
-            return dto.ToLocalTime().DateTime;
+            return dto.DateTime;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace TBlog.Common
         public static DateTime ToLocalTimeDateByMilliseconds(this long unix)
         {
             var dto = DateTimeOffset.FromUnixTimeMilliseconds(unix);
-            return dto.ToLocalTime().DateTime;
+            return dto.DateTime;
         }
 
         /// <summary>

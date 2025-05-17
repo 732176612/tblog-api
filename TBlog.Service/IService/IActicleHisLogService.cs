@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TBlog.Model;
-namespace TBlog.IService
+﻿namespace TBlog.Service
 {
     public interface IActicleHisLogService : IBaseService<ActicleHisLogEntity>
     {

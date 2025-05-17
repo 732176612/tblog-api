@@ -3,6 +3,7 @@
     /// <summary>
     /// 工作经历
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class CompanyInfoEntity : IEntity
     {
         #region 基础属性
@@ -44,54 +45,54 @@
         /// 公司
         /// </summary>
         [Description("公司")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string Company { get; set; }
+        public string Company { get; set; } = string.Empty;
 
         /// <summary>
         /// 职位
         /// </summary>
         [Description("职位")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string Position { get; set; }
+        public string Position { get; set; } = string.Empty;
 
         /// <summary>
         /// 部门
         /// </summary>
         [Description("部门")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string Department { get; set; }
+        public string Department { get; set; } = string.Empty;
 
         /// <summary>
         /// 所在城市
         /// </summary>
         [Description("所在城市")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
         [StringLength(20)]
-        public string City { get; set; }
+        public string City { get; set; } = string.Empty;
 
         /// <summary>
         /// 开始时间
         /// </summary>
         [Description("开始时间")]
-        [SugarColumn(ColumnDataType = "Date", IsNullable = false)]
-        public DateTime StartDate { get; set; }
+        [SugarColumn(IsNullable = false, Length = 15)]
+        public string StartDate { get; set; } = string.Empty;
 
         /// <summary>
         /// 结束时间
         /// </summary>
         [Description("结束时间")]
-        [SugarColumn(ColumnDataType = "Date", IsNullable = false)]
-        public DateTime EndDate { get; set; }
+        [SugarColumn(IsNullable = false, Length = 15)]
+        public string EndDate { get; set; } = string.Empty;
 
         /// <summary>
         /// 经历描述
         /// </summary>
         [Description("经历描述")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 140, IsNullable = true)]
-        public string Introduction { get; set; }
+        [SugarColumn(ColumnDataType = "TEXT")]
+        public string Introduction { get; set; } = string.Empty;
         #endregion
     }
 }

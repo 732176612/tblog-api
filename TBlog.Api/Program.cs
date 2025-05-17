@@ -1,5 +1,5 @@
 global using TBlog.Extensions;
-global using TBlog.IService;
+global using TBlog.Service;
 global using TBlog.Model;
 global using TBlog.Repository;
 global using System;
@@ -66,19 +66,8 @@ builder.Services.AddCorsSetup();
 builder.Services.AddMiniProfilerSetup();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddHttpContextSetup();
-
+builder.Services.AddSqlSugarSetup();
 builder.Services.AddRabbitMQSetup();
-
-builder.Services.AddCap(x =>
-{
-    x.UseSqlServer(ApiConfig.DBSetting.MainDB.Connection);
-    x.UseRabbitMQ(x =>
-    {
-        x.HostName = ApiConfig.RabbitMQ.Connection;
-        x.UserName = ApiConfig.RabbitMQ.UserName;
-        x.Password = ApiConfig.RabbitMQ.Password;
-    });
-});
 
 // 授权+认证 (jwt or ids4)
 builder.Services.AddAuthorizationSetup();
@@ -94,7 +83,11 @@ builder.Services.Configure<KestrelServerOptions>(x => x.AllowSynchronousIO = tru
 
 builder.Services.AddControllers(o =>
 {
-    o.Filters.Add<GlobalExceptionsFilter>();
+    //如果是正式环境
+    if (builder.Environment.IsProduction())
+    {
+        o.Filters.Add<GlobalExceptionsFilter>();
+    }
     o.InputFormatters.Add(new PlainTextInputFormatter());
     o.InputFormatters.Add(new CustInputFormatter());
 })
@@ -175,10 +168,11 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/view"
 });
 
-SqlSugarDBSeed.SeedAsync();
-
 app.UseConsulMildd(app.Lifetime);
 
 app.UseRabbitMQQueue("TBlog.Api.dll");
 
+await SqlSugarDBSeed.SeedAsync();
+
 app.Run();
+

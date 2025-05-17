@@ -38,37 +38,37 @@
         /// <summary>
         /// 任务名称
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 50, IsNullable = true)]
         public string Name { get; set; }
 
         /// <summary>
         /// 任务分组
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 100, IsNullable = true)]
         public string JobGroup { get; set; }
 
         /// <summary>
         /// 任务运行时间表达式
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 50, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 50, IsNullable = true)]
         public string Cron { get; set; }
 
         /// <summary>
         /// 任务所在DLL对应的程序集名称
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 100, IsNullable = true)]
         public string AssemblyName { get; set; }
 
         /// <summary>
         /// 任务所在类
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 100, IsNullable = true)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// 任务描述
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 1000, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 1000, IsNullable = true)]
         public string Remark { get; set; }
 
         /// <summary>
@@ -79,11 +79,13 @@
         /// <summary>
         /// 开始时间
         /// </summary>
+        [SugarColumn(IsNullable = true)]
         public DateTime? BeginTime { get; set; }
 
         /// <summary>
         /// 结束时间
-        /// </summary>
+        /// </summary> 
+        [SugarColumn(IsNullable = true)]
         public DateTime? EndTime { get; set; }
 
         /// <summary>

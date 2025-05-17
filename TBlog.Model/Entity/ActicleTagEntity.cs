@@ -1,7 +1,7 @@
 ﻿namespace TBlog.Model
 {
     /// <summary>
-    /// 文章实体
+    /// 文章标签
     /// </summary>
     public class ActicleTagEntity : IEntity
     {
@@ -11,11 +11,6 @@
         /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
         public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
-
-        /// <summary>
-        /// 获取或设置是否禁用，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -35,7 +30,7 @@
         #endregion
 
         #region 实体属性
-        [SugarColumn(Length = 20, ColumnDataType = "nvarchar")]
+        [SugarColumn(Length = 20, ColumnDataType = "VARCHAR")]
         public string Name { get; set; }
 
         /// <summary>

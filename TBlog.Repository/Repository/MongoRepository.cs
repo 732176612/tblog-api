@@ -200,37 +200,39 @@ namespace TBlog.Repository
         #endregion
 
         #region 删除
-        public async Task<bool> Delete(TEntity entity)
-        {
-            return await DeleteById(entity.EntityId);
-        }
-
         public async Task<long> Delete(Expression<Func<TEntity, bool>> filter)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
             {
+                if (typeof(TEntity) is IDeleteEntity)
+                {
+                    return (await Collection.UpdateManyAsync<TEntity>(Transaction.GetSessionHandle(), filter, Builders<TEntity>.Update.Set("IsDeleted", true))).ModifiedCount;
+                }
                 return (await Collection.DeleteManyAsync<TEntity>(Transaction.GetSessionHandle(), filter)).DeletedCount;
             }
 
+            if (typeof(TEntity) is IDeleteEntity)
+            {
+                return (await Collection.UpdateManyAsync<TEntity>(filter, Builders<TEntity>.Update.Set("IsDeleted", true))).ModifiedCount;
+            }
             return (await Collection.DeleteManyAsync<TEntity>(filter)).DeletedCount;
         }
 
-        public async Task<bool> DeleteById(object id)
-        {
-            if (Transaction != null && Transaction.GetSessionHandle() != null)
-                return (await Collection.DeleteOneAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.Eq("_id", id))).DeletedCount == 1;
-            else
-                return (await Collection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id))).DeletedCount == 1;
-        }
-
-        public async Task<bool> DeleteByIds(object[] ids)
+        public async Task<long> DeleteByIds(params object[] ids)
         {
             if (Transaction != null && Transaction.GetSessionHandle() != null)
             {
-                return (await Collection.DeleteManyAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
+                if (typeof(TEntity) is IDeleteEntity)
+                {
+                    return (await Collection.UpdateManyAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids), Builders<TEntity>.Update.Set("IsDeleted", true))).ModifiedCount;
+                }
+                return (await Collection.DeleteManyAsync(Transaction.GetSessionHandle(), Builders<TEntity>.Filter.In("_id", ids))).DeletedCount;
             }
-
-            return (await Collection.DeleteManyAsync(Builders<TEntity>.Filter.In("_id", ids))).DeletedCount == ids.Length;
+            if (typeof(TEntity) is IDeleteEntity)
+            {
+                return (await Collection.UpdateManyAsync(Builders<TEntity>.Filter.In("_id", ids), Builders<TEntity>.Update.Set("IsDeleted", true))).ModifiedCount;
+            }
+            return (await Collection.DeleteManyAsync(Builders<TEntity>.Filter.In("_id", ids))).DeletedCount;
         }
         #endregion
 
@@ -258,6 +260,8 @@ namespace TBlog.Repository
                 return await Collection.CountDocumentsAsync<TEntity>(filter);
             }
         }
+
+    
         #endregion
     }
 }

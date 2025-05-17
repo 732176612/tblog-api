@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using TBlog.Model;
-
-namespace TBlog.IRepository
+﻿namespace TBlog.IRepository
 {
     public interface IUserRepository : ISugarRepository<UserEntity>
     {

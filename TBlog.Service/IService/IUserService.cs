@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using TBlog.Model;
-namespace TBlog.IService
+namespace TBlog.Service
 {
     public interface IUserService : IBaseService<UserEntity>
     {

@@ -3,6 +3,7 @@
     /// <summary>
     /// 菜单实体
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class MenuEntity : IEntity
     {
         #region 基础属性
@@ -11,11 +12,6 @@
         /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
         public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
-
-        /// <summary>
-        /// 获取或设置是否禁用，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -43,13 +39,13 @@
         /// <summary>
         /// 名称
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20, IsNullable = true)]
         public string Name { get; set; }
 
         /// <summary>
         /// 菜单链接地址
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string Url { get; set; }
 
         /// <summary>
@@ -65,7 +61,7 @@
         /// <summary>
         /// 拥有此菜单的角色ID
         /// </summary>
-        [SugarColumn(ColumnDataType = "varchar", Length = 2000, IsNullable = true, IsJson = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 2000, IsNullable = true, IsJson = true)]
         public long[] RoleIds { get; set; }
         #endregion
     }

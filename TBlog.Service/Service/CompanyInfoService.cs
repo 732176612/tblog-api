@@ -1,18 +1,11 @@
-﻿using SqlSugar;
-
-namespace TBlog.Service
+﻿namespace TBlog.Service
 {
-    public class CompanyInfoService : BaseService<CompanyInfoEntity>, ICompanyInfoService
+    public class CompanyInfoService : SugarService<CompanyInfoEntity>, ICompanyInfoService
     {
-        private readonly IMongoRepository<CompanyInfoEntity> Repository;
-        public CompanyInfoService(IMongoRepository<CompanyInfoEntity> companyInfoRepository)
-        {
-            Repository = companyInfoRepository;
-        }
-
         public async Task<IEnumerable<CompanyInfoDto>> Get(long cuserid)
         {
-            return (await Repository.Get(c => c.CUserId == cuserid)).ToDto<CompanyInfoDto, CompanyInfoEntity>();
+            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
+            return entities.ToDto<CompanyInfoDto, CompanyInfoEntity>();
         }
 
         [Transaction]
@@ -26,7 +19,7 @@ namespace TBlog.Service
                     item.CUserId = cuserid;
                     item.Id = SnowFlakeSingle.instance.NextId();
                 }
-                await Repository.Delete(c => c.CUserId == cuserid);
+                await Repository.DBDelete.Where(c => c.CUserId == cuserid).ExecuteCommandAsync();
                 await Repository.AddEntities(entities.ToList());
             }
             catch (Exception ex)

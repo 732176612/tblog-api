@@ -1,9 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
-using System;
-
 namespace TBlog.Common
 {
     public class ApiConfig
@@ -102,12 +97,10 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_MongoConnection))
                     {
-                        return Configuration["DBSetting.MongoConnection"];
+                        _MongoConnection = Configuration["DBSetting.MongoConnection"];
                     }
-                    else
-                    {
-                        return _MongoConnection;
-                    }
+                    return _MongoConnection;
+
                 }
                 set
                 {
@@ -123,11 +116,6 @@ namespace TBlog.Common
             public string MongoDbName { get; set; }
 
             /// <summary>
-            /// 读写分离
-            /// </summary>
-            public bool CQRSEnabled { get; set; }
-
-            /// <summary>
             /// 生成数据库表
             /// </summary>
             public bool SeedDBEnabled { get; set; }
@@ -138,29 +126,36 @@ namespace TBlog.Common
             public bool SeedDBDataEnabled { get; set; }
 
             /// <summary>
-            /// 种子数据文件夹
-            /// </summary>
-            public string SeedDataFolder { get; set; }
-
-            /// <summary>
-            /// 种子数据文件夹路径
-            /// </summary>
-            public string SeedDataFolderPath { get { return $"{AppDomain.CurrentDomain.BaseDirectory}/{SeedDataFolder}"; } }
-
-            /// <summary>
-            /// 数据库配置
-            /// </summary>
-            public DBConfig[] DBS { get; set; }
-
-            /// <summary>
             /// 主库
             /// </summary>
-            public DBConfig MainDB { get { return DBS.First(); } }
+            public DBConfig MainDB
+            {
+                get
+                {
+                    if (_MainDB == null)
+                    {
+                        _MainDB = new DBConfig
+                        {
+                            Connection = Configuration["DBSetting.MainDB.Connection"],
+                            DBType = Configuration["DBSetting.MainDB.DBType"]
+                        };
+                        _MainDB.Enabled = true;
+                        _MainDB.ConfigId = ConstHelper.MainDBConfig;
+                    }
+                    return _MainDB;
+                }
+                set
+                {
+                    _MainDB = value;
+                }
+            }
+
+            public DBConfig _MainDB { get; set; }
 
             /// <summary>
             /// 从库
             /// </summary>
-            public IEnumerable<DBConfig> SlaveDBs { get { return DBS.Skip(CQRSEnabled ? 1 : 0); } }
+            public DBConfig[] SlaveDBs { get; set; } = Array.Empty<DBConfig>();
         }
 
         /// <summary>
@@ -168,6 +163,11 @@ namespace TBlog.Common
         /// </summary>
         public class DBConfig
         {
+            /// <summary>
+            /// 数据库ID
+            /// </summary>
+            public string ConfigId { get; set; }
+
             /// <summary>
             /// 是否开启
             /// </summary>
@@ -218,12 +218,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_Secret))
                     {
-                        return Configuration["JwtBearer.Secret"];
+                        _Secret = Configuration["JwtBearer.Secret"];
                     }
-                    else
-                    {
-                        return _Secret;
-                    }
+                    return _Secret;
                 }
                 set
                 {
@@ -505,12 +502,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_Connection))
                     {
-                        return Configuration["RabbitMQ.Connection"];
+                        _Connection = Configuration["RabbitMQ.Connection"];
                     }
-                    else
-                    {
-                        return _Connection;
-                    }
+                    return _Connection;
                 }
                 set
                 {
@@ -529,17 +523,14 @@ namespace TBlog.Common
             /// 密码
             /// </summary>
             public string Password
-            { 
+            {
                 get
                 {
                     if (string.IsNullOrEmpty(_Password))
                     {
-                        return Configuration["RabbitMQ.Password"];
+                        _Password = Configuration["RabbitMQ.Password"];
                     }
-                    else
-                    {
-                        return _Password;
-                    }
+                    return _Password;
                 }
                 set
                 {
@@ -586,12 +577,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_Connection))
                     {
-                        return Configuration["Redis.Connection"];
+                        _Connection = Configuration["Redis.Connection"];
                     }
-                    else
-                    {
-                        return _Connection;
-                    }
+                    return _Connection;
                 }
                 set
                 {
@@ -608,12 +596,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_PassWord))
                     {
-                        return Configuration["Redis.PassWord"];
+                        _Connection = Configuration["Redis.PassWord"];
                     }
-                    else
-                    {
-                        return _PassWord;
-                    }
+                    return _PassWord;
                 }
                 set
                 {
@@ -648,22 +633,84 @@ namespace TBlog.Common
             /// <summary>
             /// 设置腾讯云账户的账户标识 APPID
             /// </summary>
-            public string Appid { get; set; }
+            public string Appid
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Appid))
+                    {
+                        _Appid = Configuration["TencentCloud.Appid"];
+                    }
+                    return _Appid;
+                }
+                set
+                {
+                    _Appid = value;
+                }
+            }
+
+            public string _Appid { get; set; }
 
             /// <summary>
             /// 设置一个默认的存储桶地域
             /// </summary>
-            public string Region { get; set; }
+            public string Region
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Region))
+                    {
+                        _Region = Configuration["TencentCloud.Region"];
+                    }
+                    return _Region;
+                }
+                set
+                {
+                    _Region = value;
+                }
+            }
+            public string _Region { get; set; }
 
             /// <summary>
             /// 云 API 密钥 SecretId
             /// </summary>
-            public string SecretId { get; set; }
+            public string SecretId
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_SecretId))
+                    {
+                        _SecretId = Configuration["TencentCloud.SecretId"];
+                    }
+                    return _SecretId;
+                }
+                set
+                {
+                    _SecretId = value;
+                }
+            }
+            public string _SecretId { get; set; }
 
             /// <summary>
             /// 云 API 密钥 SecretKey
             /// </summary>
-            public string SecretKey { get; set; }
+            public string SecretKey
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_SecretKey))
+                    {
+                        _SecretKey = Configuration["TencentCloud.SecretKey"];
+                    }
+                    return _SecretKey;
+                }
+                set
+                {
+                    _SecretKey = value;
+                }
+            }
+
+            public string _SecretKey { get; set; }
 
             /// <summary>
             /// 每次请求签名有效时长，单位为秒
@@ -673,12 +720,44 @@ namespace TBlog.Common
             /// <summary>
             /// COS存储桶名称，格式：BucketName-APPID
             /// </summary>
-            public string Bucket { get; set; }
+            public string Bucket
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_Bucket))
+                    {
+                        _Bucket = Configuration["TencentCloud.Bucket"];
+                    }
+                    return _Bucket;
+                }
+                set
+                {
+                    _Bucket = value;
+                }
+            }
+            public string _Bucket { get; set; }
 
             /// <summary>
             /// COS存储桶访问域名
             /// </summary>
-            public string DoMain { get; set; }
+            public string DoMain
+            {
+                get
+                {
+                    if (string.IsNullOrEmpty(_DoMain))
+                    {
+                        _DoMain = Configuration["TencentCloud.DoMain"];
+                    }
+                    return _DoMain;
+                }
+                set
+                {
+                    _DoMain = value;
+                }
+            }
+
+            public string _DoMain { get; set; }
+
         }
         #endregion
 
@@ -734,12 +813,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_UserName))
                     {
-                        return Configuration["Elasticsearch.UserName"];
+                        _UserName = Configuration["Elasticsearch.UserName"];
                     }
-                    else
-                    {
-                        return _UserName;
-                    }
+                    return _UserName;
                 }
                 set
                 {
@@ -758,12 +834,9 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_Password))
                     {
-                        return Configuration["Elasticsearch.Password"];
+                        _Password = Configuration["Elasticsearch.Password"];
                     }
-                    else
-                    {
-                        return _Password;
-                    }
+                    return _Password;
                 }
                 set
                 {

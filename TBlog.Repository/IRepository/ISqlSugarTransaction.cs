@@ -1,7 +1,4 @@
-﻿using SqlSugar;
-using System;
-
-namespace TBlog.IRepository
+﻿namespace TBlog.IRepository
 {
     public interface ISqlSugarTransaction : ITransaction, IDisposable
     {

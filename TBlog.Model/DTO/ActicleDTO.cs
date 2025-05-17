@@ -33,7 +33,7 @@
         /// <summary>
         /// 文章标签
         /// </summary>
-        public string[] Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         /// <summary>
         /// 文章类型
@@ -49,16 +49,6 @@
         /// 点赞数
         /// </summary>
         public long LikeNum { get; set; }
-
-        /// <summary>
-        /// 分享数
-        /// </summary>
-        public long ShareNum { get; set; }
-
-        /// <summary>
-        /// 收藏数
-        /// </summary>
-        public long CollectNum { get; set; }
 
         /// <summary>
         /// 浏览次数

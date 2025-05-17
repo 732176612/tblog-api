@@ -1,2 +1,10 @@
 ﻿global using SqlSugar;
-global using Microsoft.Extensions.Logging;
+global using SqlSugar.IOC;
+global using Nest;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using TBlog.Common;
+global using TBlog.IRepository;
+global using TBlog.Model;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TBlog.Model
+﻿namespace TBlog.Model
 {
     public class IpAddressInfo : IEntity
     {
@@ -41,14 +35,14 @@ namespace TBlog.Model
         /// <summary>
         /// IP
         /// </summary>
-        [SugarColumn(ColumnDataType = "varchar", Length = 20)]
-        public string Ip { get; set; }
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20)]
+        public string Ip { get; set; } = string.Empty;
 
         /// <summary>
         /// IP地址
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 255, IsNullable = true)]
-        public string Address { get; set; }
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 255)]
+        public string Address { get; set; } = string.Empty;
         #endregion
     }
 }

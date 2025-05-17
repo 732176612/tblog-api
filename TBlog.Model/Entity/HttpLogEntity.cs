@@ -42,13 +42,13 @@
         /// <summary>
         /// 用户姓名
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = ConstHelper.UserNameLength)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = ConstHelper.UserNameLength)]
         public string UserName { get; set; } = "";
 
         /// <summary>
         /// 请求IP
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 128)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 39)]
         public string IP { get; set; } = "";
 
         /// <summary>
@@ -59,7 +59,7 @@
         /// <summary>
         /// 路径
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 2000)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 255)]
         public string Url { get; set; } = "";
 
         /// <summary>
@@ -75,25 +75,25 @@
         /// <summary>
         /// 请求方法
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 50)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 50)]
         public string RequestMethod { get; set; } = "";
 
         /// <summary>
         /// 请求数据
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 8000)]
+        [SugarColumn(ColumnDataType = "TEXT")]
         public string RequestData { get; set; } = "";
 
         /// <summary>
         /// 响应数据
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 8000)]
+        [SugarColumn(ColumnDataType = "TEXT")]
         public string ResponetData { get; set; } = "";
 
         /// <summary>
         /// 用户代理标识
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 100)]
         public string UserAgent { get; set; } = "";
         #endregion
     }

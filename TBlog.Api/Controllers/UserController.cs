@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using TBlog.IService;
+using TBlog.Service;
 using TBlog.IRepository;
 using TBlog.Model;
 using System.Collections.Generic;
@@ -24,14 +24,12 @@ namespace TBlog.Api
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
         private readonly IRedisRepository _redis;
-        private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
 
-        public UserController(ILogger<UserController> logger, IUserService userServer, IUserRepository userRepository, IRedisRepository redis, IRoleRepository roleRepository)
+        public UserController(ILogger<UserController> logger, IUserService userServer, IUserRepository userRepository, IRedisRepository redis)
         {
             _logger = logger;
             _userService = userServer;
-            _roleRepository = roleRepository;
             _userRepository = userRepository;
             _redis = redis;
         }
@@ -146,7 +144,8 @@ namespace TBlog.Api
                 return APITResult<string>.Fail("账号或密码不正确");
             }
             userEntity.LoginDate = DateTime.Now;
-            var roleEntities = await _roleRepository.DBQuery.In(userEntity.RoleIds).ToListAsync();
+
+            var roleEntities = await DbScoped.SugarScope.Queryable<RoleEntity>().In(userEntity.RoleIds).ToListAsync();
             var roleNames = string.Join(",", roleEntities.Select(c => c.Name));
             var roleIds = roleEntities.Select(c => c.Id);
             TokenJwtInfoModel tokenModel = new TokenJwtInfoModel { UserId = userEntity.Id, UserName = userEntity.UserName, RoleIds = roleIds, RoleName = roleNames, BlogName = userEntity.BlogName };
@@ -216,7 +215,7 @@ namespace TBlog.Api
             }
             var userid = oldToken.UserId;
             var userEntity = await _userRepository.DBQuery.InSingleAsync(userid);
-            var roleEntities = await _roleRepository.DBQuery.In(userEntity.RoleIds).ToListAsync();
+            var roleEntities = await DbScoped.SugarScope.Queryable<RoleEntity>().In(userEntity.RoleIds).ToListAsync();
             var roleNames = string.Join(",", roleEntities.Select(c => c.Name));
             var roleIds = roleEntities.Select(c => c.Id);
             TokenJwtInfoModel tokenModel = new TokenJwtInfoModel { UserId = userEntity.Id, UserName = userEntity.UserName, RoleIds = roleIds, RoleName = roleNames, BlogName = userEntity.BlogName };
@@ -300,7 +299,7 @@ namespace TBlog.Api
                     return APIResult.Fail("旧密码不能与新密码一致");
                 }
                 userEntity.Password = MD5Helper.MD5Encrypt32(dto.Password);
-                await DBHelper.DB.Updateable(userEntity).ExecuteCommandAsync();
+                await DbScoped.SugarScope.Updateable(userEntity).ExecuteCommandAsync();
                 await _redis.Remove(cacheKey);
                 return APIResult.Success("密码修改成功!");
             }

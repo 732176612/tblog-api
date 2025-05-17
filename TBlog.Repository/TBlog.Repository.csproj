@@ -1,26 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AppendTargetFrameworkToOutputPath>output</AppendTargetFrameworkToOutputPath>
-    <OutputPath>D:\Project\C#\TBlog-master\TBlog.Api\bin\Debug\</OutputPath>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<AppendTargetFrameworkToOutputPath>output</AppendTargetFrameworkToOutputPath>
+		<OutputPath>D:\Project\C#\TBlog-master\TBlog.Api\bin\Debug\</OutputPath>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.2.62" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TBlog.Common\TBlog.Common.csproj" />
-    <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
+	</ItemGroup>
 
 </Project>

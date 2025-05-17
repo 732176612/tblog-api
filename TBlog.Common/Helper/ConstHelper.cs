@@ -45,5 +45,10 @@ namespace TBlog.Common
         /// 普通用户
         /// </summary>
         public const string UserRole = "User";
+
+        /// <summary>
+        /// 主库ConfigID
+        /// </summary>
+        public const string MainDBConfig = "Main";
     }
 }

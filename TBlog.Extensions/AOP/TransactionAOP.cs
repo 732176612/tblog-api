@@ -1,11 +1,7 @@
 ﻿using Castle.DynamicProxy;
-using System;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using TBlog.Common;
 using TBlog.IRepository;
-
 namespace TBlog.Extensions
 {
     /// <summary>

@@ -38,26 +38,6 @@ namespace TBlog.IRepository
         Task<PageModel<TEntity>> GetPage(int PageIndex = 1, int PageSize = 20, Expression<Func<TEntity, bool>> filter = null, Dictionary<Expression<Func<TEntity, object>>, bool> sorts = null);
 
         /// <summary>
-        /// 根据对象，删除某一实体
-        /// </summary>
-        Task<bool> Delete(TEntity entity);
-
-        /// <summary>
-        /// 根据表达式删除实体
-        /// </summary>
-        Task<long> Delete(Expression<Func<TEntity, bool>> filter);
-
-        /// <summary>
-        /// 根据id 删除某一实体
-        /// </summary>
-        Task<bool> DeleteById(object id);
-
-        /// <summary>
-        /// 根据id数组，删除实体list
-        /// </summary>
-        Task<bool> DeleteByIds(object[] ids);
-
-        /// <summary>
         /// 计数
         /// </summary>
         Task<long> Count();

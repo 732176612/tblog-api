@@ -2,15 +2,15 @@
 {
     public class ProjectInfoService : BaseService<ProjectInfoEntity>, IProjectInfoService
     {
-        readonly IMongoRepository<ProjectInfoEntity> Repository;
-        public ProjectInfoService(IMongoRepository<ProjectInfoEntity> projectInfoRepository)
+        readonly ISugarRepository<ProjectInfoEntity> Repository;
+        public ProjectInfoService(ISugarRepository<ProjectInfoEntity> projectInfoRepository)
         {
             Repository = projectInfoRepository;
         }
 
         public async Task<IEnumerable<ProjectInfoDto>> Get(long cuserid)
         {
-            var entities = await Repository.Get(c => c.CUserId == cuserid);
+            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
             if (entities == null || entities.Any() == false) return Enumerable.Empty<ProjectInfoDto>();
             return entities.ToDto<ProjectInfoDto, ProjectInfoEntity>();
         }

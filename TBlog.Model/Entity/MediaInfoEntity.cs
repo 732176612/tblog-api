@@ -3,7 +3,8 @@
     /// <summary>
     /// 媒体文件信息
     /// </summary>
-    public class MediaInfoEntity : IEntity
+    [BsonIgnoreExtraElements]
+    public class MediaInfoEntity : IDeleteEntity
     {
         #region 基础属性
         /// <summary>
@@ -39,14 +40,14 @@
         /// 文件名
         /// </summary>
         [Description( "文件名")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 100, IsNullable = true)]
-        [StringLength(100, MinimumLength = 1)]
-        public string FileName { get; set; }
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 255)]
+        [StringLength(255, MinimumLength = 1)]
+        public string FileName { get; set; } = string.Empty;
 
-        [Description( "云链接")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 2000, IsNullable = true)]
-        [StringLength(2000, MinimumLength = 1)]
-        public string Url { get; set; }
+        [Description("云链接")]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 510)]
+        [StringLength(510, MinimumLength = 1)]
+        public string Url { get; set; } = string.Empty;
 
         /// <summary>
         /// 文件大小

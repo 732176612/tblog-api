@@ -1,4 +1,6 @@
-﻿namespace TBlog.IRepository
+﻿using System.Linq.Expressions;
+
+namespace TBlog.IRepository
 {
     public interface IBaseRepository<TEntity> where TEntity : class
     {
@@ -21,5 +23,15 @@
         /// 批量更新
         /// </summary>
         Task<bool> Update(List<TEntity> entities);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        Task<long> Delete(Expression<Func<TEntity, bool>> filter);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        Task<long> DeleteByIds(params object[] entityIds);
     }
 }

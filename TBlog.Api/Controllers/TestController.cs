@@ -105,9 +105,9 @@ namespace TBlog.Api
         [HttpGet]
         public APIResult TestCAPPulish()
         {
-            DBHelper.DB.Ado.Connection.Open();
-            DBHelper.DB.CurrentConnectionConfig.IsAutoCloseConnection = false;
-            using (var connection = (SqlConnection)DBHelper.DB.Ado.Connection)
+            DbScoped.SugarScope.Ado.Connection.Open();
+            DbScoped.SugarScope.CurrentConnectionConfig.IsAutoCloseConnection = false;
+            using (var connection = (SqlConnection)DbScoped.SugarScope.Ado.Connection)
             {
                 using (var transaction = connection.BeginTransaction(_capBus, autoCommit: false))
                 {
@@ -117,8 +117,8 @@ namespace TBlog.Api
                         {
                             connection.Open();
                         }
-                        DBHelper.DB.Ado.Transaction = transaction;
-                        DBHelper.DB.Insertable<UserEntity>(new UserEntity()
+                        DbScoped.SugarScope.Ado.Transaction = (IDbTransaction)transaction;
+                        DbScoped.SugarScope.Insertable<UserEntity>(new UserEntity()
                         {
                             BlogName = DateTime.Now.ToString()
                         }).ExecuteCommand();
@@ -142,17 +142,17 @@ namespace TBlog.Api
         public APIResult TestCAPSubscribe()
         {
             Console.WriteLine("xxx.services.show.time" + DateTime.Now);
-            DBHelper.DB.Ado.Connection.Open();
-            DBHelper.DB.CurrentConnectionConfig.IsAutoCloseConnection = false;
-            using (var connection = (SqlConnection)DBHelper.DB.Ado.Connection)
+            DbScoped.SugarScope.Ado.Connection.Open();
+            DbScoped.SugarScope.CurrentConnectionConfig.IsAutoCloseConnection = false;
+            using (var connection = (SqlConnection)DbScoped.SugarScope.Ado.Connection)
             {
                 using (var transaction = connection.BeginTransaction(_capBus, autoCommit: false))
                 {
                     try
                     {
                         if (connection.State != ConnectionState.Open) connection.Open();
-                        DBHelper.DB.Ado.Transaction = transaction;
-                        DBHelper.DB.Insertable<UserEntity>(new UserEntity()
+                        DbScoped.SugarScope.Ado.Transaction = (IDbTransaction)transaction;
+                        DbScoped.SugarScope.Insertable<UserEntity>(new UserEntity()
                         {
                             BlogName = DateTime.Now.ToString()
                         }).ExecuteCommand();

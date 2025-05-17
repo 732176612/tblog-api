@@ -1,6 +1,4 @@
-﻿using SqlSugar;
-
-namespace TBlog.IRepository
+﻿namespace TBlog.IRepository
 {
     public interface ITransaction
     {

@@ -2,15 +2,16 @@
 {
     public class SkillInfoService : BaseService<SkillInfoEntity>, ISkillInfoService
     {
-        readonly IMongoRepository<SkillInfoEntity> Repository;
-        public SkillInfoService(IMongoRepository<SkillInfoEntity> skillInfoRepository)
+        readonly ISugarRepository<SkillInfoEntity> Repository;
+        public SkillInfoService(ISugarRepository<SkillInfoEntity> skillInfoRepository)
         {
             Repository = skillInfoRepository;
         }
 
         public async Task<IEnumerable<SkillInfoDto>> Get(long cuserid)
         {
-            return (await Repository.Get(c => c.CUserId == cuserid)).ToDto<SkillInfoDto, SkillInfoEntity>();
+            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
+            return entities.ToDto<SkillInfoDto, SkillInfoEntity>();
         }
 
         [Transaction]

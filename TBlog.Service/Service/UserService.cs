@@ -1,14 +1,13 @@
-﻿using TBlog.Repository;
+﻿using System.Text.RegularExpressions;
+
 namespace TBlog.Service
 {
     public class UserService : BaseService<UserEntity>, IUserService
     {
         private readonly IUserRepository Repository;
-        private readonly IRoleRepository _IRoleRepository;
-        public UserService(IUserRepository userRepository, IRoleRepository roleRepository) 
+        public UserService(IUserRepository userRepository) 
         {
             Repository = userRepository;
-            _IRoleRepository = roleRepository;
         }
 
         public async Task<bool> CheckHavePhoneOrMail(string phoneOrMail)
@@ -35,6 +34,13 @@ namespace TBlog.Service
                 {
                     throw new TBlogApiException("博客名称不能为空");
                 }
+
+                //播博客名称只能英文
+                if (!Regex.IsMatch(dto.BlogName, @"^[a-zA-Z]+$"))
+                {
+                    throw new TBlogApiException("博客名称只能包含字母");
+                }
+                dto.BlogName = dto.BlogName.ToLower();
 
                 if (await CheckHaveBlogName(dto.BlogName))
                 {
@@ -78,26 +84,16 @@ namespace TBlog.Service
         {
             var entity = dto.ToEntity<UserEntity, UserResigterDto>();
             entity.Password = MD5Helper.MD5Encrypt32(entity.Password);
-            var userRole = await _IRoleRepository.GetByName(ConstHelper.UserRole);
-            if (entity.RoleIds.Any())
-            {
-                entity.RoleIds = entity.RoleIds.AsEnumerable().Concat(new[] { userRole.Id }).ToArray();
-            }
-            else
-            {
-                entity.RoleIds = new long[] { userRole.Id };
-            }
-            await DBHelper.DB.Insertable(entity).ExecuteCommandAsync();
+            var userRole = await DbScoped.SugarScope.Queryable<RoleEntity>().FirstAsync(c => ConstHelper.UserRole.Equals(c.Name));
+            entity.RoleIds = entity.RoleIds.Concat([userRole.Id]).Distinct().ToArray();
+            await DbScoped.SugarScope.Insertable(entity).ExecuteCommandAsync();
         }
 
         public async Task<UserEntity> LoginUser(UserLoginDto dto)
         {
             var entity = await Repository.GetByPhoneOrMail(dto.PhoneOrMail);
-            if (entity == null || !entity.Password.Equals(MD5Helper.MD5Encrypt32(dto.Password)))
-            {
-                return null;
-            }
-            entity.LoginDate = DateTime.Today.ToUniversalTime();
+            if (entity == null || !entity.Password.Equals(MD5Helper.MD5Encrypt32(dto.Password))) return null;
+            entity.LoginDate = DateTime.UtcNow;
             await Repository.Update(entity);
             return entity;
         }

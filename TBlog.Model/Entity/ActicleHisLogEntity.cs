@@ -3,6 +3,7 @@
     /// <summary>
     /// 文章历史记录
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class ActicleHisLogEntity : IEntity
     {
         #region 基础属性
@@ -11,11 +12,6 @@
         /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
         public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
-
-        /// <summary>
-        /// 获取或设置是否禁用，逻辑上的删除，非物理删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -40,11 +36,6 @@
         /// 文章Id
         /// </summary>
         public long ActicleId { get; set; }
-
-        /// <summary>
-        /// Ip地址
-        /// </summary>
-        public string IpAddress { get; set; }
 
         /// <summary>
         /// 操作类型

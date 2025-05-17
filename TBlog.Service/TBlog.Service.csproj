@@ -14,8 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TBlog.Extensions\TBlog.Extensions.csproj" />
-    <ProjectReference Include="..\TBlog.Model\TBlog.Model.csproj" />
     <ProjectReference Include="..\TBlog.Repository\TBlog.Repository.csproj" />
   </ItemGroup>
 

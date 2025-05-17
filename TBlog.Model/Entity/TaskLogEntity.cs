@@ -3,6 +3,7 @@
     /// <summary>
     /// 日志记录
     /// </summary>
+    [BsonIgnoreExtraElements]
     public class TaskLogEntity : IEntity
     {
         #region 基础属性
@@ -38,31 +39,31 @@
         /// <summary>
         /// 区域名
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string Area { get; set; }
 
         /// <summary>
         /// 区域控制器名
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string Controller { get; set; }
 
         /// <summary>
         /// Action名称
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string Action { get; set; }
 
         /// <summary>
         /// IP地址
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string IPAddress { get; set; }
 
         /// <summary>
         /// 描述
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string Description { get; set; }
 
         /// <summary>
@@ -74,7 +75,7 @@
         /// <summary>
         /// 登录名称
         /// </summary>
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 200, IsNullable = true)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200, IsNullable = true)]
         public string LoginName { get; set; }
 
         /// <summary>

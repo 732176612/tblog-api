@@ -2,15 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using SqlSugar.IOC;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using TBlog.Common;
-using TBlog.IRepository;
-
+using TBlog.Model;
+using TBlog.Service;
 namespace TBlog.Extensions
 {
     /// <summary>
@@ -20,15 +17,12 @@ namespace TBlog.Extensions
     {
         public IAuthenticationSchemeProvider Schemes { get; set; }
         private readonly IHttpContextAccessor _accessor;
-        private readonly IMenuRepository _menuServices;
-        private readonly IRoleRepository _roleServices;
-
-        public TBlogAuthorizationHandler(IAuthenticationSchemeProvider schemes, IHttpContextAccessor accessor, IMenuRepository menuServices, IRoleRepository roleServices)
+        readonly IMenuService _menuService;
+        public TBlogAuthorizationHandler(IAuthenticationSchemeProvider schemes, IHttpContextAccessor accessor, IMenuService menuService)
         {
             _accessor = accessor;
             Schemes = schemes;
-            _roleServices = roleServices;
-            _menuServices = menuServices;
+            _menuService = menuService;
         }
 
         // 重写异步处理程序
@@ -88,8 +82,8 @@ namespace TBlog.Extensions
                         }
 
                         var isMatchRole = false;
-                        var roleEntities = await _roleServices.GetByNames(currentUserRoles);
-                        var menuEntities = _menuServices.GetByRoleIds(roleEntities.Select(c => c.Id));
+                        var roleEntities = await DbScoped.SugarScope.Queryable<RoleEntity>().Where(c => currentUserRoles.Equals(c.Name)).ToListAsync();
+                        var menuEntities = await _menuService.GetByRoleIds(roleEntities.Select(c => c.Id));
                         foreach (var item in menuEntities)
                         {
                             try

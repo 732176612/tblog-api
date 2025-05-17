@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TBlog.Model;
 
-namespace TBlog.IService
+namespace TBlog.Service
 {
     public interface IMediaInfoService : IBaseService<MediaInfoEntity>
     {

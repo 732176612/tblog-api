@@ -1,18 +1,12 @@
 ﻿namespace TBlog.Service
 {
-    public class MenuService : BaseService<MenuEntity>, IMenuService
+    public class MenuService : SugarService<MenuEntity>, IMenuService
     {
-        readonly IMenuRepository Repository;
-
-        public MenuService(IMenuRepository menuRepository)
+        public async Task<IEnumerable<MenuDto>> GetByRoleIds(IEnumerable<long> roleIds)
         {
-            Repository = menuRepository;
-        }
-
-        public IEnumerable<MenuDto> GetByRoleIds(IEnumerable<long> roleIds)
-        {
-            var menuEntitys = Repository.GetByRoleIds(roleIds).Where(c => c.Enabled).OrderBy(c => c.OrderSort).AsEnumerable();
-            return menuEntitys.ToDto<MenuDto, MenuEntity>();
+            var menus = await Repository.DBQuery.OrderBy(c => c.OrderSort).ToListAsync();
+             menus.Where(c => (c.RoleIds?.Any() ?? false) == false || c.RoleIds.Intersect(roleIds).Any()).ToList();
+            return menus.ToDto<MenuDto, MenuEntity>();
         }
     }
 }

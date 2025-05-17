@@ -3,8 +3,8 @@ namespace TBlog.Service
 {
     public class MediaInfoService : BaseService<MediaInfoEntity>, IMediaInfoService
     {
-        private readonly IMongoRepository<MediaInfoEntity> Repository;
-        public MediaInfoService(IMongoRepository<MediaInfoEntity> baseRepository) 
+        private readonly ISugarRepository<MediaInfoEntity> Repository;
+        public MediaInfoService(ISugarRepository<MediaInfoEntity> baseRepository) 
         {
             Repository = baseRepository;
         }

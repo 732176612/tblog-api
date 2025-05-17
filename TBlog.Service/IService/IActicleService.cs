@@ -1,6 +1,6 @@
-﻿namespace TBlog.IService
+﻿namespace TBlog.Service
 {
-    public interface IActicleService : ISugarService<IActicleRepository,ActicleEntity>
+    public interface IActicleService : ISugarService<ActicleEntity>
     {
         public Task<ActicleDto> GetActicle(long id, long userid);
 

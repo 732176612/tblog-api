@@ -4,6 +4,51 @@
         <name>TBlog.Model</name>
     </assembly>
     <members>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToEntity``2(``1,System.Boolean)">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToDto``2(``1)">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToEntity``2(System.Collections.Generic.IEnumerable{``1},System.Boolean)">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToDto``2(System.Collections.Generic.IEnumerable{``1})">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToEntity``2(System.Collections.Generic.List{``1},System.Boolean)">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToDto``2(System.Collections.Generic.List{``1})">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToEntity``2(``1[],System.Boolean)">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.ToDto``2(``1[])">
+            <summary>
+             类型映射,默认字段名字一一对应
+            </summary>
+        </member>
+        <member name="M:TBlog.Model.AutoMapperExtension.VerifyEntity``1(``0)">
+            <summary>
+            反射校验实体
+            </summary>
+        </member>
         <member name="T:TBlog.Model.APIResult">
             <summary>
             通用返回信息类
@@ -118,6 +163,16 @@
         <member name="P:TBlog.Model.EnumModel.EnumKeyValues">
             <summary>
             枚举键值对
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.IDeleteEntity">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.IDeleteEntity.IsDeleted">
+            <summary>
+            获取或设置是否禁用，逻辑上的删除，非物理删除
             </summary>
         </member>
         <member name="T:TBlog.Model.IEntity">
@@ -238,16 +293,6 @@
         <member name="P:TBlog.Model.ActicleDto.LikeNum">
             <summary>
             点赞数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleDto.ShareNum">
-            <summary>
-            分享数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleDto.CollectNum">
-            <summary>
-            收藏数
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleDto.LookNum">
@@ -600,6 +645,11 @@
             实体ID
             </summary>
         </member>
+        <member name="P:TBlog.Model.ActicleEntity.IsDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
         <member name="P:TBlog.Model.ActicleEntity.CDate">
             <summary>
             创建时间
@@ -630,16 +680,6 @@
             封面海报
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleEntity.Tags">
-            <summary>
-            文章标签
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleEntity.Stats">
-            <summary>
-            文章统计信息
-            </summary>
-        </member>
         <member name="P:TBlog.Model.ActicleEntity.ActicleType">
             <summary>
             文章类型
@@ -650,14 +690,19 @@
             发布形式
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleEntity.IsDeleted">
-            <summary>
-            是否删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.ActicleEntity.CUserId">
             <summary>
             创建者ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleEntity.Tags">
+            <summary>
+            文章标签
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.ActicleEntity.Stats">
+            <summary>
+            文章统计信息
             </summary>
         </member>
         <member name="T:TBlog.Model.ActicleHisLogEntity">
@@ -668,11 +713,6 @@
         <member name="P:TBlog.Model.ActicleHisLogEntity.Id">
             <summary>
             实体ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleHisLogEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleHisLogEntity.CDate">
@@ -693,11 +733,6 @@
         <member name="P:TBlog.Model.ActicleHisLogEntity.ActicleId">
             <summary>
             文章Id
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleHisLogEntity.IpAddress">
-            <summary>
-            Ip地址
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleHisLogEntity.HisType">
@@ -740,16 +775,6 @@
             点赞数
             </summary>
         </member>
-        <member name="P:TBlog.Model.ActicleStatsEntity.ShareNum">
-            <summary>
-            分享数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleStatsEntity.CollectNum">
-            <summary>
-            收藏数
-            </summary>
-        </member>
         <member name="P:TBlog.Model.ActicleStatsEntity.LookNum">
             <summary>
             浏览次数
@@ -757,17 +782,12 @@
         </member>
         <member name="T:TBlog.Model.ActicleTagEntity">
             <summary>
-            文章实体
+            文章标签
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleTagEntity.Id">
             <summary>
             实体ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ActicleTagEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
             </summary>
         </member>
         <member name="P:TBlog.Model.ActicleTagEntity.CDate">
@@ -788,86 +808,6 @@
         <member name="P:TBlog.Model.ActicleTagEntity.ActicleId">
             <summary>
             文章ID
-            </summary>
-        </member>
-        <member name="T:TBlog.Model.ApiEntity">
-            <summary>
-            接口实体
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.Id">
-            <summary>
-            实体ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.CDate">
-            <summary>
-            创建时间
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.MDate">
-            <summary>
-            修改时间
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.EntityId">
-            <summary>
-            实体ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.Url">
-            <summary>
-            接口路径
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.Desc">
-            <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.FilterRules">
-            <summary>
-            过滤规则
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.OrderSort">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.IsEnabled">
-            <summary>
-            是否激活
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiEntity.RoleIds">
-            <summary>
-            拥有此接口权限的角色ID
-            </summary>
-        </member>
-        <member name="T:TBlog.Model.ApiFilterRuleModel">
-            <summary>
-            接口过滤模型
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiFilterRuleModel.IsEnabled">
-            <summary>
-            是否启用
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiFilterRuleModel.Seconds">
-            <summary>
-            秒数
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.ApiFilterRuleModel.Count">
-            <summary>
-            次数
             </summary>
         </member>
         <member name="T:TBlog.Model.CompanyInfoEntity">
@@ -1170,11 +1110,6 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.MenuEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.MenuEntity.CDate">
             <summary>
             创建时间
@@ -1295,11 +1230,6 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.RoleEntity.IsDeleted">
-            <summary>
-            获取或设置是否禁用，逻辑上的删除，非物理删除
-            </summary>
-        </member>
         <member name="P:TBlog.Model.RoleEntity.CDate">
             <summary>
             创建时间
@@ -1315,50 +1245,20 @@
             实体ID
             </summary>
         </member>
-        <member name="P:TBlog.Model.RoleEntity.PId">
-            <summary>
-            上级角色ID
-            </summary>
-        </member>
         <member name="P:TBlog.Model.RoleEntity.Name">
             <summary>
             角色名
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.RoleEntity.Desc">
+            <summary>
+            描述
             </summary>
         </member>
         <member name="P:TBlog.Model.RoleEntity.OrderSort">
              <summary>
             排序
              </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.Enabled">
-            <summary>
-            是否激活
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.Desc">
-             <summary>
-            描述
-             </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.CUserId">
-            <summary>
-            创建者ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.CUserName">
-            <summary>
-            创建者
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.MUserId">
-            <summary>
-            修改ID
-            </summary>
-        </member>
-        <member name="P:TBlog.Model.RoleEntity.MUserName">
-            <summary>
-            修改者
-            </summary>
         </member>
         <member name="T:TBlog.Model.SkillInfoEntity">
             <summary>
@@ -1553,7 +1453,7 @@
         <member name="P:TBlog.Model.TaskQzEntity.EndTime">
             <summary>
             结束时间
-            </summary>
+            </summary> 
         </member>
         <member name="P:TBlog.Model.TaskQzEntity.TriggerType">
             <summary>
@@ -1617,7 +1517,7 @@
         </member>
         <member name="P:TBlog.Model.UserEntity.Email">
             <summary>
-            登录账号
+            邮箱
             </summary>
         </member>
         <member name="P:TBlog.Model.UserEntity.Password">
@@ -1710,14 +1610,14 @@
             发布形式
             </summary>
         </member>
-        <member name="F:TBlog.Model.EnumActicleSortTag.Likes">
-            <summary>
-            推荐
-            </summary>
-        </member>
         <member name="F:TBlog.Model.EnumActicleSortTag.News">
             <summary>
             最新
+            </summary>
+        </member>
+        <member name="F:TBlog.Model.EnumActicleSortTag.Likes">
+            <summary>
+            推荐
             </summary>
         </member>
         <member name="T:TBlog.Model.EnumActicleType">

@@ -2,15 +2,16 @@
 {
     public class EduInfoService : BaseService<EduInfoEntity>, IEduInfoService
     {
-        readonly IMongoRepository<EduInfoEntity> _EduInfoRepository;
-        public EduInfoService(IMongoRepository<EduInfoEntity> eduInfoRepository) 
+        readonly ISugarRepository<EduInfoEntity> _EduInfoRepository;
+        public EduInfoService(ISugarRepository<EduInfoEntity> eduInfoRepository) 
         {
             _EduInfoRepository = eduInfoRepository;
         }
 
         public async Task<IEnumerable<EduInfoDto>> Get(long cuserid)
         {
-            return (await _EduInfoRepository.Get(c => c.CUserId == cuserid)).ToDto<EduInfoDto, EduInfoEntity>();
+            var entities = await _EduInfoRepository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
+            return entities.ToDto<EduInfoDto, EduInfoEntity>();
         }
 
         [Transaction]
@@ -26,6 +27,7 @@
                 }
                 await _EduInfoRepository.Delete(c => c.CUserId == cuserid);
                 await _EduInfoRepository.AddEntities(entities.ToList());
+
             }
             catch (Exception ex)
             {

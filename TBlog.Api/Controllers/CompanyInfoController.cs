@@ -30,8 +30,6 @@ namespace TBlog.Api
         /// <summary>
         /// 获取工作经历
         /// </summary>
-        /// <param name="blogName"></param>
-        /// <returns></returns>
         [HttpGet]
         public async Task<APITResult<IEnumerable<CompanyInfoDto>>> Get(string blogName)
         {
@@ -42,8 +40,6 @@ namespace TBlog.Api
         /// <summary>
         /// 保存工作经历
         /// </summary>
-        /// <param name="dtos"></param>
-        /// <returns></returns>
         [HttpPost]
         public async Task<APIResult> Save([FromBody] CompanyInfoDto[] dtos)
         {

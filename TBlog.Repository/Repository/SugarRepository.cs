@@ -1,17 +1,22 @@
-﻿namespace TBlog.Repository
+﻿using System.Linq.Expressions;
+
+namespace TBlog.Repository
 {
     public class SugarRepository<TEntity> : ISugarRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        public ISugarQueryable<TEntity> DBQuery { get => DBHelper.DB.Queryable<TEntity>(); }
+        public ISugarQueryable<TEntity> DBQuery { get => DbScoped.SugarScope.Queryable<TEntity>(); }
 
-        public IUpdateable<TEntity> DBUpdate { get => DBHelper.DB.Updateable<TEntity>(); }
+        public IUpdateable<TEntity> DBUpdate { get => DbScoped.SugarScope.Updateable<TEntity>(); }
+
+        public IDeleteable<TEntity> DBDelete { get => DbScoped.SugarScope.Deleteable<TEntity>(); }
+
 
         #region 插入
         public Task<int> AddEntity(TEntity entity)
         {
             entity.CDate = DateTime.UtcNow;
             entity.MDate = DateTime.UtcNow;
-            return DBHelper.DB.Insertable(entity).ExecuteCommandAsync();
+            return DbScoped.SugarScope.Insertable(entity).ExecuteCommandAsync();
         }
 
         public Task<int> AddEntities(List<TEntity> entities)
@@ -21,7 +26,7 @@
                 entity.CDate = DateTime.UtcNow;
                 entity.MDate = DateTime.UtcNow;
             });
-            return DBHelper.DB.Insertable(entities).ExecuteCommandAsync();
+            return DbScoped.SugarScope.Insertable(entities).ExecuteCommandAsync();
         }
         #endregion
 
@@ -29,7 +34,7 @@
         public Task<bool> Update(TEntity entity)
         {
             entity.MDate = DateTime.Now;
-            return DBHelper.DB.Updateable(entity).ExecuteCommandHasChangeAsync();
+            return DbScoped.SugarScope.Updateable(entity).ExecuteCommandHasChangeAsync();
         }
 
         public Task<bool> Update(List<TEntity> entities)
@@ -38,17 +43,32 @@
             {
                 entity.MDate = DateTime.UtcNow;
             });
-            return DBHelper.DB.Updateable(entities).ExecuteCommandHasChangeAsync();
+            return DbScoped.SugarScope.Updateable(entities).ExecuteCommandHasChangeAsync();
+        }
+
+        public async Task<long> Delete(Expression<Func<TEntity, bool>> filter)
+        {
+            var deleteCount = 0;
+            if (typeof(TEntity) is IDeleteEntity)
+            {
+                deleteCount = await DBUpdate.SetColumns("IsDeleted", true).Where(filter).ExecuteCommandAsync();
+            }
+            deleteCount =await DBDelete.Where(filter).ExecuteCommandAsync();
+            return deleteCount;
+        }
+
+        public async Task<long> DeleteByIds(params object[] entityIds)
+        {
+            var deleteCount = 0;
+            if (typeof(TEntity) is IDeleteEntity)
+            {
+                deleteCount = await DBUpdate.SetColumns("IsDeleted", true).In(entityIds).ExecuteCommandAsync();
+            }
+            deleteCount = await DBDelete.In(entityIds).ExecuteCommandAsync();
+            return deleteCount;
         }
         #endregion
 
-
-        public IDeleteable<TEntity> DBDelete { get => DBHelper.DB.Deleteable<TEntity>(); }
-
-        public Task<bool> Delete(TEntity DeleteObj)
-        {
-            return DBHelper.DB.Deleteable(DeleteObj).ExecuteCommandHasChangeAsync();
-        }
     }
 
     public static class RepositoryExtensionHelper

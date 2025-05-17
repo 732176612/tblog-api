@@ -6,6 +6,7 @@ using TBlog.Common;
 using System.Linq;
 using TBlog.Model;
 using TBlog.Repository;
+using SqlSugar.IOC;
 
 namespace TBlog.Extensions
 {
@@ -51,7 +52,7 @@ namespace TBlog.Extensions
                         StartDate = startDate,
                         EndDate = endDate
                     };
-                    await DBHelper.DB.Insertable(httpLogEntity).ExecuteCommandAsync();
+                    await DbScoped.SugarScope.Insertable(httpLogEntity).ExecuteCommandAsync();
                 }
                 catch (Exception ex)
                 {

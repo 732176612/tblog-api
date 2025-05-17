@@ -29,10 +29,11 @@ namespace TBlog.Api
         /// 根据角色权限获取菜单
         /// </summary>
         [HttpGet]
-        public APITResult<IEnumerable<MenuDto>> GetMenus()
+        public async Task<APITResult<IEnumerable<MenuDto>>> GetMenus()
         {
             var token = GetToken(true);
-            var dto = _menuServer.GetByRoleIds((token == null || token.RoleIds.Count() == 0) ? new long[] { 0 } : token.RoleIds);
+            var roleIds = (token == null || token.RoleIds.Count() == 0) ? null: token.RoleIds;
+            var dto = await _menuServer.GetByRoleIds(roleIds);
             return APITResult<IEnumerable<MenuDto>>.Success(dto);
         }
     }

@@ -1,7 +1,7 @@
-﻿namespace TBlog.IService
+﻿namespace TBlog.Service
 {
-    public interface ISugarService<TRepository, TEntity> : IBaseService<TEntity> where TEntity : class, new() where TRepository : ISugarRepository<TEntity>
+    public interface ISugarService<TEntity> : IBaseService<TEntity> where TEntity : class, new()
     {
-        public TRepository Repository { get; set; }
+        public ISugarRepository<TEntity> Repository { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using AutoMapper;
 using TBlog.Common;
-using TBlog.IService;
+using TBlog.Service;
 using TBlog.Model;
 using TBlog.Service;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +35,7 @@ namespace TBlog.Test
                .Build(), basePath));
             //services.AddAutoMapper(typeof(Startup));
             services.AddMongoDBSetup();
+            services.AddSqlSugarSetup();
 
             var builder = new ContainerBuilder();
             builder.RegisterGeneric(typeof(MongoRepository<>)).As(typeof(IMongoRepository<>)).InstancePerDependency();
@@ -55,6 +56,7 @@ namespace TBlog.Test
                    .AsImplementedInterfaces()
                    .PropertiesAutowired()
                    .InstancePerDependency().InstancePerLifetimeScope();
+
             builder.Populate(services);
             var ApplicationContainer = builder.Build();
 

@@ -119,15 +119,11 @@
             <summary>
             获取工作经历
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.CompanyInfoController.Save(TBlog.Model.CompanyInfoDto[])">
             <summary>
             保存工作经历
             </summary>
-            <param name="dtos"></param>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.EduInfoController">
             <summary>
@@ -138,15 +134,11 @@
             <summary>
             获取工作经历
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.EduInfoController.Save(TBlog.Model.EduInfoDto[])">
             <summary>
             保存工作经历
             </summary>
-            <param name="dtos"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ElasticsearchController.Test">
             <summary>
@@ -195,15 +187,11 @@
             <summary>
             获取项目经历
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.ProjectInfoController.Save(TBlog.Model.ProjectInfoDto[])">
             <summary>
             保存项目经历
             </summary>
-            <param name="dtos"></param>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.SkillInfoController">
             <summary>
@@ -214,15 +202,11 @@
             <summary>
             获取工作经历
             </summary>
-            <param name="blogName"></param>
-            <returns></returns>
         </member>
         <member name="M:TBlog.Api.SkillInfoController.Save(TBlog.Model.SkillInfoDto[])">
             <summary>
             保存工作经历
             </summary>
-            <param name="dtos"></param>
-            <returns></returns>
         </member>
         <member name="T:TBlog.Api.TestController">
             <summary>

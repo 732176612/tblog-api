@@ -9,12 +9,23 @@
       },
       "nativeDebugging": true
     },
-    "TBlogAPI": {
+    "Development": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sqlDebugging": false,
+      "applicationUrl": "http://localhost:8888",
+      "nativeDebugging": false
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
       },
       "sqlDebugging": false,
       "applicationUrl": "http://localhost:8888",

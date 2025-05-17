@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TBlog.Model
+﻿namespace TBlog.Model
 {
+    [BsonIgnoreExtraElements]
     public class ActicleStatsEntity : IEntity
     {
         #region 基础属性
@@ -42,16 +37,6 @@ namespace TBlog.Model
         /// 点赞数
         /// </summary>
         public long LikeNum { get; set; }
-
-        /// <summary>
-        /// 分享数
-        /// </summary>
-        public long ShareNum { get; set; }
-
-        /// <summary>
-        /// 收藏数
-        /// </summary>
-        public long CollectNum { get; set; }
 
         /// <summary>
         /// 浏览次数

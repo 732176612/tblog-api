@@ -3,7 +3,8 @@
     /// <summary>
     /// 专业技能
     /// </summary>
-    public class SkillInfoEntity : IEntity
+    [BsonIgnoreExtraElements]
+    public class SkillInfoEntity : IDeleteEntity
     {
         #region 基础属性
         /// <summary>
@@ -49,8 +50,8 @@
         /// 技能
         /// </summary>
         [Description("技能")]
-        [SugarColumn(ColumnDataType = "nvarchar", Length = 20, IsNullable = false)]
-        [StringLength(20)]
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200)]
+        [StringLength(40)]
         public string Skill { get; set; }
 
         [Description("熟练度")]
