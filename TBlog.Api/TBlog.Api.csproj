@@ -28,21 +28,25 @@
     <Compile Remove="Attribute\**" />
     <Compile Remove="Log\**" />
     <Compile Remove="TBlog.Extensions\**" />
+    <Compile Remove="wwwroot\SeedData\**" />
     <Compile Remove="wwwroot\view\assets\**" />
     <Compile Remove="wwwroot\view\js\**" />
     <Compile Remove="wwwroot\view\mescroll\**" />
     <Content Remove="Attribute\**" />
     <Content Remove="Log\**" />
+    <Content Remove="wwwroot\SeedData\**" />
     <Content Remove="wwwroot\view\assets\**" />
     <Content Remove="wwwroot\view\js\**" />
     <Content Remove="wwwroot\view\mescroll\**" />
     <EmbeddedResource Remove="Attribute\**" />
     <EmbeddedResource Remove="Log\**" />
+    <EmbeddedResource Remove="wwwroot\SeedData\**" />
     <EmbeddedResource Remove="wwwroot\view\assets\**" />
     <EmbeddedResource Remove="wwwroot\view\js\**" />
     <EmbeddedResource Remove="wwwroot\view\mescroll\**" />
     <None Remove="Attribute\**" />
     <None Remove="Log\**" />
+    <None Remove="wwwroot\SeedData\**" />
     <None Remove="wwwroot\view\assets\**" />
     <None Remove="wwwroot\view\js\**" />
     <None Remove="wwwroot\view\mescroll\**" />
@@ -67,7 +71,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\SeedData\" />
     <Folder Include="wwwroot\view\" />
   </ItemGroup>
 

@@ -12,6 +12,23 @@ namespace TBlog.Common
             BaseSetting.RootPath = rootPath;
         }
 
+        // 重新加载配置
+        public void Reload()
+        {
+            _BaseSetting = null;
+            _DBSetting = null;
+            _JwtBearer = null;
+            _IdentityServer4 = null;
+            _AOPSetting = null;
+            _CorsSetting = null;
+            _Middleware = null;
+            _ConsulSetting = null;
+            _RabbitMQSetting = null;
+            _RedisSetting = null;
+            _TencentCloud = null;
+            _Elasticsearch = null;
+        }
+
         /// <summary>
         /// 获取配置信息
         /// </summary>

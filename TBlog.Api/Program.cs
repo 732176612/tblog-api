@@ -51,10 +51,6 @@ builder.Host
     builder.AddLog4Net(Path.Combine(Directory.GetCurrentDirectory(), "Log4net.config"));
 });
 builder.Services.AddSingleton(new ApiConfig(builder.Configuration, AppDomain.CurrentDomain.BaseDirectory));
-ChangeToken.OnChange(() => ((IConfiguration)builder.Configuration).GetReloadToken(), () =>
-{
-    builder.Services.AddSingleton(new ApiConfig(builder.Configuration, AppDomain.CurrentDomain.BaseDirectory));
-});
 builder.Services.AddSingleton(new LogLock(AppDomain.CurrentDomain.BaseDirectory));
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -173,6 +169,11 @@ app.UseConsulMildd(app.Lifetime);
 app.UseRabbitMQQueue("TBlog.Api.dll");
 
 await SqlSugarDBSeed.SeedAsync();
+
+ChangeToken.OnChange(() => ((IConfiguration)builder.Configuration).GetReloadToken(), () =>
+{
+    app.Services.GetRequiredService<ApiConfig>().Reload();
+});
 
 app.Run();
 
