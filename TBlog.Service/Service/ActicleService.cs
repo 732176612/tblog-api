@@ -38,7 +38,7 @@ namespace TBlog.Service
                         await DbScoped.SugarScope.UpdateNav(entity).Include(s => s.Tags).ExecuteCommandAsync();
                         return;
                     }
-                }   
+                }
 
                 entity.CDate = DateTime.Now;
                 entity.MDate = DateTime.Now;
@@ -63,7 +63,7 @@ namespace TBlog.Service
 
         public async Task<ActicleDto> GetActicle(long id, long userid)
         {
-            var entity = await Repository.DBQuery.Includes(c=>c.Tags).Includes(c=>c.Stats).InSingleAsync(id);
+            var entity = await Repository.DBQuery.Includes(c => c.Tags).Includes(c => c.Stats).InSingleAsync(id);
             if (entity == null)
             {
                 throw new TBlogApiException("不存在该文章");
@@ -115,12 +115,12 @@ namespace TBlog.Service
                 filterActicleIds = searchResponse.Documents.Select(c => c.Id).ToList();
             }
 
-            string[] tagsSplit = tags?.Split(',').Where(c=>c.IsNotEmptyOrNull()).ToArray() ?? [];
+            string[] tagsSplit = tags?.Split(',').Where(c => c.IsNotEmptyOrNull()).ToArray() ?? [];
 
             var queryPage = await Repository.DBQuery.Where(c => c.CUserId == cuserId && c.ReleaseForm == releaseForm)
                             .Includes(c => c.Stats)
                             .Includes(c => c.Tags)
-                            .WhereIF(tagsSplit.Any(), c => c.Tags.Any(s=> tagsSplit.Contains(s.Name)))
+                            .WhereIF(tagsSplit.Any(), c => c.Tags.Any(s => tagsSplit.Contains(s.Name)))
                             .WhereIF(filterActicleIds.Count > 0, c => filterActicleIds.Contains(c.Id))
                             .OrderByIF(acticleSortTag == EnumActicleSortTag.Likes, c => c.Stats.LikeNum, OrderByType.Desc)
                             .OrderByDescending(c => c.CDate)
@@ -196,7 +196,7 @@ namespace TBlog.Service
                 HisType = EnumActicleHisType.Like,
                 CUserId = cuserid == 0 ? ipAddress.Replace(".", "").ToLong() : cuserid
             });
-            if (isAdd) throw new TBlogApiException("您已经点赞过了!");
+            if (isAdd == false) throw new TBlogApiException("您已经点赞过了!");
             await DbScoped.SugarScope.Updateable<ActicleStatsEntity>()
             .SetColumns(c => c.LikeNum ==
                 SqlFunc.Subqueryable<ActicleHisLogEntity>()
