@@ -16,6 +16,14 @@ namespace TBlog.Common
         /// </summary>
         public static async Task<string> GetRequestData(this HttpContext context)
         {
+            // 1. 检查 Content-Type 是否是 multipart/form-data 为了不保存文件二进制数据
+            if (context.Request.ContentType?.StartsWith("multipart/form-data") == true)
+            {
+                var form = await context.Request.ReadFormAsync();
+                var bodyContent = string.Join("&", form.ToDictionary(x => x.Key, x => x.Value.ToString()));
+                return $" QueryString:[{context.Request.QueryString}]；Body:[{bodyContent}]；";
+            }
+
             context.Request.EnableBuffering();
             var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
             context.Request.Body.Position = 0;
@@ -25,12 +33,36 @@ namespace TBlog.Common
         /// <summary>
         /// 获取响应流数据
         /// </summary>
-        public static async Task<string> GetResponeData(this HttpContext context)
+        public static async Task<string> GetResponeData(this HttpContext context, RequestDelegate _next)
         {
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            var responeBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            return responeBody;
+            // 1. 保存原始的 Response.Body
+            var originalBody = context.Response.Body;
+            var responseBody = string.Empty;
+            try
+            {
+                // 2. 替换为可寻址的 MemoryStream
+                using (var memStream = new MemoryStream())
+                {
+                    context.Response.Body = memStream;
+
+                    // 3. 调用下一个中间件（继续处理请求）
+                    await _next(context);
+
+                    // 4. 回退到流开头，读取响应内容
+                    memStream.Position = 0;
+                    responseBody = await new StreamReader(memStream).ReadToEndAsync();
+
+                    // 6. 把修改后的内容写回原始 Response.Body
+                    memStream.Position = 0;
+                    await memStream.CopyToAsync(originalBody);
+                }
+            }
+            finally
+            {
+                // 7. 恢复原始的 Response.Body
+                context.Response.Body = originalBody;
+            }
+            return responseBody;
         }
 
         /// <summary>

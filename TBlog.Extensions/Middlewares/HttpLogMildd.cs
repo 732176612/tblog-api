@@ -29,15 +29,14 @@ namespace TBlog.Extensions
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (ApiConfig.Middleware.HTTPLogMatchPath.Any(c => c.Contains(context.Request.Path.Value)))
+            if (ApiConfig.Middleware.HTTPLogMatchPath.Any(c => context.Request.Path.Value.Contains(c)))
             {
                 try
                 {
                     var requestData = await context.GetRequestData();
                     var startDate = DateTime.UtcNow;
-                    await _next(context);
                     var endDate = DateTime.UtcNow;
-                    var responeData = await context.GetResponeData();
+                    var responeData = await context.GetResponeData(_next);
                     var ip = context.GetIpAddress();
                     var httpLogEntity = new HttpLogEntity()
                     {
@@ -52,7 +51,7 @@ namespace TBlog.Extensions
                         StartDate = startDate,
                         EndDate = endDate
                     };
-                    await DbScoped.SugarScope.Insertable(httpLogEntity).ExecuteCommandAsync();
+                    await DbScoped.SugarScope.Insertable(httpLogEntity).SplitTable().ExecuteCommandAsync();
                 }
                 catch (Exception ex)
                 {
