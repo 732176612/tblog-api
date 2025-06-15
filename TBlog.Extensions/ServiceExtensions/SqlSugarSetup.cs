@@ -13,7 +13,7 @@ namespace TBlog.Extensions
             if (ApiConfig.DBSetting.MainDB == null) throw new Exception("请配置主数据库链接：DBSetting.DBS");
             if (ApiConfig.DBSetting.MainDB.Connection == null) throw new Exception("主数据库链接不能为空！");
 
-            services.AddSqlSugar(new IocConfig()
+             services.AddSqlSugar(new IocConfig()
             {
                 ConfigId = ApiConfig.DBSetting.MainDB,
                 DbType = (IocDbType)Enum.Parse(typeof(IocDbType), ApiConfig.DBSetting.MainDB.DBType),

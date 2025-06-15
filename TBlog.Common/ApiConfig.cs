@@ -114,7 +114,7 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_MongoConnection))
                     {
-                        _MongoConnection = Configuration["DBSetting.MongoConnection"];
+                        _MongoConnection = Configuration["DBSetting:MongoConnection"];
                     }
                     return _MongoConnection;
 
@@ -153,8 +153,8 @@ namespace TBlog.Common
                     {
                         _MainDB = new DBConfig
                         {
-                            Connection = Configuration["DBSetting.MainDB.Connection"],
-                            DBType = Configuration["DBSetting.MainDB.DBType"]
+                            Connection = Configuration["DBSetting:MainDB:Connection"],
+                            DBType = Configuration["DBSetting:MainDB:DBType"]
                         };
                         _MainDB.Enabled = true;
                         _MainDB.ConfigId = ConstHelper.MainDBConfig;
@@ -235,7 +235,7 @@ namespace TBlog.Common
                 {
                     if (string.IsNullOrEmpty(_Secret))
                     {
-                        _Secret = Configuration["JwtBearer.Secret"];
+                        _Secret = Configuration["JwtBearer:Secret"];
                     }
                     return _Secret;
                 }

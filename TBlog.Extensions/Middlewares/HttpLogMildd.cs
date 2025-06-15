@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using TBlog.Common;
-using System.Linq;
-using TBlog.Model;
-using TBlog.Repository;
 using SqlSugar.IOC;
-
+using TBlog.Common;
+using TBlog.IRepository;
+using TBlog.Model;
 namespace TBlog.Extensions
 {
     /// <summary>
@@ -19,17 +15,19 @@ namespace TBlog.Extensions
         private readonly RequestDelegate _next;
         private readonly ILogger<HttpLogMildd> _logger;
         private readonly IClaimUser _user;
+        private readonly IMongoRepository<HttpLogEntity> _httpLogRepository;
 
-        public HttpLogMildd(RequestDelegate next, IClaimUser user, ILogger<HttpLogMildd> logger)
+        public HttpLogMildd(RequestDelegate next, IClaimUser user,IMongoRepository<HttpLogEntity> httpLogRepository, ILogger<HttpLogMildd> logger)
         {
             _next = next;
             _logger = logger;
             _user = user;
+            _httpLogRepository = httpLogRepository;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (ApiConfig.Middleware.HTTPLogMatchPath.Any(c => context.Request.Path.Value.Contains(c)))
+            if (ApiConfig.Middleware.HTTPLogMatchPath.Any(context.Request.Path.Value.Contains))
             {
                 try
                 {
@@ -45,13 +43,13 @@ namespace TBlog.Extensions
                         IP = ip,
                         Url = context.Request.Path.ObjToString(),
                         RequestMethod = context.Request.Method,
-                        Id = _user.ID,
                         UserName = _user.Name,
                         UserAgent = context.Request.Headers["User-Agent"].ObjToString(),
                         StartDate = startDate,
-                        EndDate = endDate
+                        EndDate = endDate,
+                        //IpAddress = await HttpHelper.GetLocationNameByIp(ip)
                     };
-                    await DbScoped.SugarScope.Insertable(httpLogEntity).SplitTable().ExecuteCommandAsync();
+                    await _httpLogRepository.AddEntity(httpLogEntity);
                 }
                 catch (Exception ex)
                 {

@@ -498,5 +498,34 @@ namespace TBlog.Test
             await DbScoped.SugarScope.CommitTranAsync();
         }
         #endregion
+
+        [Fact]
+        public async Task TestInsertHttpLog()
+        {
+            var mongoClient = ContainerHelper.Resolve<IMongoClient>();
+            var collection = mongoClient.GetDatabase(ApiConfig.DBSetting.MongoDbName).GetCollection<HttpLogEntity>(typeof(HttpLogEntity).Name);
+            var logs = new List<HttpLogEntity>();
+            for(int i = 0; i < 1000; i++)
+            {
+                //一年内的随机时间
+                DateTime dateTime = DateTime.Now.AddSeconds(-new Random().Next(0, 31536000));
+                logs.Add(new HttpLogEntity
+                {
+                    CDate = dateTime,
+                    MDate = dateTime,
+                    RequestData = Guid.NewGuid().ToString(),
+                    RequestMethod = "GET",
+                    ResponetData = Guid.NewGuid().ToString(),
+                    Url = "http://example.com/api/test",
+                    UserAgent = "Mozilla/5.0",
+                    UserName = "TestUser",
+                    StartDate = dateTime,
+                    EndDate = dateTime.AddSeconds(1),
+                    IP="127.0.0.1",
+                    IpAddress= "Localhost"
+                });
+            }
+            await collection.InsertManyAsync(logs);
+        }
     }
 }
