@@ -14,8 +14,8 @@ namespace TBlog.Repository
         #region 插入
         public Task<int> AddEntity(TEntity entity)
         {
-            entity.CDate = DateTime.UtcNow;
-            entity.MDate = DateTime.UtcNow;
+            entity.CDate = DateTime.Now;
+            entity.MDate = DateTime.Now;
             return DbScoped.SugarScope.Insertable(entity).ExecuteCommandAsync();
         }
 
@@ -23,8 +23,8 @@ namespace TBlog.Repository
         {
             entities.ForEach(entity =>
             {
-                entity.CDate = DateTime.UtcNow;
-                entity.MDate = DateTime.UtcNow;
+                entity.CDate = DateTime.Now;
+                entity.MDate = DateTime.Now;
             });
             return DbScoped.SugarScope.Insertable(entities).ExecuteCommandAsync();
         }

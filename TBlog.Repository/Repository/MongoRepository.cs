@@ -137,8 +137,8 @@ namespace TBlog.Repository
         #region 插入
         public async Task<int> AddEntity(TEntity entity)
         {
-            entity.CDate = DateTime.UtcNow;
-            entity.MDate = DateTime.UtcNow;
+            entity.CDate = DateTime.Now;
+            entity.MDate = DateTime.Now;
 
             if (Transaction != null && Transaction.GetSessionHandle() != null)
             {
@@ -152,8 +152,8 @@ namespace TBlog.Repository
         {
             entities.ForEach(entity =>
             {
-                entity.CDate = DateTime.UtcNow;
-                entity.MDate = DateTime.UtcNow;
+                entity.CDate = DateTime.Now;
+                entity.MDate = DateTime.Now;
             });
 
             if (Transaction != null && Transaction.GetSessionHandle() != null)
