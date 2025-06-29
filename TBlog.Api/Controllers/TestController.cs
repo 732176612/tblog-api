@@ -11,6 +11,7 @@ using TBlog.RabbitMQ;
 using DotNetCore.CAP;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace TBlog.Api
 {
@@ -28,8 +29,9 @@ namespace TBlog.Api
         private readonly TestQueue _testQueue;
         private readonly ICapPublisher _capBus;
         private readonly ISugarRepository<UserEntity> _baseRepository;
+        private readonly IConfiguration _configuration;
 
-        public TestController(IMenuService testServer, IRedisRepository redis, ILogger<TestController> logger,
+        public TestController(IMenuService testServer, IRedisRepository redis, ILogger<TestController> logger,IConfiguration configuration,
             ISugarRepository<RoleEntity> role, TestQueue testQueue, ICapPublisher capPublisher, ISugarRepository<UserEntity> baseRepository)
         {
             this._testServer = testServer;
@@ -39,6 +41,18 @@ namespace TBlog.Api
             _redis = redis;
             _capBus = capPublisher;
             _baseRepository = baseRepository;
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// 测试
+        /// </summary>
+        [HttpGet]
+        public APIResult TestConfiguration()
+        {
+            // 获取配置文件中的值
+            string value = _configuration["BaseSetting:ApiName"];
+            return APIResult.Success(value);
         }
 
         /// <summary>

@@ -55,7 +55,7 @@ namespace TBlog.Common
         private static BaseSettingConfig _BaseSetting;
 
         /// <summary>
-        /// 跨域配置
+        /// 基础配置
         /// </summary>
         public class BaseSettingConfig
         {

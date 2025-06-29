@@ -30,7 +30,8 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TBlog.Api;
 using System.Threading.Tasks;
-
+using TBlog.Extensions.ServiceExtensions;
+using Com.Ctrip.Framework.Apollo;
 var builder = WebApplication.CreateBuilder(args);
 builder.Host
 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -42,6 +43,10 @@ builder.Host
     {
         ContainerHelper.RegisterContainer(c as IContainer);
     });
+})
+.ConfigureAppConfiguration((hostContext, config) =>
+{
+    config.AddApolloSetUp(hostContext.Configuration.GetSection("Apollo"));
 })
 .ConfigureLogging((hostingContext, builder) =>
 {
@@ -65,7 +70,7 @@ builder.Services.AddHttpContextSetup();
 builder.Services.AddSqlSugarSetup();
 builder.Services.AddRabbitMQSetup();
 
-// ÊÚÈ¨+ÈÏÖ¤ (jwt or ids4)
+// æˆæƒ+è®¤è¯ (jwt or ids4)
 builder.Services.AddAuthorizationSetup();
 builder.Services.AddAuthentication_Ids4Setup();
 builder.Services.AddAuthentication_JWTSetup();
@@ -79,7 +84,7 @@ builder.Services.Configure<KestrelServerOptions>(x => x.AllowSynchronousIO = tru
 
 builder.Services.AddControllers(o =>
 {
-    //Èç¹ûÊÇÕıÊ½»·¾³
+    //å¦‚æœæ˜¯æ­£å¼ç¯å¢ƒ
     if (builder.Environment.IsProduction())
     {
         o.Filters.Add<GlobalExceptionsFilter>();
@@ -89,16 +94,16 @@ builder.Services.AddControllers(o =>
 })
 .AddNewtonsoftJson(options =>
 {
-    //ºöÂÔÑ­»·ÒıÓÃ
+    //å¿½ç•¥å¾ªç¯å¼•ç”¨
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    //²»Ê¹ÓÃÍÕ·åÑùÊ½µÄkey
+    //ä¸ä½¿ç”¨é©¼å³°æ ·å¼çš„key
     options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-    //ÉèÖÃ±¾µØÊ±¼ä¶ø·ÇUTCÊ±¼ä
+    //è®¾ç½®æœ¬åœ°æ—¶é—´è€ŒéUTCæ—¶é—´
     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
 });
 builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-//Ö§³Ö±àÂë´óÈ« ÀıÈç:Ö§³Ö System.Text.Encoding.GetEncoding("GB2312")  System.Text.Encoding.GetEncoding("GB18030") 
+//æ”¯æŒç¼–ç å¤§å…¨ ä¾‹å¦‚:æ”¯æŒ System.Text.Encoding.GetEncoding("GB2312")  System.Text.Encoding.GetEncoding("GB18030") 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var app = builder.Build();
