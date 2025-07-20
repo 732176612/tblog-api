@@ -94,6 +94,41 @@
             设置Token身份信息
             </summary>
         </member>
+        <member name="T:TBlog.Api.CommentController">
+            <summary>
+            评论
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.CreateComment(TBlog.Model.CreateCommentDto)">
+            <summary>
+            创建评论
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.GetCommentList(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            获取文章评论列表
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.GetChildComments(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            获取评论的子评论
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.LikeComment(System.Int64)">
+            <summary>
+            点赞评论
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.DeleteComment(System.Int64)">
+            <summary>
+            删除评论
+            </summary>
+        </member>
+        <member name="M:TBlog.Api.CommentController.GetCommentDetail(System.Int64)">
+            <summary>
+            获取评论详情
+            </summary>
+        </member>
         <member name="T:TBlog.Api.CommonController">
             <summary>
             公用API

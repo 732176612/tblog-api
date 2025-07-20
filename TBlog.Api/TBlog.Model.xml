@@ -305,6 +305,136 @@
             创建者
             </summary>
         </member>
+        <member name="T:TBlog.Model.CommentDto">
+            <summary>
+            评论DTO
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.Id">
+            <summary>
+            评论ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.ParentId">
+            <summary>
+            父评论ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.RootId">
+            <summary>
+            根评论ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.Level">
+            <summary>
+            评论层级
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.LikeCount">
+            <summary>
+            点赞数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.ReplyCount">
+            <summary>
+            回复数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.IsLiked">
+            <summary>
+            是否已点赞
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.User">
+            <summary>
+            评论者信息
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.Children">
+            <summary>
+            子评论列表
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.Parent">
+            <summary>
+            父评论信息（用于回复显示）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.ShowCollapse">
+            <summary>
+            是否显示折叠按钮
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentDto.IsCollapsed">
+            <summary>
+            是否已折叠
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.CreateCommentDto">
+            <summary>
+            创建评论DTO
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CreateCommentDto.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CreateCommentDto.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CreateCommentDto.ParentId">
+            <summary>
+            父评论ID
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.CommentQueryDto">
+            <summary>
+            评论查询DTO
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentQueryDto.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentQueryDto.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentQueryDto.PageSize">
+            <summary>
+            页大小
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentQueryDto.RootId">
+            <summary>
+            根评论ID（用于获取子评论）
+            </summary>
+        </member>
         <member name="T:TBlog.Model.CompanyInfoDto">
             <summary>
             工作经历
@@ -808,6 +938,151 @@
         <member name="P:TBlog.Model.ActicleTagEntity.ActicleId">
             <summary>
             文章ID
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.CommentEntity">
+            <summary>
+            评论实体
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.IsDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.Content">
+            <summary>
+            评论内容
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.UserId">
+            <summary>
+            评论者ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.ParentId">
+            <summary>
+            父评论ID（用于回复功能）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.RootId">
+            <summary>
+            根评论ID（用于分组显示）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.LikeCount">
+            <summary>
+            点赞数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.ReplyCount">
+            <summary>
+            回复数
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.Level">
+            <summary>
+            评论层级（0为一级评论，1为二级评论，以此类推）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.SortWeight">
+            <summary>
+            排序权重（用于排序显示）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.User">
+            <summary>
+            评论者信息
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.Children">
+            <summary>
+            子评论列表
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentEntity.Parent">
+            <summary>
+            父评论信息
+            </summary>
+        </member>
+        <member name="T:TBlog.Model.CommentLikeEntity">
+            <summary>
+            评论点赞实体
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.Id">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.IsDeleted">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.CDate">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.MDate">
+            <summary>
+            修改时间
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.EntityId">
+            <summary>
+            实体ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.CommentId">
+            <summary>
+            评论ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.ActicleId">
+            <summary>
+            文章ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.Status">
+            <summary>
+            点赞状态（1为点赞，0为取消点赞）
+            </summary>
+        </member>
+        <member name="P:TBlog.Model.CommentLikeEntity.IpAddress">
+            <summary>
+            IP地址
             </summary>
         </member>
         <member name="T:TBlog.Model.CompanyInfoEntity">

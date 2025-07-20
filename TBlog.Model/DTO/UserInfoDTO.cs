@@ -5,6 +5,8 @@
     /// </summary>
     public class UserInfoDto : IDto
     {
+        public string Id { get; set; }
+
         /// <summary>
         /// 博客名称
         /// </summary>
