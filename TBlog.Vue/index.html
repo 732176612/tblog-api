@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no,maximum-scale=1.0,user-scalable=0">
+  <link href="/mescroll/mescroll.min.css" rel="stylesheet" type="text/css">
+  <title>TBlog</title>
+</head>
+
+<body class="bg-light">
+  <div class="w-100 h-100" id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/mescroll/mescroll.min.js"></script>
+  <script>
+     // 禁止双击放大
+    document.documentElement.addEventListener(
+      "touchstart",
+      function (event) {
+        if (event.touches.length > 1) {
+          event.preventDefault();
+        }
+      }, {
+        passive: false
+      }
+    );
+    let lastTouchEnd = 0;
+    document.documentElement.addEventListener(
+      "touchend",
+      function (event) {
+        var now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, {
+        passive: false
+      }
+    );
+  </script>
+</body>
+
+</html>
+
+<style>
+
+</style>
