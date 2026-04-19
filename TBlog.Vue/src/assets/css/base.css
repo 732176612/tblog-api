@@ -1,0 +1,60 @@
+:root {
+    --orange: #ff833b;
+    --blue: #0077ff;
+    --main_color: #0077ff;
+    --main_dark_color: #3392ff;
+    --main_light_color: #7fbbff;
+}
+
+.btn-main {
+    background-color: var(--main_color) !important;
+    color: white !important;
+}
+
+.btn-main-dark {
+    background-color: var(--main_dark_color) !important;
+    color: white !important;
+}
+
+.btn-main-light {
+    background-color: var(--main_light_color) !important;
+    color: white !important;
+}
+
+.bg-main {
+    background-color: var(--main_color) !important;
+}
+
+.bg-main-dark {
+    background-color: var(--main_dark_color) !important;
+}
+
+.bg-main-light {
+    background-color: var(--main_light_color) !important;
+}
+
+.color-main {
+    color: var(--main_color) !important;
+}
+
+.color-main-dark {
+    color: var(--main_dark_color) !important;
+}
+
+.color-main-light {
+    color: var(--main_light_color) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--main_color) !important;
+    border-color: var(--main_color) !important;
+}
+
+.logoImg {
+    width: 75px;
+}
+
+html,
+body {
+    height: 100%;
+}
