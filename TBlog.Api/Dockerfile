@@ -1,5 +1,12 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
+FROM node:20-alpine AS frontend-build
+WORKDIR /src/TBlog.Vue
+COPY ["TBlog.Vue/package.json", "TBlog.Vue/package-lock.json", "./"]
+RUN npm ci
+COPY ["TBlog.Vue/", "./"]
+RUN npm run build
+
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -21,6 +28,7 @@ RUN dotnet build "TBlog.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "TBlog.Api.csproj" -c Release -o /app/publish
+COPY --from=frontend-build /src/TBlog.Vue/dist/ /app/publish/wwwroot/view/
 
 FROM base AS final
 WORKDIR /app
