@@ -11,7 +11,7 @@
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-10 col-10" style="max-width:400px">
       <div class="card" style="border-top: 2px solid var(--blue)">
         <div class="card-header text-center">
-          <img class="logoImg" src="../assets/img/logo.png" />
+          <img class="logoImg" src="../assets/img/Logo.png" />
         </div>
         <div class="card-body">
           <p class="h3 text-center">登录</p>

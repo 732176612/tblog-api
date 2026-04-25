@@ -12,7 +12,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8 col-10">
                 <div class="card">
                     <div class="card-header text-center" style="border-top: 2px solid var(--blue)">
-                        <img class="logoImg" src="../assets/img/logo.png" />
+                        <img class="logoImg" src="../assets/img/Logo.png" />
                     </div>
                     <div class="card-body">
                         <p class="login-box-msg h3 text-center">注册</p>
