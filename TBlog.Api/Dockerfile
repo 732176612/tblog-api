@@ -2,7 +2,7 @@
 
 FROM node:20-alpine AS frontend-build
 WORKDIR /src/TBlog.Vue
-COPY ["TBlog.Vue/package.json", "TBlog.Vue/package-lock.json", "./"]
+COPY ["TBlog.Vue/package.json", "TBlog.Vue/package-lock.json", "TBlog.Vue/.npmrc", "./"]
 RUN npm ci
 COPY ["TBlog.Vue/", "./"]
 RUN npm run build
