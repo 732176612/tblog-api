@@ -31,8 +31,9 @@ using Microsoft.Extensions.Logging;
 using TBlog.Api;
 using System.Threading.Tasks;
 using TBlog.Extensions.ServiceExtensions;
-using Com.Ctrip.Framework.Apollo;
 var builder = WebApplication.CreateBuilder(args);
+// 与 app 使用同一 ConfigurationManager，且在默认 JSON/环境变量等源之后注册，保证 Apollo 覆盖本地配置并尽早参与合并（避免服务注册阶段只读到本地文件）
+builder.Configuration.AddApolloSetUp(builder.Configuration.GetSection("Apollo"));
 builder.Host
 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
 .ConfigureContainer<ContainerBuilder>(builder =>
@@ -43,10 +44,6 @@ builder.Host
     {
         ContainerHelper.RegisterContainer(c as IContainer);
     });
-})
-.ConfigureAppConfiguration((hostContext, config) =>
-{
-    config.AddApolloSetUp(hostContext.Configuration.GetSection("Apollo"));
 })
 .ConfigureLogging((hostingContext, builder) =>
 {
@@ -111,6 +108,8 @@ var app = builder.Build();
 // 本地开发可能没有 wwwroot/view（Docker 会从 TBlog.Vue 拷贝）；PhysicalFileProvider 要求目录存在
 var viewRoot = Path.Combine(builder.Environment.WebRootPath ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot"), "view");
 Directory.CreateDirectory(viewRoot);
+// Apollo 等源在 Build 完成远程拉取后，清除 ApiConfig 静态缓存，避免沿用服务注册阶段未含 Apollo 的快照
+app.Services.GetRequiredService<ApiConfig>().Reload();
 
 app.UseIpLimitMildd();
 
@@ -180,7 +179,7 @@ app.UseRabbitMQQueue("TBlog.Api.dll");
 
 await SqlSugarDBSeed.SeedAsync();
 
-ChangeToken.OnChange(() => ((IConfiguration)builder.Configuration).GetReloadToken(), () =>
+ChangeToken.OnChange(() => app.Configuration.GetReloadToken(), () =>
 {
     app.Services.GetRequiredService<ApiConfig>().Reload();
 });
