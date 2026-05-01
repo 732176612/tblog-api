@@ -39,6 +39,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Com.Ctrip.Framework.Apollo" Version="2.11.0" />
+		<PackageReference Include="Com.Ctrip.Framework.Apollo.Configuration" Version="2.11.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="SqlSugarCore" Version="5.1.4.188" />
 		<PackageReference Include="SqlSugar.IOC" Version="2.0.0" />

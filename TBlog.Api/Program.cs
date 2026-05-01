@@ -107,6 +107,11 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var app = builder.Build();
+
+// 本地开发可能没有 wwwroot/view（Docker 会从 TBlog.Vue 拷贝）；PhysicalFileProvider 要求目录存在
+var viewRoot = Path.Combine(builder.Environment.WebRootPath ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot"), "view");
+Directory.CreateDirectory(viewRoot);
+
 app.UseIpLimitMildd();
 
 app.UseHttpLog();
@@ -150,7 +155,7 @@ app.UseEndpoints(endpoints =>
     {
         if (context.Request.Path.StartsWithSegments("/view", StringComparison.Ordinal))
         {
-            var html = await File.ReadAllTextAsync(Path.Combine(builder.Environment.WebRootPath, "./view/index.html"));
+            var html = await File.ReadAllTextAsync(Path.Combine(viewRoot, "index.html"));
             context.Response.ContentType = "text/html";
             await context.Response.WriteAsync(html, Encoding.UTF8);
         }
@@ -165,7 +170,7 @@ app.UseStaticFiles();
 
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.WebRootPath, "./view")),
+    FileProvider = new PhysicalFileProvider(viewRoot),
     RequestPath = "/view"
 });
 

@@ -1,9 +1,11 @@
-﻿namespace TBlog.Service
+﻿using TBlog.IRepository;
+
+namespace TBlog.Service
 {
     public class HttpLogService : BaseService<HttpLogEntity>, IHttpLogService
     {
-        readonly ISugarRepository<HttpLogEntity> _httpLogRepository;
-        public HttpLogService(ISugarRepository<HttpLogEntity> httpLogRepository)
+        readonly IMongoRepository<HttpLogEntity> _httpLogRepository;
+        public HttpLogService(IMongoRepository<HttpLogEntity> httpLogRepository)
         {
             _httpLogRepository = httpLogRepository;
         }

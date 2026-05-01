@@ -41,13 +41,12 @@ namespace TBlog.Repository
 
                     Console.WriteLine("Create Tables...");
                     var modelTypes = (from t in Assembly.GetAssembly(typeof(IEntity)).GetTypes()
-                                      where t.IsClass && t.Namespace == "TBlog.Model" && t.IsAssignableTo(typeof(IEntity))
+                                      where t.IsClass && t.Namespace == "TBlog.Model" && t.IsAssignableTo(typeof(IEntity)) && t != typeof(HttpLogEntity)
                                       select t).ToList();
-                    modelTypes.ForEach(t =>
-                    {
+                    foreach (var t in modelTypes)
                         Console.WriteLine($"初始化数据库表:[{t.Name}]");
-                        DbScoped.SugarScope.CodeFirst.InitTables(t);
-                    });
+                    // 一次性初始化：PostgreSQL 等库要求外键引用的父表先存在，逐个 InitTables 时反射顺序不定会导致 42P01
+                    DbScoped.SugarScope.CodeFirst.InitTables(modelTypes.ToArray());
                     $"Tables created successfully!".WriteSuccessLine();
                     Console.WriteLine();
 
@@ -104,10 +103,7 @@ namespace TBlog.Repository
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(
-                        $"1、若是Mysql,查看常见问题:https://github.com/anjoy8/TBlog/issues/148#issue-776281770 \n" +
-                        $"2、若是Oracle,查看常见问题:https://github.com/anjoy8/TBlog/issues/148#issuecomment-752340231 \n" +
-                        "3、其他错误：" + ex.Message);
+                    throw new Exception(ex.Message);
                 }
         }
     }

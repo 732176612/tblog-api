@@ -1,32 +1,24 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
-using AutoMapper;
-using TBlog.Common;
-using TBlog.Service;
-using TBlog.Model;
-using TBlog.Service;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Xunit;
-using TBlog.Api;
 using Microsoft.DotNet.PlatformAbstractions;
-using TBlog.IRepository;
-using TBlog.Extensions;
-using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
+using System.IO;
+using System.Reflection;
+using TBlog.Extensions;
+using TBlog.IRepository;
 using TBlog.Repository;
+using Xunit;
 
 namespace TBlog.Test
 {
     public class Init_Test
     {
         public Init_Test()
-        {
+        {   
             var basePath = ApplicationEnvironment.ApplicationBasePath;
             IServiceCollection services = new ServiceCollection().AddLogging();
             services.AddSingleton(new ApiConfig(new ConfigurationBuilder()

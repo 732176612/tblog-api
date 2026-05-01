@@ -144,9 +144,9 @@
         public DateTime? LoginDate { get; set; }
 
         /// <summary>
-        /// 角色权限
+        /// 角色权限（PostgreSQL 用 jsonb；勿对 IsJson 配 Length，否则 CodeFirst 易生成非法括号语法）
         /// </summary>
-        [SugarColumn(IsJson = true, Length = 2000)]
+        [SugarColumn(IsJson = true, ColumnDataType = "jsonb", IsNullable = true)]
         public long[] RoleIds { get; set; } = [];
         #endregion
     }

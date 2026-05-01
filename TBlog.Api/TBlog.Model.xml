@@ -1212,7 +1212,7 @@
         </member>
         <member name="T:TBlog.Model.HttpLogEntity">
             <summary>
-            Http日记记录
+            Http日记记录（存储于 MongoDB，集合名为 HttpLogEntity）
             </summary>
         </member>
         <member name="P:TBlog.Model.HttpLogEntity.Id">
@@ -1862,7 +1862,7 @@
         </member>
         <member name="P:TBlog.Model.UserEntity.RoleIds">
             <summary>
-            角色权限
+            角色权限（PostgreSQL 用 jsonb；勿对 IsJson 配 Length，否则 CodeFirst 易生成非法括号语法）
             </summary>
         </member>
         <member name="T:TBlog.Model.EnumActicleHisType">

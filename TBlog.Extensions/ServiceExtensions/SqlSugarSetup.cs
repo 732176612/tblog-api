@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using SqlSugar.IOC;
 using TBlog.Common;
@@ -29,11 +30,20 @@ namespace TBlog.Extensions
             //自动补充NoLock
             services.ConfigurationSugar(db =>
             {
-                db.CurrentConnectionConfig.MoreSettings = new ConnMoreSettings()
+                var more = new ConnMoreSettings
                 {
                     IsWithNoLockQuery = true,
                     IsAutoRemoveDataCache = true
                 };
+                var isPostgreSql = Enum.TryParse<DbType>(ApiConfig.DBSetting.MainDB.DBType, ignoreCase: true, out var mainDbType)
+                    && mainDbType == DbType.PostgreSQL;
+                // PostgreSQL：PgSqlIsAutoToLower 只管普通 CRUD；CodeFirst 建表另有 PgSqlIsAutoToLowerCodeFirst（默认也会转小写），需一并关闭才能生成 "Title" 这类列名
+                if (isPostgreSql)
+                {
+                    more.PgSqlIsAutoToLower = false;
+                    more.PgSqlIsAutoToLowerCodeFirst = false;
+                }
+                db.CurrentConnectionConfig.MoreSettings = more;
 
                 db.QueryFilter.AddTableFilter<IDeleteEntity>(it => it.IsDeleted == false);
 
@@ -56,6 +66,13 @@ namespace TBlog.Extensions
                         if (column.IsPrimarykey && property.PropertyType == typeof(int))
                         {
                             column.IsIdentity = true;
+                        }
+                        if (isPostgreSql && !column.IsIgnore)
+                        {
+                            var attr = property.GetCustomAttribute<SugarColumn>();
+                            column.DbColumnName = string.IsNullOrWhiteSpace(attr?.ColumnName)
+                                ? property.Name
+                                : attr.ColumnName;
                         }
                     }
                 };

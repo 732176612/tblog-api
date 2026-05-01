@@ -1,18 +1,15 @@
 ﻿namespace TBlog.Model
 {
     /// <summary>
-    /// Http日记记录
+    /// Http日记记录（存储于 MongoDB，集合名为 HttpLogEntity）
     /// </summary>
-    [SplitTable(SplitType.Year)]
-    [SugarTable("HttpLog_{year}{month}{day}")]
-    [SugarIndex("CDate", "CDate", OrderByType.Asc)]
+    [BsonIgnoreExtraElements]
     public class HttpLogEntity : IEntity
     {
         #region 基础属性
         /// <summary>
         /// 实体ID
         /// </summary>
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long Id { get; set; } = SnowFlakeSingle.instance.NextId();
 
         /// <summary>
@@ -23,7 +20,6 @@
         /// <summary>
         /// 创建时间
         /// </summary>
-        [SplitField]
         public DateTime CDate { get; set; } = DateTime.Now;
 
         /// <summary>
@@ -34,7 +30,6 @@
         /// <summary>
         /// 实体ID
         /// </summary>
-        [SugarColumn(IsIgnore = true)]
         public object EntityId => Id;
         #endregion
 
@@ -42,13 +37,11 @@
         /// <summary>
         /// 用户姓名
         /// </summary>
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = ConstHelper.UserNameLength)]
         public string UserName { get; set; } = "";
 
         /// <summary>
         /// 请求IP
         /// </summary>
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = 39)]
         public string IP { get; set; } = "";
 
         /// <summary>
@@ -59,7 +52,6 @@
         /// <summary>
         /// 路径
         /// </summary>
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = 255)]
         public string Url { get; set; } = "";
 
         /// <summary>
@@ -75,25 +67,21 @@
         /// <summary>
         /// 请求方法
         /// </summary>
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = 50)]
         public string RequestMethod { get; set; } = "";
 
         /// <summary>
         /// 请求数据
         /// </summary>
-        [SugarColumn(ColumnDataType = "TEXT")]
         public string RequestData { get; set; } = "";
 
         /// <summary>
         /// 响应数据
         /// </summary>
-        [SugarColumn(ColumnDataType = "TEXT")]
         public string ResponetData { get; set; } = "";
 
         /// <summary>
         /// 用户代理标识
         /// </summary>
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = 100)]
         public string UserAgent { get; set; } = "";
         #endregion
     }
