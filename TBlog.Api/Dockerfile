@@ -7,13 +7,13 @@ RUN npm ci
 COPY ["TBlog.Vue/", "./"]
 RUN npm run build
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 EXPOSE 5901
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY ["TBlog.Api/TBlog.Api.csproj", "TBlog.Api/"]
 COPY ["TBlog.Common/TBlog.Common.csproj", "TBlog.Common/"]

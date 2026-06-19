@@ -1,5 +1,4 @@
 using System.Reflection;
-using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -236,7 +235,7 @@ public class MySqlToPostgreSqlMigration_Test
     [Fact]
     public async Task CopyAll_FromMySql_ToPostgreSql()
     {
-        var basePath = ApplicationEnvironment.ApplicationBasePath;
+        var basePath = AppContext.BaseDirectory;
 
         var pre = new ConfigurationBuilder()
             .SetBasePath(basePath)

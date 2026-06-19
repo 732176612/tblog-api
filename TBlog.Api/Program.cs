@@ -185,4 +185,3 @@ ChangeToken.OnChange(() => app.Configuration.GetReloadToken(), () =>
 });
 
 app.Run();
-

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 namespace TBlog.Model
@@ -147,7 +148,7 @@ namespace TBlog.Model
                 cfg.CreateMap<T1, T2>();
                 cfg.CreateMap<T2, T1>();
                 cfg.AddProfile(new BaseAutoMapperProfile());
-            });
+            }, NullLoggerFactory.Instance);
             var mapper = config.CreateMapper();
             MapperConfigs.Add(typeof(T1).FullName + typeof(T2).FullName, mapper);
             MapperConfigs.Add(typeof(T2).FullName + typeof(T1).FullName, mapper);
@@ -160,7 +161,7 @@ namespace TBlog.Model
             {
                 mappingExpression(cfg);
                 cfg.AddProfile(new BaseAutoMapperProfile());
-            });
+            }, NullLoggerFactory.Instance);
             IMapper mapper = config.CreateMapper();
             if (MapperConfigs.ContainsKey(typeof(T1).FullName + typeof(T2).FullName))
             {

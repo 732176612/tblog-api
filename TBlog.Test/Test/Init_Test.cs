@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
-using Microsoft.DotNet.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +18,7 @@ namespace TBlog.Test
     {
         public Init_Test()
         {   
-            var basePath = ApplicationEnvironment.ApplicationBasePath;
+            var basePath = AppContext.BaseDirectory;
             IServiceCollection services = new ServiceCollection().AddLogging();
             services.AddSingleton(new ApiConfig(new ConfigurationBuilder()
                .SetBasePath(basePath)
