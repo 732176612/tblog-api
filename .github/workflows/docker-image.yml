@@ -25,6 +25,7 @@ jobs:
         context: .
         file: TBlog.Api/Dockerfile
         push: true
+        provenance: false
         tags: |
           registry.cn-hangzhou.aliyuncs.com/tblog/tblog:latest
           registry.cn-hangzhou.aliyuncs.com/tblog/tblog:${{ github.sha }}

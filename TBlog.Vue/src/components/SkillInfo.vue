@@ -8,7 +8,8 @@
             </button>
         </div>
         <div class="card-body pt-0">
-            <div class="mt-3" role="group" aria-label="专业技能展示方式">
+            <div class="mt-3" role="group" aria-labelledby="skill-display-mode-label">
+                <div id="skill-display-mode-label" class="form-label fw-bold">专业技能展示方式</div>
                 <label class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" value="progress" v-model="DisplayMode">
                     <span class="form-check-label">进度条</span>
