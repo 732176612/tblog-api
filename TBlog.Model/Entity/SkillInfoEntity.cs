@@ -50,12 +50,18 @@
         /// 技能
         /// </summary>
         [Description("技能")]
-        [SugarColumn(ColumnDataType = "VARCHAR", Length = 200)]
-        [StringLength(40)]
+        [SugarColumn(ColumnDataType = "TEXT")]
+        [StringLength(1000)]
         public string Skill { get; set; }
 
         [Description("熟练度")]
         public int Progress { get; set; }
+
+        /// <summary>
+        /// 展示方式：progress 或 text
+        /// </summary>
+        [SugarColumn(ColumnDataType = "VARCHAR", Length = 20, IsNullable = true)]
+        public string DisplayMode { get; set; } = "progress";
         #endregion
     }
 }

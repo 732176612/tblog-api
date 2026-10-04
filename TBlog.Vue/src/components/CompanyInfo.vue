@@ -81,8 +81,12 @@
 
                     <div class="col my-1 dateTimePickerLayout">
                         <label class="form-label">结束时间</label>
-                        <input type="text" class="form-control" v-model="item.EndDate">
-                        <input type="date" class="form-control dateTimePicker" v-model="item.EndDate">
+                        <input type="text" class="form-control" v-model="item.EndDate" :disabled="item.EndDate === '至今'">
+                        <input v-if="item.EndDate !== '至今'" type="date" class="form-control dateTimePicker" v-model="item.EndDate">
+                        <label class="form-check-label mt-2">
+                            <input type="checkbox" class="form-check-input me-1" :checked="item.EndDate === '至今'"
+                                @change="SetEndDateToPresent(item, $event.target.checked)">至今
+                        </label>
                     </div>
                 </div>
 
@@ -137,14 +141,21 @@
                     ...this.CompanyInfos.slice(index + 1)
                 ];
             },
-            async OnClickUpButton(index) {
+            OnClickUpButton(index) {
                 this.CompanyInfos = [
                     ...this.CompanyInfos.slice(0, index - 1),
                     this.CompanyInfos[index],
                     this.CompanyInfos[index - 1],
                     ...this.CompanyInfos.slice(index + 1)
                 ];
-                this.RefreshSlider();
+            },
+            SetEndDateToPresent(item, checked) {
+                if (checked) {
+                    item.PreviousEndDate = item.EndDate;
+                    item.EndDate = '至今';
+                } else {
+                    item.EndDate = item.PreviousEndDate || this.$dayjs().format('YYYY-MM-DD');
+                }
             },
             async OnClickSaveButton() {
                 await SaveCompanyInfo(this.CompanyInfos);

@@ -4,7 +4,8 @@
     {
         public async Task<IEnumerable<CompanyInfoDto>> Get(long cuserid)
         {
-            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
+            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid)
+                .OrderBy(c => c.Sort).OrderBy(c => c.Id).ToListAsync();
             return entities.ToDto<CompanyInfoDto, CompanyInfoEntity>();
         }
 
@@ -13,14 +14,17 @@
         {
             try
             {
-                var entities = dtos.ToEntity<CompanyInfoEntity, CompanyInfoDto>();
-                foreach (var item in entities)
+                var entities = dtos.ToEntity<CompanyInfoEntity, CompanyInfoDto>().ToList();
+                for (var index = 0; index < entities.Count; index++)
                 {
+                    var item = entities[index];
                     item.CUserId = cuserid;
                     item.Id = SnowFlakeSingle.instance.NextId();
+                    item.Sort = index;
                 }
                 await Repository.DBDelete.Where(c => c.CUserId == cuserid).ExecuteCommandAsync();
-                await Repository.AddEntities(entities.ToList());
+                if (entities.Count > 0)
+                    await Repository.AddEntities(entities);
             }
             catch (Exception ex)
             {

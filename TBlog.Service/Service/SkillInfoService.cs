@@ -10,7 +10,8 @@
 
         public async Task<IEnumerable<SkillInfoDto>> Get(long cuserid)
         {
-            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid).ToListAsync();
+            var entities = await Repository.DBQuery.Where(c => c.CUserId == cuserid)
+                .OrderBy(c => c.Sort).OrderBy(c => c.Id).ToListAsync();
             return entities.ToDto<SkillInfoDto, SkillInfoEntity>();
         }
 
@@ -19,14 +20,18 @@
         {
             try
             {
-                var entities = dtos.ToEntity<SkillInfoEntity, SkillInfoDto>();
-                foreach (var item in entities)
+                var entities = dtos.ToEntity<SkillInfoEntity, SkillInfoDto>().ToList();
+                for (var index = 0; index < entities.Count; index++)
                 {
+                    var item = entities[index];
                     item.CUserId = cuserid;
                     item.Id = SnowFlakeSingle.instance.NextId();
+                    item.Sort = index;
+                    item.DisplayMode = item.DisplayMode == "text" ? "text" : "progress";
                 }
                 await Repository.Delete(c => c.CUserId == cuserid);
-                await Repository.AddEntities(entities.ToList());
+                if (entities.Count > 0)
+                    await Repository.AddEntities(entities);
             }
             catch (Exception ex)
             {

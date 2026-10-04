@@ -6,6 +6,11 @@
     public class CompanyInfoDto : IDto
     {
         /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
         /// 创建者Id
         /// </summary>
         public long CUserId { get; set; }

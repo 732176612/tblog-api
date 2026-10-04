@@ -66,20 +66,25 @@
                 <div class="h4 text-center mb-4 title">专业技能</div>
                 <div class="card aos-init " data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                     <div class="card-body">
-                        <div class="row" v-for="i in Math.ceil(SkillInfos.length/2)" :key="i">
-                            <div class="col-md-6" v-for="j in 2" :key="j">
-                                <div v-if="(i-1)*2+(j-1)<SkillInfos.length" class="progress-container progress-primary">
-                                    <span class="progress-badge">{{SkillInfos[(i-1)*2+(j-1)].Skill}}</span>
-                                    <div class="progress bg-main-light">
-                                        <div class="progress-bar bg-main aos-init" data-aos="progress-full"
-                                            data-aos-offset="1" data-aos-duration="2000" role="progressbar"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                            :style="'width: '+SkillInfos[(i-1)*2+(j-1)].Progress+'%;'"></div><span
-                                            class="progress-value">{{SkillInfos[(i-1)*2+(j-1)].Progress}}%</span>
+                        <ul v-if="SkillInfos[0] && SkillInfos[0].DisplayMode === 'text'" class="skill-descriptions">
+                            <li v-for="(item, index) in SkillInfos" :key="index">{{item.Skill}}</li>
+                        </ul>
+                        <template v-else>
+                            <div class="row" v-for="i in Math.ceil(SkillInfos.length/2)" :key="i">
+                                <div class="col-md-6" v-for="j in 2" :key="j">
+                                    <div v-if="(i-1)*2+(j-1)<SkillInfos.length" class="progress-container progress-primary">
+                                        <span class="progress-badge">{{SkillInfos[(i-1)*2+(j-1)].Skill}}</span>
+                                        <div class="progress bg-main-light">
+                                            <div class="progress-bar bg-main aos-init" data-aos="progress-full"
+                                                data-aos-offset="1" data-aos-duration="2000" role="progressbar"
+                                                :aria-valuenow="SkillInfos[(i-1)*2+(j-1)].Progress" aria-valuemin="0" aria-valuemax="100"
+                                                :style="'width: '+SkillInfos[(i-1)*2+(j-1)].Progress+'%;'"></div><span
+                                                class="progress-value">{{SkillInfos[(i-1)*2+(j-1)].Progress}}%</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -291,6 +296,17 @@
 </script>
 
 <style scoped>
+    .skill-descriptions {
+        margin: 0;
+        padding-left: 1.5rem;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+    }
+
+    .skill-descriptions li + li {
+        margin-top: 0.75rem;
+    }
+
     .progress-container {
         position: relative;
     }

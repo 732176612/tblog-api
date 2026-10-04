@@ -42,6 +42,11 @@
         public long CUserId { get; set; }
 
         /// <summary>
+        /// 展示顺序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
         /// 公司
         /// </summary>
         [Description("公司")]

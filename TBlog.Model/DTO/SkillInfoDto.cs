@@ -19,5 +19,10 @@
         /// 熟练度
         /// </summary>
         public int Progress { get; set; }
+
+        /// <summary>
+        /// 展示方式：progress 或 text
+        /// </summary>
+        public string DisplayMode { get; set; } = "progress";
     }
 }
